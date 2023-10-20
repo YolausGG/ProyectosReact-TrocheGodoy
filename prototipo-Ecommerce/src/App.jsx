@@ -9,17 +9,11 @@ function App() {
   return (
     <>
       <div>
-<<<<<<< HEAD
         <a href="https://vitejs.dev" target="_blankkk">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
         <a href="https://react.dev" target="_blankkk">
-=======
-        <a href="https://vitejs.dev" target="blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="blank">
->>>>>>> 554a5b95ad817dfc996e4a6fc64a29e0414c4d09
+
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
