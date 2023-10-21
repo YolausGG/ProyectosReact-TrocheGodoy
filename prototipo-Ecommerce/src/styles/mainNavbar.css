@@ -1,0 +1,32 @@
+.nav-logo {
+    width: 30px;
+}
+
+.main-nav {
+    width: 100vw;
+    height: 40px;
+    background-color: rgb(207, 130, 14);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px 0 10px;
+    position: fixed;
+    top: 0;
+
+}
+.a-logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.nav-item {
+    list-style: none;
+    padding: 5px;
+}
