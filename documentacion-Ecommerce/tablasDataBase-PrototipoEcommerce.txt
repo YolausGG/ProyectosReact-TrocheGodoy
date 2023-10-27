@@ -1,1 +1,26 @@
 use database PrototipoEcommerce
+
+create table Usuario(
+idUsuario int identity(1,1) primary key,
+correo varchar(60) unique not null,
+userPassword varchar(100) not null,
+nombre varchar(50) not null,
+apellido varchar(50) not null,
+fechaNacimiento Date not null,
+telefono varchar(30) not null,
+direccion varchar(50) not null,
+tipo char(1) not null
+);
+
+create table Categoria(
+idCategoria int identity(1,1) primary key,
+nombre varchar(30) unique not null
+);
+
+create table Oferta(
+idOferta int identity(1,1) primary key,
+nombre varchar(60) unique not null,
+descuento numeric(3) not null,
+activo char(1) check(activo= 's' or activo= 'n') not null
+);
+
