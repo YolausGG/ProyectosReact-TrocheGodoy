@@ -1,15 +1,13 @@
-use database PrototipoEcommerce
-
 create table Usuario(
 idUsuario int identity(1,1) primary key,
 correo varchar(60) unique not null,
 userPassword varchar(100) not null,
 nombre varchar(50) not null,
 apellido varchar(50) not null,
-fechaNacimiento Date not null,
+fechaNacimiento Date check(fechaNacimiento < getDate()) not null,
 telefono varchar(30) not null,
 direccion varchar(50) not null,
-tipo char(1) not null
+tipo char(1) check(tipo= 'a' or tipo= 'c') not null
 );
 
 create table Categoria(
@@ -42,16 +40,34 @@ create table Pago(
 idPago int identity(1,1) primary key,
 idUsuario int references Usuario(idUsuario) not null,
 fecha Date default(getdate()) not null,
-tipo char(1) check(tipo = 't' or tipo = 'c' or tipo = 'd' ) not null,
-monto decimal(10,2) not null
+monto decimal(10,2) not null,
+tipo char(1) check(tipo = 't' or tipo = 'c' or tipo = 'd' ) not null
 );
 
 create table HistorialDePago (
 idHistorialDePago int identity(1,1) primary key,
 idUsuario int references Usuario(idUsuario) not null,
 fecha Date not null,
-tipo char(1) check(tipo = 't' or tipo = 'c' or tipo = 'd' ) not null,
-monto decimal(10,2) not null
+monto decimal(10,2) not null,
+tipo char(1) check(tipo = 't' or tipo = 'c' or tipo = 'd' ) not null
+);
+
+create table Producto (
+idProducto int identity(1,1) primary key,
+nombre varchar(50) not null,
+precio decimal(10,2) not null,
+talle varchar(10) not null,
+stock numeric(4) not null,
+descripcion text,
+unique(nombre, talle)
+);
+
+create table Calzado (
+idCalzado int references Producto(idProducto) primary key,
+);
+
+create table Vestimenta (
+idVestimenta int references Producto(idProducto) primary key,
 );
 
 create table Accesorio (
