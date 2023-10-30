@@ -36,6 +36,10 @@ create table Contado(
 idContado int references FormaDePago(idFormaDePago) primary key
 );
 
+create table Deposito(
+idDeposito int references FormaDePago(idFormaDePago) primary key
+);
+
 create table Pago(
 idPago int identity(1,1) primary key,
 idUsuario int references Usuario(idUsuario) not null,
