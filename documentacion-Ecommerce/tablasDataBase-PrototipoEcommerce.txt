@@ -48,14 +48,6 @@ monto decimal(10,2) not null,
 tipo char(1) check(tipo = 't' or tipo = 'c' or tipo = 'd' ) not null
 );
 
-create table HistorialDePago (
-idHistorialDePago int identity(1,1) primary key,
-idUsuario int references Usuario(idUsuario) not null,
-fecha Date not null,
-monto decimal(10,2) not null,
-tipo char(1) check(tipo = 't' or tipo = 'c' or tipo = 'd' ) not null
-);
-
 create table Producto (
 idProducto int identity(1,1) primary key,
 nombre varchar(50) not null,
@@ -79,6 +71,18 @@ idAccesorio int references Producto(idProducto) primary key,
 tipo varchar(30) not null
 );
 
+create table Imagen(
+idImagen int identity(1,1) primary key,
+idProducto int references Producto(idProducto) not null,
+titulo varchar(70) unique not null,
+dataImagen varbinary(max) not null
+);
+
+create table Marca(
+idMarca int identity(1,1) primary key,
+nombre varchar(40) unique not null
+);
+
 create table Venta (
 idVenta int identity(1,1) primary key,
 idUsuario int references Usuario(idUsuario) not null,
@@ -94,13 +98,6 @@ idPagoPendiente int identity(1,1) primary key,
 idVenta int references Venta(idVenta) not null,
 fechaLimite Date check(fechaLimite >= getDate()) not null,
 monto decimal(10,2) not null,
-);
-
-create table HistorialDeCompra (
-idUsuario int references Usuario(idUsuario),
-idVenta int references Venta(idVenta),
-fecha Date not null,
-primary key(idUsuario, idVenta)
 );
 
 create table Carrito (
@@ -120,4 +117,10 @@ create table ProductoOferta (
 idProducto int references Producto(idProducto),
 idOferta int references Oferta(idOferta),
 primary key(idProducto,idOferta)
+);
+
+create table ProductoMarca(
+idProducto int references Producto(idProducto),
+idMarca int references Marca(idMarca),
+primary key(idProducto, idMarca)
 );
