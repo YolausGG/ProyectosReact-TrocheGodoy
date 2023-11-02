@@ -1,13 +1,13 @@
 import './App.css'
-import { ListaProductos } from './components/ListaProductos'
-import { MainNavbar } from './components/MainNavbar'
+import { Producto } from './vista/components/Producto'
+import { MainNavbar } from './vista/components/MainNavbar'
 
 function App() {
 
   return (
     <>
       <MainNavbar/>
-      <ListaProductos/>
+      <Producto/>
     </>
   )
 }
