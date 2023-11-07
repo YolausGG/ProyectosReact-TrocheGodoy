@@ -1,25 +1,22 @@
+import mysql from 'mysql';
 
-var Connection = require('tedious').Connection;
+var con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "admin",
+    database: "conexionautomotora"
+   });
+   
+   con.connect( function(err) {
+    if (err) throw err;
 
-var config = {
-    server: 'your_server.database.windows.net',  //update me
-    authentication: {
-        type: 'default',
-        options: {
-            userName: 'your_username', //update me
-            password: 'your_password'  //update me
-        }
-    },
-    options: {
-        // If you are on Microsoft Azure, you need encryption:
-        encrypt: true,
-        database: 'your_database'  //update me
-    }
-};
-var connection = new Connection(config);
-connection.on('connect', function (err) {
-    // If no error, then good to proceed.
-    console.log("Connected");
-});
+    console.log('Conexion exitosa!!');
 
-connection.connect();
+    /*con.query("SELECT * FROM mecanicos", function (err, result) {
+       if (err) throw err;
+       console.log('Conexion exitosa!!');
+       console.log(result);
+       console.log(result.length);       
+    });*/
+    con.end();
+   });

@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import '../styles/producto.css'
 import { products } from '../../modelo/mocks/products.json'
 
-
 export const Producto = () => {
 
     const [lista, setlista] = useState(() => {
@@ -14,8 +13,9 @@ export const Producto = () => {
         console.log('Hola')
     }, [])
 
+
     function mostarCategorias() {
-        console.log('h')
+        console.log()
     }
 
     return (
