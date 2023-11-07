@@ -1,0 +1,172 @@
+create database PrototipoEcommerce;
+use PrototipoEcommerce;
+
+create table Usuario(
+idUsuario int auto_increment primary key,
+correo varchar(60) unique not null,
+userPassword varchar(100) not null,
+nombre varchar(50) not null,
+apellido varchar(50) not null,
+fechaNacimiento date not null,
+telefono varchar(30) not null,
+direccion varchar(50) not null,
+tipo char(1) not null,
+constraint CK_TipoUsuario check(tipo= 'a' or tipo= 'c')
+);
+
+create table Categoria(
+idCategoria int auto_increment primary key,
+nombre varchar(30) unique not null
+);
+
+create table Oferta(
+idOferta int auto_increment primary key,
+nombre varchar(60) unique not null,
+descuento numeric(3) not null,
+activo char(1) not null,
+constraint CK_Activo check(activo ='s' or activo ='n')
+);
+
+create table FormaDePago(
+idFormaDePago int auto_increment primary key,
+monto decimal(10,2) not null
+);
+
+create table Tarjeta(
+idTarjeta int primary key,
+cantidadDeCuotas numeric(2) not null,
+constraint FK_TarjetaFormaDePago foreign key(idTarjeta) references FormaDePago(idFormaDePago)
+);
+
+create table Contado(
+idContado int primary key,
+constraint FK_ContadoFormaDePago foreign key(idContado) references FormaDePago(idFormaDePago)
+);
+
+create table Deposito(
+idDeposito int primary key,
+constraint FK_DepositoFormaDePago foreign key(idDeposito) references FormaDePago(idFormaDePago)
+);
+
+create table Pago(
+idPago int auto_increment primary key,
+idUsuario int not null,
+fecha Date default(now()) not null,
+monto decimal(10,2) not null,
+tipo char(1) not null,
+constraint FK_PagoUsuario foreign key(idUsuario) references Usuario(idUsuario),
+constraint CK_TipoPago check(tipo = 't' or tipo = 'c' or tipo = 'd')
+);
+
+create table Producto (
+idProducto int auto_increment primary key,
+nombre varchar(50) not null,
+precio decimal(10,2) not null,
+talle varchar(10) not null,
+stock numeric(4) not null,
+descripcion text,
+constraint UQ_Producto_NombreTalle unique(nombre, talle)
+);
+
+create table Calzado (
+idCalzado int primary key,
+constraint FK_CalzadoProducto foreign key(idCalzado) references Producto(idProducto)
+);
+
+create table Vestimenta (
+idVestimenta int primary key,
+constraint FK_VestimentaProducto foreign key(idVestimenta) references Producto(idProducto)
+);
+
+create table Accesorio (
+idAccesorio int primary key,
+tipo varchar(30) not null,
+constraint FK_AccesorioProducto foreign key(idAccesorio) references Producto(idProducto)
+);
+
+create table Imagen(
+idImagen int auto_increment primary key,
+idProducto int not null,
+titulo varchar(70) unique not null,
+dataImagen longblob not null,
+constraint FK_ImagenProducto foreign key(idProducto) references Producto(idProducto)
+);
+
+create table Marca(
+idMarca int auto_increment primary key,
+nombre varchar(40) unique not null
+);
+
+create table Venta (
+idVenta int auto_increment primary key,
+idUsuario int not null,
+idProducto int not null,
+idFormaDePago int  not null,
+fecha timestamp default(now()) not null,
+monto decimal(10,2) not null,
+descuento numeric(3) not null,
+constraint FK_VentaUsuario foreign key(idUsuario) references Usuario(idUsuario),
+constraint FK_VentaProducto foreign key(idProducto) references Producto(idProducto),
+constraint FK_VentaFormaDePago foreign key(idFormaDePago) references FormaDePago(idFormaDePago),
+constraint CK_VentaDescuento check(descuento <= 100 and descuento >= 0)
+);
+
+create table PagoPendiente (
+idPagoPendiente int auto_increment primary key,
+idVenta int not null,
+fechaLimite Date not null,
+monto decimal(10,2) not null,
+constraint FK_PagoPendiente_Venta foreign key(idVenta) references Venta(idVenta)
+);
+
+create table Carrito (
+idUsuario int,
+idProducto int,
+cantidad numeric(4) not null,
+constraint FK_Carrito_Usuario foreign key(idUsuario) references Usuario(idUsuario),
+constraint FK_Carritp_Producto foreign key(idProducto) references Producto(idProducto),
+primary key(idUsuario, idProducto)
+);
+
+create table ProductoCategoria (
+idProducto int,
+idCategoria int,
+constraint FK_ProductoCategoria_Producto foreign key(idProducto) references Producto(idProducto),
+constraint FK_ProductoCategoria_Categoria foreign key(idCategoria) references Categoria(idCategoria),
+primary key(idProducto,idCategoria)
+);
+
+create table ProductoOferta (
+idProducto int,
+idOferta int,
+constraint FK_ProductoOferta_Producto foreign key(idProducto) references Producto(idProducto),
+constraint FK_ProductoOfertaa_Oferta foreign key(idOferta) references Oferta(idOferta),
+primary key(idProducto,idOferta)
+);
+
+create table ProductoMarca(
+idProducto int,
+idMarca int,
+constraint FK_ProductoMarca_Producto foreign key(idProducto) references Producto(idProducto),
+constraint FK_ProductoMarca_Marca foreign key(idMarca) references Marca(idMarca),
+primary key(idProducto, idMarca)
+);
+
+DELIMITER $$
+CREATE TRIGGER evaluaFechaNacimiento BEFORE INSERT ON Usuario
+FOR EACH ROW
+BEGIN
+    IF NEW.fechaNacimiento < NOW() THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'La fecha ingresada no es válida';
+    END IF;
+END;
+
+CREATE TRIGGER evaluaFechaLimite BEFORE INSERT ON PagoPendiente
+FOR EACH ROW
+BEGIN
+    IF NEW.fechaLimite >= NOW() THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'La fecha ingresada no es válida';
+    END IF;
+END 
