@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import '../styles/producto.css'
 import { products } from '../../modelo/mocks/products.json'
+import { altaProducto } from '../../modelo/mProducto'
 
 export const Producto = () => {
 
@@ -15,7 +16,7 @@ export const Producto = () => {
 
 
     function mostarCategorias() {
-        console.log()
+        altaProducto();
     }
 
     return (
