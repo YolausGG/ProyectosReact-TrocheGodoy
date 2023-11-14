@@ -1,0 +1,11 @@
+node_modules
+/routes/db.js
+/routes/config.js
+
+.routes/db.js
+.routes/config.js
+
+*db.js
+node_modules
+routes/config
+routes/db
