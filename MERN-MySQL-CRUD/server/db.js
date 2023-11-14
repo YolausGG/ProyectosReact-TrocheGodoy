@@ -6,4 +6,4 @@ export const pool = createPool({
     password: "yolausgg",
     database: "prototipoecommerce"
 })
-console.log("holaaa")
+console.log("111")

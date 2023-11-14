@@ -6,4 +6,6 @@ node_modules
 .routes/config.js
 
 *db.js
-*config.js
+node_modules
+routes/config
+routes/db
