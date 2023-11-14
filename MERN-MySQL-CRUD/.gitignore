@@ -1,2 +1,6 @@
 node_modules
-routes/db.js
+/routes/db.js
+/routes/config.js
+
+.routes/db.js
+.routes/config.js
