@@ -2,13 +2,13 @@ import { pool } from "../db.js"
 
 export const getCategorias = async (req, res) => {
 
-    const [result] = await pool.promise().query("Select * from Categoria ")
+    const [result] = await pool.promise().query("Select * from Categoria")
     try {
         res.json({
             result
         })
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 }
 export const getCategoria = async (req, res) => {
@@ -23,7 +23,7 @@ export const getCategoria = async (req, res) => {
         )
 
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 };
 export const createCategoria = async (req, res) => {
@@ -38,7 +38,7 @@ export const createCategoria = async (req, res) => {
             nombre
         })
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 
 
@@ -50,9 +50,8 @@ export const updateCategoria = async (req, res) => {
         res.json({
             result
         })
-        console.log(result);
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 
 }
