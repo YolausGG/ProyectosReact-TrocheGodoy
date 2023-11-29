@@ -1,5 +1,6 @@
 import { pool } from "../db.js"
 
+//CATEGORIA
 export const getCategorias = async (req, res) => {
 
     const [result] = await pool.promise().query("Select * from Categoria")
@@ -15,7 +16,7 @@ export const getCategoria = async (req, res) => {
 
     const [result] = await pool.promise().query("Select * from Categoria where idCategoria = ? ", [req.params.id]);
     try {
-        if (result === 0)
+        if (result.length === 0)
             return res.status(404).json({ message: "No existe la categoria" })
 
         res.json(
@@ -67,3 +68,4 @@ export const deleteCategoria = async (req, res) => {
         return res.status(500).json({ message: error.message })
     }
 }
+

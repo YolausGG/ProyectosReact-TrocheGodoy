@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Formik } from 'formik'
-import { useCategorias } from '../contexts/categorias.jsx'
+import { useMarcas } from '../contexts/marcas.jsx'
 import { useNavigate, useParams } from "react-router-dom";
 
-function CreateCategoria() {
 
-    const { createCategoria, getCategoria, updateCategoria } = useCategorias();
+function CreateMarca() {
+
+    const { createMarca, getMarca, updateMarca } = useMarcas();
     
     const navigate = useNavigate()
 
-    const [categoria, setCategoria] = useState({
+    const [marca, setMarca] = useState({
         nombre: ""
     })
 
@@ -17,47 +18,51 @@ function CreateCategoria() {
     console.log(params)
 
     useEffect(() => {
-        const loadCategoria = async () => {
-            const categoria = await getCategoria(params.id)
-            setCategoria({
-                nombre: categoria.nombre
+        const loadMarca = async () => {
+            const marca = await getMarca(params.id)
+            setMarca({
+                nombre: marca.nombre
             })
         }
         if (params.id !== undefined)
-            loadCategoria()
+            loadMarca()
         else{
-            setCategoria({
+            setMarca({
                 nombre: ""
             })
         }
+        
     }, [])
 
     return (
         <div className='createCategoriaContainer'>
-            <h2>{params.id ? 'Editar Categoria' : 'Crear Categoria'}</h2>
+            <h2>{params.id ? 'Editar Marca' : 'Crear Marca'}</h2>
 
             <Formik
-                initialValues={categoria}
+                initialValues={marca}
                 enableReinitialize={true}
-                onSubmit={async (values) => {
+                onSubmit={async (values,actions) => {
                     console.log(values)
 
                     if (params.id) {
-                        await updateCategoria(params.id, values)
-                        navigate('/categorias')
+                        await updateMarca(params.id, values)
+                        navigate('/marcas')
                     } else {
-                        await createCategoria(values)
+                        await createMarca(values)
                     }
-                    setCategoria({
-                        nombre: ""
+                    actions.resetForm({
+                        values: {
+                            nombre: ""
+                        },
                     })
                 }}
             >
                 {({ handleChange, handleSubmit, values, isSubmitting }) => (
                     <Form className='formCategoria' onSubmit={handleSubmit}>
                         <label>Nombre</label>
-                        <input className='inpNombre' type="text" name='nombre' placeholder='Escriba el Nombre de la Categoria'
-                            onChange={handleChange} value={values.nombre} />
+                        <input className='inpNombre' type="text" name='nombre' placeholder='Escriba el Nombre de la Marca'
+                            onChange={handleChange} value={values.nombre}/>
+                           
 
                         <button className={`bontonCategoria ${params.id ? 'btnUpdate' : 'btnCreate'}`} type="submit" disabled={isSubmitting}>
                             {isSubmitting ? "Creando..." : `${params.id ? "Actualizar" : "Crear"}`}
@@ -69,4 +74,4 @@ function CreateCategoria() {
     )
 }
 
-export default CreateCategoria
+export default CreateMarca  

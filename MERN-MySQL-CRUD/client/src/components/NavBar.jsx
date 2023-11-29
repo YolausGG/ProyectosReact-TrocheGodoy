@@ -13,6 +13,12 @@ function NavBar() {
                 <li>
                     <Link className='navItem' to="/createCategoria">Crear Categoria</Link>
                 </li>
+                <li>
+                    <Link className='navItem' to="/marcas">Marcas</Link>
+                </li>
+                <li>
+                    <Link className='navItem' to="/createMarca">Crear Marca</Link>
+                </li>
             </ul>
         </nav>
     )
