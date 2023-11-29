@@ -11,23 +11,30 @@ import Marcas from './pages/Marcas.jsx'
 import CreateMarca from './pages/CreateMarca.jsx'
 import { MarcaProvider } from './contexts/marcas.jsx'
 
+import Usuarios from './pages/Usuarios.jsx'
+import CreateUsuario from './pages/CreateUsuario.jsx'
+import InicioSesion from './pages/InicioSesion.jsx'
 
 function App() {
 
   return (
     <CategoriaProvider>
-    <MarcaProvider>
-      <NavBar />
-      <Routes >
-        <Route path='/categorias' element={<Categorias />} />
-        <Route path='/createCategoria' element={<CreateCategoria />} />
-        <Route path='/updateCategoria/:id' element={<CreateCategoria />} />
-        <Route path='/marcas' element={<Marcas />} />
-        <Route path='/createMarca' element={<CreateMarca />} />
-        <Route path='/updateMarca/:id' element={<CreateMarca />} />
-        <Route path='/*' element={<NotFounds />} />
-      </Routes>
-    </MarcaProvider>
+      <MarcaProvider>
+        <NavBar />
+        <Routes >
+          <Route path='/categorias' element={<Categorias />} />
+          <Route path='/createCategoria' element={<CreateCategoria />} />
+          <Route path='/updateCategoria/:id' element={<CreateCategoria />} />
+          <Route path='/marcas' element={<Marcas />} />
+          <Route path='/createMarca' element={<CreateMarca />} />
+          <Route path='/updateMarca/:id' element={<CreateMarca />} />
+          <Route path='/*' element={<NotFounds />} />
+
+          <Route path='/usuarios' element={<Usuarios />} />
+          <Route path='/createUsuario' element={<CreateUsuario />} />
+          <Route path='/inicioSesion' element={<InicioSesion />} />
+        </Routes>
+      </MarcaProvider>
     </CategoriaProvider>
   )
 }

@@ -14,10 +14,16 @@ function NavBar() {
                     <Link className='navItem' to="/categorias">Categorias</Link>
                 </li>
                 <li>
+                    <Link className='navItem' to="/marcas">Marcas</Link>
+                </li>
+                <li>
                     <Link className='navItem' to="/createCategoria">Crear Categoria</Link>
                 </li>
                 <li>
                     <Link className='navItem' to="/createUsuario">Crear Usuario</Link>
+                </li>
+                <li>
+                    <Link className='navItem' to="/createMarca">Crear Marca</Link>
                 </li>
                 <li>
                     <Link className='navItem' to="/inicioSesion">Iniciar Sesion</Link>
