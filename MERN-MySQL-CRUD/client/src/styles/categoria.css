@@ -77,3 +77,14 @@
 .inpNombre {
     font-size: 1.1rem;
 }
+
+
+#lblMensajeError {
+    display: none;
+    text-align: center;
+    color: red;
+}
+
+#lblCrearCuenta {
+    text-align: center;
+}

@@ -10,7 +10,8 @@ apellido varchar(50) not null,
 fechaNacimiento date not null,
 telefono varchar(30) not null,
 direccion varchar(50) not null,
-tipo char(1) not null,
+tipo char(1) not null default('c'),
+bajaLogica boolean default(false) not null, 
 constraint CK_TipoUsuario check(tipo= 'a' or tipo= 'c')
 );
 
@@ -156,7 +157,7 @@ DELIMITER $$
 CREATE TRIGGER evaluaFechaNacimiento BEFORE INSERT ON Usuario
 FOR EACH ROW
 BEGIN
-    IF NEW.fechaNacimiento < NOW() THEN
+    IF NEW.fechaNacimiento > NOW() THEN
         SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'La fecha ingresada no es válida';
     END IF;
@@ -165,7 +166,7 @@ END $$
 CREATE TRIGGER evaluaFechaLimite BEFORE INSERT ON PagoPendiente
 FOR EACH ROW
 BEGIN
-    IF NEW.fechaLimite >= NOW() THEN
+    IF NEW.fechaLimite <= NOW() THEN
         SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'La fecha ingresada no es válida';
     END IF;

@@ -1,0 +1,39 @@
+.datePickerFN {
+    width: 100%;
+    font-size: 1.1rem;
+}
+
+.datePickerFN:hover {
+    display: hidden
+}
+
+
+.contrainerContra {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
+.inpContra {
+    outline: none;
+    width: 100%;
+    font-size: 1.1rem;
+    position: relative;
+    padding-left: .5rem;
+    box-sizing: border-box;
+}
+
+.icon{
+    position: absolute;
+    height: 60%;
+    right: 8px;
+    transform: translate(-50%);
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+.icon:hover{
+    opacity: 0.8;
+}
