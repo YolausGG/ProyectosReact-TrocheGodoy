@@ -11,11 +11,15 @@ import Marcas from './pages/Marcas.jsx'
 import CreateMarca from './pages/CreateMarca.jsx'
 import { MarcaProvider } from './contexts/marcas.jsx'
 
+import { registerLocale, setDefaultLocale } from "react-datepicker";
+import es from 'date-fns/locale/es';
 import Usuarios from './pages/Usuarios.jsx'
 import CreateUsuario from './pages/CreateUsuario.jsx'
 import InicioSesion from './pages/InicioSesion.jsx'
 
 function App() {
+  registerLocale('es', es)
+  setDefaultLocale('es');
 
   return (
     <CategoriaProvider>

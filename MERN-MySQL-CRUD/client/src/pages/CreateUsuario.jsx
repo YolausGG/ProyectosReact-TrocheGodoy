@@ -10,7 +10,6 @@ import '../styles/CreateUsuario.css'
 import ojo from '../images/ojo.png'
 import invisible from '../images/invisible.png'
 
-
 function rango(principio, final) {
 
     let anios = []
@@ -38,8 +37,6 @@ function mostarContra() {
 
 }
 
-
-
 function CreateUsuario() {
 
     const [usuario, setUsuario] = useState({
@@ -51,6 +48,7 @@ function CreateUsuario() {
         telefono: "",
         direccion: ""
     })
+
 
     const navigate = useNavigate()
 
@@ -83,10 +81,7 @@ function CreateUsuario() {
                 initialValues={usuario}
                 enableReinitialize={true}
                 onSubmit={async (values, actions) => {
-                    console.log(values)
-
-                    values.fechaNacimiento = values.fechaNacimiento.toISOString().substring(0, 10)
-                    console.log(values)
+                    //console.log(values)
 
                     const respuesta = await createUsuarioRequest(values)
                     console.log(respuesta);
@@ -102,24 +97,24 @@ function CreateUsuario() {
                 {({ handleChange, handleSubmit, values, isSubmitting }) => (
                     <Form className='formCategoria' onSubmit={handleSubmit}>
                         <label>Correo Electrónico</label>
-                        <input className='inpNombre' type="mail" name='correo' placeholder='Escriba su Correo electrónico'
+                        <input className='inpNombre' type="email" name='correo' placeholder='Escriba su Correo electrónico'
                             onChange={handleChange} value={values.correo} autoComplete="email" />
 
                         <label>Contraseña</label>
                         <div className='contrainerContra'>
-                            <input className='inpContra' id='inpIdContra' type="text" name='userPassword' placeholder='Escriba su Contraseña'
+                            <input pattern="[A-Za-z0-9]{1,15}" className='inpContra' id='inpIdContra' type="text" name='userPassword' placeholder='Escriba su Contraseña'
                                 onChange={handleChange} value={values.userPassword} autoComplete='new-password' minLength={6} />
                             <img src={ojo} alt="mostrar u ocultar contraseña" className='icon' id='eye' onClick={mostarContra} />
                         </div>
 
                         <label>Nombre</label>
-                        <input className='inpNombre' type="text" name='nombre' placeholder='Escriba su Nombre'
+                        <input pattern="[A-Za-z]{1,15}" className='inpNombre' type="text" name='nombre' placeholder='Escriba su Nombre'
                             onChange={handleChange} value={values.nombre} />
                         <label>Apellido</label>
                         <input className='inpNombre' type="text" name='apellido' placeholder='Escriba su Apellido'
                             onChange={handleChange} value={values.apellido} />
+
                         <label>Fecha de Nacimiento</label>
-                        {console.log(values)}
 
                         <DatePicker className='datePickerFN' type="date" name='fechaNacimiento' dateFormat='dd/MM/yyyy'
                             renderCustomHeader={({
@@ -136,9 +131,10 @@ function CreateUsuario() {
                                         margin: 10,
                                         display: "flex",
                                         justifyContent: "center",
+                                        gap: "3px",
                                     }}
                                 >
-                                    <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
+                                    <button type='button' onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
                                         {"<"}
                                     </button>
                                     <select
@@ -163,14 +159,14 @@ function CreateUsuario() {
                                         ))}
                                     </select>
 
-                                    <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
+                                    <button type='button' onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
                                         {">"}
                                     </button>
                                 </div>
                             )}
                             selected={date}
                             onChange={(date) => {
-                                values.fechaNacimiento = date
+                                values.fechaNacimiento = date.toISOString().substring(0, 10)
                                 setDate(date)
                             }}
 

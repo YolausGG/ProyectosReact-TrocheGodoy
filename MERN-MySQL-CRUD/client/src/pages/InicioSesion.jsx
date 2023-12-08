@@ -38,11 +38,11 @@ function InicioSesion() {
                 enableReinitialize={true}
                 onSubmit={async (values, actions) => {
 
-                    console.log(values)
+                    //console.log(values)
 
                     const respuesta = await getSesionUsuarioRequest(values)
 
-                    console.log(respuesta);
+                    //console.log(respuesta);
                     if (respuesta.data) {
                         navigate('/usuarios')
 
