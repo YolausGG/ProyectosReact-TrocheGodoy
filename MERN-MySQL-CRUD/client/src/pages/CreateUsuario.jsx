@@ -91,7 +91,16 @@ function CreateUsuario() {
                         alert("La fecha ingresada no es válida")
                     } else {
 
-                        values.fechaNacimiento = values.fechaNacimiento.toJSON().substring(0, 10)
+                        var fechaFinal = date.getFullYear() + "-" + (date.getMonth() + 1)
+
+                        if (date.getDate().toString().length > 1) {
+                            fechaFinal += "-" + date.getDate()
+                        } else {
+                            fechaFinal += "-0" + date.getDate()
+                        }
+                        values.fechaNacimiento = fechaFinal
+
+                        console.log(values.fechaNacimiento);
                         const respuesta = await createUsuarioRequest(values)
                         console.log(respuesta);
                         if (respuesta)
@@ -113,7 +122,7 @@ function CreateUsuario() {
                         <label>Contraseña</label>
                         <div className='contrainerContra'>
                             <input required pattern="[A-Za-z0-9]{6,15}" className='inpContra' id='inpIdContra' type="text" name='userPassword' placeholder='Escriba su Contraseña'
-                                onChange={handleChange} value={values.userPassword} autoComplete='new-password'  />
+                                onChange={handleChange} value={values.userPassword} autoComplete='new-password' />
                             <img src={ojo} alt="mostrar u ocultar contraseña" className='icon' id='eye' onClick={mostarContra} />
                         </div>
 
@@ -125,7 +134,6 @@ function CreateUsuario() {
                             onChange={handleChange} value={values.apellido} />
 
                         <label>Fecha de Nacimiento</label>
-
                         <DatePicker className='datePickerFN' type="date" name='fechaNacimiento' dateFormat='dd/MM/yyyy'
                             renderCustomHeader={({
                                 date,
@@ -172,9 +180,14 @@ function CreateUsuario() {
                             selected={date}
                             onChange={(date) => {
 
+
+                                
+
                                 values.fechaNacimiento = date
                                 console.log(date);
                                 setDate(date)
+
+
 
                             }}
 
