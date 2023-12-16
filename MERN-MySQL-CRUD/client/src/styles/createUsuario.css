@@ -1,39 +1,105 @@
+.createUsuarioContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formUsuario {
+    text-align: start;
+    display: grid;
+    width: 22rem;
+    padding: 1rem;
+    border: 3px solid black;
+    border-radius: 6px;
+    box-shadow: 2px 2px 5px black;
+}
+
 .datePickerFN {
     width: 100%;
     font-size: 1.1rem;
+    margin-bottom: 10px;
 }
 
-.datePickerFN:hover {
-    display: hidden
+.inpSimple {
+    font-size: 1.1rem;
+    padding-left: 0.2rem;
+    width: 100%;
 }
-
 
 .contrainerContra {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
     position: relative;
 }
 
-.inpContra {
-    outline: none;
-    width: 100%;
-    font-size: 1.1rem;
-    position: relative;
-    padding-left: .5rem;
-    box-sizing: border-box;
-}
-
-.icon{
+.icon {
     position: absolute;
-    height: 60%;
-    right: 8px;
-    transform: translate(-50%);
-    opacity: 0.3;
+    height: 50%;
+    right: 10px;
+    top: 25%;
+    opacity: 0.6;
     cursor: pointer;
 }
 
-.icon:hover{
-    opacity: 0.8;
+.icon:hover {
+    opacity: 1;
+}
+
+
+/*Reposo*/
+div {
+    margin: 10px
+}
+
+span,
+input {
+    font: 16px/16px "versana";
+}
+
+label {
+    display: block;
+    width: 100%;
+    border: 2px solid silver;
+    padding: 8px 10px;
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 5px;    
+    transition: 0.25s;
+}
+
+label input {
+    display: block;
+    width: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+}
+
+label span {
+    color: silver;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    transition: 0.25s;
+}
+
+/*focus*/
+
+label.focus {
+    border-color: lightcoral;
+}
+
+label span.focus {
+    color: lightcoral;
+}
+
+/*top*/
+label span.top {
+    left: 6px;
+    top: -10px;
+    font-size: 12px;
+    background: white;
+    padding: 0 6px;
 }
