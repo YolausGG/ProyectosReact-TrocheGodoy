@@ -2,7 +2,6 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 10px;
 }
 
 .formUsuario {
@@ -15,17 +14,6 @@
     box-shadow: 2px 2px 5px black;
 }
 
-.datePickerFN {
-    width: 100%;
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-}
-
-.inpSimple {
-    font-size: 1.1rem;
-    padding-left: 0.2rem;
-    width: 100%;
-}
 
 .contrainerContra {
     display: flex;
@@ -47,59 +35,29 @@
     opacity: 1;
 }
 
-
-/*Reposo*/
-div {
-    margin: 10px
+.containerFN {
+    display: flex;
 }
 
-span,
-input {
-    font: 16px/16px "versana";
-}
-
-label {
-    display: block;
-    width: 100%;
+.sectionMes {    
     border: 2px solid silver;
-    padding: 8px 10px;
-    position: relative;
-    box-sizing: border-box;
-    border-radius: 5px;    
-    transition: 0.25s;
-}
-
-label input {
-    display: block;
-    width: 100%;
-    border: none;
-    background: transparent;
-    outline: none;
-}
-
-label span {
+    border-radius: 5px;
+    padding-left: 5px;
+    padding-bottom: 2px;
     color: silver;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    transition: 0.25s;
+}
+.sectionMes.selected {   
+    color: green;
+    border-color: gold;
+    margin: 20px;
 }
 
-/*focus*/
-
-label.focus {
-    border-color: lightcoral;
+.optionVacio {
+    color: silver; 
+    display: none;
 }
-
-label span.focus {
-    color: lightcoral;
-}
-
-/*top*/
-label span.top {
-    left: 6px;
-    top: -10px;
-    font-size: 12px;
-    background: white;
-    padding: 0 6px;
+.spanMes{
+    outline-color: silver;
+    color: silver;
+    font-family: Arial, Helvetica, sans-serif;
 }

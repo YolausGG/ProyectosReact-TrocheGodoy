@@ -3,19 +3,13 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { createUsuarioRequest } from '../api/usuarios.api';
 //npm install react-datepicker --save
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import '../styles/CreateUsuario.css'
+
+import '../styles/createUsuario.css'
+import '../styles/forms.css'
+
 
 import { inputsInteractivos, mostarContra } from "../hooks/forms.js"
-
-function rango(principio, final) {
-    let anios = []
-    for (let index = principio; index < final; index++) {
-        anios.push(index)
-    }
-    return anios
-}
 
 function CreateUsuario() {
     useEffect(() => {
@@ -24,171 +18,151 @@ function CreateUsuario() {
     }, [])
     const navigate = useNavigate()
 
-    const [usuario, setUsuario] = useState({
+    const [usuario] = useState({
         correo: "",
         nombre: "",
         userPassword: "",
         apellido: "",
-        fechaNacimiento: new Date(),
+        fechaNacimiento: { dia: "", mes: "", year: "" },
         telefono: "",
         direccion: ""
     })
 
-    const [years, setYears] = useState(() => {
-        return rango(1940, new Date().getFullYear() + 1)
-    })
-
-    const [date, setDate] = useState(new Date());
-
     const months = [
-        "Enero",
-        "Febrero",
-        "Marzo",
-        "Abril",
-        "Mayo",
-        "Junio",
-        "Julio",
-        "Agosto",
-        "Setiembre",
-        "Octubre",
-        "Noviembre",
-        "Diciembre",
+        { mes: "Enero", value: "01" },
+        { mes: "Febrero", value: "02" },
+        { mes: "Marzo", value: "03" },
+        { mes: "Abril", value: "04" },
+        { mes: "Mayo", value: "05" },
+        { mes: "Junio", value: "06" },
+        { mes: "Julio", value: "07" },
+        { mes: "Agosto", value: "08" },
+        { mes: "Setiembre", value: "09" },
+        { mes: "Octubre", value: "10" },
+        { mes: "Noviembre", value: "11" },
+        { mes: "Diciembre", value: "12" }
     ];
 
     return (
-        <div className='createUsuarioContainer'>
+        <div className='createUsuarioContainer formContainer'>
             <h2>Crear Usuario</h2>
             <Formik
                 initialValues={usuario}
                 enableReinitialize={true}
                 onSubmit={async (values, actions) => {
+
                     const fechaHoy = new Date()
 
-                    if (values.fechaNacimiento > fechaHoy || date.getDate() == fechaHoy.getDate() && date.getMonth() == fechaHoy.getMonth() && date.getFullYear() == fechaHoy.getFullYear()) {
-                        alert("La fecha ingresada no es válida")
+                    if (values.fechaNacimiento.mes > 31
+                        || values.fechaNacimiento.year > fechaHoy.getFullYear()
+                        || values.fechaNacimiento.dia == fechaHoy.getDate() && values.fechaNacimiento.mes == fechaHoy.getMonth() && values.fechaNacimiento.year == fechaHoy.getFullYear()) {
+                        alert("La fecha ingresada no es válidaaaa")
                     } else {
-                        var fechaFinal = date.getFullYear() + "-" + (date.getMonth() + 1)
+                        var txtFechaSeleccionada = values.fechaNacimiento.year + "-" +
+                            values.fechaNacimiento.mes + "-" +
+                            values.fechaNacimiento.dia
+                        console.log(txtFechaSeleccionada);
 
-                        if (date.getDate().toString().length > 1) {
-                            fechaFinal += "-" + date.getDate()
+                        const fechaSeleccionada = new Date(txtFechaSeleccionada)
+                        console.log(fechaSeleccionada);
+
+                        if (fechaSeleccionada > fechaHoy) {
+                            alert("La fecha es ingresada es mayor a la de hoy")
                         } else {
-                            fechaFinal += "-0" + date.getDate()
+
+                            const respuesta = await createUsuarioRequest(values)
+                            console.log(respuesta);
+                            if (respuesta)
+                                navigate('/usuarios')
+
+                            actions.resetForm({
+                                values: {
+                                    nombre: ""
+                                },
+                            })
                         }
-                        values.fechaNacimiento = fechaFinal
-
-                        console.log(values.fechaNacimiento);
-                        const respuesta = await createUsuarioRequest(values)
-                        console.log(respuesta);
-                        if (respuesta)
-                            navigate('/usuarios')
-
-                        actions.resetForm({
-                            values: {
-                                nombre: ""
-                            },
-                        })
                     }
                 }}>
                 {({ handleChange, handleSubmit, values, isSubmitting }) => (
                     <Form className='formUsuario' onSubmit={handleSubmit}>
 
-                        <div>
+                        <div className='divSimpleInp'>
                             <label>
                                 <span>Correo Electrónico</span>
-                                <input required pattern="[A-Za-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" className='inpSimple' type="email" name='correo'
+                                <input required pattern="[A-Za-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" type="email" name='correo'
                                     onChange={handleChange} value={values.correo} autoComplete="email" />
                             </label>
                         </div>
-                        <div className='contrainerContra'>
+                        <div className='contrainerContra divSimpleInp'>
                             <label>
                                 <span>Contraseña</span>
-                                <input required pattern="[A-Za-z0-9]{6,15}" className='inpSimple' id='inpIdContra' type="text" name='userPassword'
+                                <input required pattern="[A-Za-z0-9]{6,15}" id='inpIdContra' type="text" name='userPassword'
                                     onChange={handleChange} value={values.userPassword} autoComplete='new-password' />
                                 <img alt="mostrar u ocultar contraseña" className='icon' id='eye' onClick={mostarContra} />
                             </label>
                         </div>
 
-                        <div>
+                        <div className='divSimpleInp'>
                             <label>
                                 <span>Nombre</span>
-                                <input required pattern="[A-Za-z]{1,15}" className='inpSimple' type="text" name='nombre'
+                                <input required pattern="[A-Za-z]{1,15}" type="text" name='nombre'
                                     onChange={handleChange} value={values.nombre} />
                             </label>
                         </div>
-                        <div>
+                        <div className='divSimpleInp'>
                             <label>
                                 <span>Apellido</span>
-                                <input required pattern="[A-Za-z]{1,15}" className='inpSimple' type="text" name='apellido'
+                                <input required pattern="[A-Za-z]{1,15}" type="text" name='apellido'
                                     onChange={handleChange} value={values.apellido} />
                             </label>
                         </div>
-                        <div>
-                            <label className=''> 
-                                <span className='top'>Fecha de Nacimiento</span>
-                                <DatePicker className='datePickerFN' type="date" name='fechaNacimiento' dateFormat='dd/MM/yyyy'
-                                    renderCustomHeader={({
-                                        date,
-                                        changeYear,
-                                        changeMonth,
-                                    }) => (
-                                        <div
-                                            style={{
-                                                margin: 10,
-                                                display: "flex",
-                                                justifyContent: "center",
-                                                gap: "3px",
-                                            }}
-                                        >
+                        <div className='containerFN'>
+                            <div className='divSimpleInp'>
+                                <label className='diaFN'>
+                                    <span>Día</span>
+                                    <input required maxLength={2} type="text" name='fechaNacimiento.dia'
+                                        onChange={handleChange} value={values.fechaNacimiento.dia} />
+                                </label>
+                            </div>
 
-                                            <select
-                                                value={date.getFullYear()}
-                                                onChange={({ target: { value } }) => {
-                                                    changeYear(value)
-                                                }}
-                                            >
-                                                {years.map((option) => (
 
-                                                    <option key={option} value={option}>
-                                                        {option}
-                                                    </option>
-                                                ))}
-                                            </select>
 
-                                            <select
-                                                value={months[date.getMonth()]}
-                                                onChange={({ target: { value } }) =>
-                                                    changeMonth(months.indexOf(value))
-                                                }
-                                            >
-                                                {months.map((option) => (
-                                                    <option key={option} value={option}>
-                                                        {option}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                    )}
-                                    selected={date}
-                                    onChange={(date) => {
 
-                                        values.fechaNacimiento = date
-                                        console.log(date);
-                                        setDate(date)
-                                    }}
-                                />
-                            </label>
+                            <select id='selectMes' className='divSimpleInp sectionMes' name='fechaNacimiento.mes'
+                                onChange={handleChange} value={values.fechaNacimiento.mes}
+                                
+                            >
+                                <option className='optionVacio' key={-1} value={-1}></option>
+                                {months.map((option) => (
+                                    <option key={option.value} value={option.value}>
+                                        {option.mes}
+                                    </option>
+                                ))}
+                            </select>
+
+
+
+
+                            <div className='divSimpleInp'>
+                                <label>
+                                    <span>Año</span>
+                                    <input required maxLength={4} type="text" name='fechaNacimiento.year'
+                                        onChange={handleChange} value={values.fechaNacimiento.year} />
+                                </label>
+                            </div>
+
                         </div>
-                        <div>
+                        <div className='divSimpleInp'>
                             <label>
                                 <span>Teléfono</span>
-                                <input required pattern="[0-9]{1,30}" className='inpSimple' type="tel" name='telefono'
+                                <input required pattern="[0-9]{1,30}" type="tel" name='telefono'
                                     onChange={handleChange} value={values.telefono} />
                             </label>
                         </div>
-                        <div>
+                        <div className='divSimpleInp'>
                             <label>
                                 <span>Dirección</span>
-                                <input required pattern="[A-Za-z0-9]{1,50}" className='inpSimple' type="text" name='direccion'
+                                <input required pattern="[A-Za-z0-9]{1,50}" type="text" name='direccion'
                                     onChange={handleChange} value={values.direccion} />
                             </label>
                         </div>
