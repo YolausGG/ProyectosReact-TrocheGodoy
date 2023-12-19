@@ -24,18 +24,17 @@ export function inputsInteractivos() {
 
     const selectMes = document.getElementById('selectMes')
     const spanMesFN = document.getElementById('idSpanMesFN')
-    console.log(selectMes);
+    
     selectMes.onfocus = () => {
         selectMes.classList.add('focus')
         spanMesFN.classList.add('top')
         spanMesFN.classList.add('focus')
     }
     selectMes.onblur = () => {
-
-        console.log();
-        if (selectMes.ariaSelected == "" ) {
+        console.log(selectMes.value);
+        
+        if (selectMes.value == "-1") {
             spanMesFN.classList.remove('top')
-
         }        
         selectMes.classList.remove('focus')
         spanMesFN.classList.remove('focus')
