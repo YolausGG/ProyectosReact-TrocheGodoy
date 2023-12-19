@@ -118,7 +118,7 @@ function CreateUsuario() {
                         </div>
                         <div className='containerFN'>
                             <div className='divSimpleInp'>
-                                <label className='diaFN'>
+                                <label>
                                     <span>Día</span>
                                     <input required maxLength={2} type="text" name='fechaNacimiento.dia'
                                         onChange={handleChange} value={values.fechaNacimiento.dia} />
@@ -127,19 +127,22 @@ function CreateUsuario() {
 
 
 
+                            <div className='containerMesFN'>
+                                <label className='labelMesFN'>
+                                    <span id='idSpanMesFN' className='spanMesFN'>Mes</span>
+                                    <select id='selectMes' className='divSimpleInp sectionMes' name='fechaNacimiento.mes'
+                                        onChange={handleChange} value={values.fechaNacimiento.mes}
 
-                            <select id='selectMes' className='divSimpleInp sectionMes' name='fechaNacimiento.mes'
-                                onChange={handleChange} value={values.fechaNacimiento.mes}
-                                
-                            >
-                                <option className='optionVacio' key={-1} value={-1}></option>
-                                {months.map((option) => (
-                                    <option key={option.value} value={option.value}>
-                                        {option.mes}
-                                    </option>
-                                ))}
-                            </select>
-
+                                    >
+                                        <option className='optionVacio' key={-1} value={-1}></option>
+                                        {months.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.mes}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </label>
+                            </div>
 
 
 

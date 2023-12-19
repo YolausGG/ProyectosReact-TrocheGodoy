@@ -44,20 +44,40 @@
     border-radius: 5px;
     padding-left: 5px;
     padding-bottom: 2px;
-    color: silver;
+    transition: .25s;
 }
-.sectionMes.selected {   
-    color: green;
-    border-color: gold;
-    margin: 20px;
+.sectionMes.focus {   
+    border-color: lightcoral;    
 }
 
 .optionVacio {
-    color: silver; 
     display: none;
 }
-.spanMes{
-    outline-color: silver;
+
+.containerMesFN{
+    display: flex;
+    width: 100%;        
+}
+.labelMesFN{
+    position: relative;
+    display: flex;
+    outline: none;
+}
+
+.spanMesFN{
+    position: absolute;
+    top: 22px;
+    left: 24px;
     color: silver;
-    font-family: Arial, Helvetica, sans-serif;
+    transition: .25s;
+}
+.spanMesFN.top{
+    top: 2px;
+    left: 20px;
+    font-size: 12px;
+    background-color: white;
+    padding: 0 6px;
+}
+.spanMesFN.focus{
+    color: lightcoral;
 }

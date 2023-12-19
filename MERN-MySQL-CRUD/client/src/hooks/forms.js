@@ -3,30 +3,42 @@ import invisible from '../images/invisible.png'
 
 export function inputsInteractivos() {
     const inputs = document.querySelectorAll('input');
-    
+
     inputs.forEach(input => {
         input.onfocus = () => {
             input.previousElementSibling.classList.add('top')
             input.previousElementSibling.classList.add('focus')
-            input.parentNode.classList.add('focus')           
+            input.parentNode.classList.add('focus')
         }
         input.onblur = () => {
-            
+
             input.value = input.value.trim();
-            
+
             if (input.value.trim().length == 0) {
-                input.previousElementSibling.classList.remove('top')                              
-            }            
+                input.previousElementSibling.classList.remove('top')
+            }
             input.previousElementSibling.classList.remove('focus')
             input.parentNode.classList.remove('focus')
         }
     })
 
     const selectMes = document.getElementById('selectMes')
-
+    const spanMesFN = document.getElementById('idSpanMesFN')
     console.log(selectMes);
-    selectMes.onchange = () => {
-        selectMes.previousElementSibling.classList.add('selected')
+    selectMes.onfocus = () => {
+        selectMes.classList.add('focus')
+        spanMesFN.classList.add('top')
+        spanMesFN.classList.add('focus')
+    }
+    selectMes.onblur = () => {
+
+        console.log();
+        if (selectMes.ariaSelected == "" ) {
+            spanMesFN.classList.remove('top')
+
+        }        
+        selectMes.classList.remove('focus')
+        spanMesFN.classList.remove('focus')
     }
 }
 
