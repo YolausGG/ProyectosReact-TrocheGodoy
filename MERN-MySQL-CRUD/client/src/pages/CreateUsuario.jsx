@@ -9,12 +9,13 @@ import '../styles/createUsuario.css'
 import '../styles/forms.css'
 
 
-import { inputsInteractivos, mostarContra } from "../hooks/forms.js"
+import { inputsInteractivos, mostarContra, fechasInteractivos } from "../hooks/forms.js"
 
 function CreateUsuario() {
     useEffect(() => {
         inputsInteractivos()
         mostarContra()
+        fechasInteractivos()
     }, [])
     const navigate = useNavigate()
 
@@ -53,11 +54,19 @@ function CreateUsuario() {
 
                     const fechaHoy = new Date()
 
-                    if (values.fechaNacimiento.mes > 31
-                        || values.fechaNacimiento.year > fechaHoy.getFullYear()
+                    console.log(values.fechaNacimiento);
+                    console.log(parseInt(values.fechaNacimiento.mes));
+                    console.log(fechaHoy);
+
+                    if (values.fechaNacimiento.mes == '' || values.fechaNacimiento.mes == '-1') {
+                        alert("Seleccione un Mes")
+                    } 
+                    else if (values.fechaNacimiento.year > fechaHoy.getFullYear()
+                        || values.fechaNacimiento.dia > 31
                         || values.fechaNacimiento.dia == fechaHoy.getDate() && values.fechaNacimiento.mes == fechaHoy.getMonth() && values.fechaNacimiento.year == fechaHoy.getFullYear()) {
-                        alert("La fecha ingresada no es válidaaaa")
-                    } else {
+                        alert("La fecha ingresada no es válida")
+                    }
+                    else {
                         var txtFechaSeleccionada = values.fechaNacimiento.year + "-" +
                             values.fechaNacimiento.mes + "-" +
                             values.fechaNacimiento.dia
@@ -81,6 +90,7 @@ function CreateUsuario() {
                                 },
                             })
                         }
+
                     }
                 }}>
                 {({ handleChange, handleSubmit, values, isSubmitting }) => (
@@ -132,9 +142,8 @@ function CreateUsuario() {
                                     <span id='idSpanMesFN' className='spanMesFN'>Mes</span>
                                     <select id='selectMes' className='divSimpleInp sectionMes' name='fechaNacimiento.mes'
                                         onChange={handleChange} value={values.fechaNacimiento.mes}
-
                                     >
-                                        <option className='optionVacio' key={-1} value={-1}></option>
+                                        <option className='optionVacio' key={"-1"} value={"-1"}></option>
                                         {months.map((option) => (
                                             <option key={option.value} value={option.value}>
                                                 {option.mes}

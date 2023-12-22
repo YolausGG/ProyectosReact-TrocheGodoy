@@ -73,6 +73,7 @@
     color: silver;
     transition: .25s;
     cursor: pointer;
+    font: 16px/16px "versana";
 }
 .spanMesFN.top{
     top: 2px;

@@ -1,27 +1,20 @@
 import { Form, Formik } from "formik"
 import { Link, useNavigate } from "react-router-dom";
 
-import ojo from '../images/ojo.png'
-import invisible from '../images/invisible.png'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { getSesionUsuarioRequest } from "../api/usuarios.api";
 
-function mostarContra() {
+import '../styles/inicioSesion.css';
 
-    var inp = document.getElementById('inpIdContra')
-    var eye = document.getElementById('eye')
+import { inputsInteractivos, mostarContra } from "../hooks/forms.js"
 
-    if (inp.type == "password") {
-        inp.type = "text"
-        eye.src = invisible
-    } else {
-        inp.type = "password"
-        //inp.value = "hidden"
-        eye.src = ojo
-    }
 
-}
 function InicioSesion() {
+
+    useEffect(() => {
+        inputsInteractivos()
+        mostarContra()
+    }, [])
 
     const [usuario, setUsuario] = useState({
         correo: "",
@@ -60,21 +53,29 @@ function InicioSesion() {
 
                 }}>
                 {({ handleChange, handleSubmit, values, isSubmitting }) => (
-                    <Form className='formCategoria' onSubmit={handleSubmit}>
-                        <label>Correo</label>
-                        <input className='inpNombre' type="text" name="correo" placeholder="Ingrese su correo electrónico"
-                            onChange={handleChange} value={values.correo} autoComplete="email" />
+                    <Form className='formInicioSesion' onSubmit={handleSubmit}>
+                        
+                        
+                        <div className="divSimpleInp">
+                            <label>
+                                <span>Correo</span>
+                                <input className='inpCorreo' pattern="[A-Za-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" type="email" name="correo"
+                                    onChange={handleChange} value={values.correo} autoComplete="email" />
+                            </label>
+                        </div>
 
-                        <label>Contraseña</label>
-                        <div className='contrainerContra'>
-                            <input className='inpContra' id='inpIdContra' type="text" name='userPassword' placeholder='Escriba su Contraseña'
-                                onChange={handleChange} value={values.userPassword} autoComplete='new-password' minLength={6} />
-                            <img src={ojo} alt="mostrar u ocultar contraseña" className='icon' id='eye' onClick={mostarContra} />
+                        <div className='contrainerContra divSimpleInp'>
+                            <label>
+                                <span>Contraseña</span>
+                                <input className='inpContra' id='inpIdContra' pattern="[A-Za-z0-9]{6,15}" type="text" name='userPassword'
+                                    onChange={handleChange} value={values.userPassword} autoComplete='new-password' minLength={6} />
+                                <img alt="mostrar u ocultar contraseña" className='icon' id='eye' onClick={mostarContra} />
+                            </label>
                         </div>
                         <button className='bontonCategoria btnCreate' type="submit" disabled={isSubmitting}>
                             {isSubmitting ? "Chequeando..." : "Iniciar Sesion"}
                         </button>
-                        
+
                         <Link id="lblCrearCuenta" to="/createUsuario">Crear una Cuenta</Link>
                         <Link id="lblCrearCuenta" to="/inicioSesion">¿Olvidaste la contraseña?</Link>
 

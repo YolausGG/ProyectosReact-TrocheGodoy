@@ -21,10 +21,12 @@ export function inputsInteractivos() {
             input.parentNode.classList.remove('focus')
         }
     })
+}
+export function fechasInteractivos() {
 
     const selectMes = document.getElementById('selectMes')
     const spanMesFN = document.getElementById('idSpanMesFN')
-    
+
     selectMes.onfocus = () => {
         selectMes.classList.add('focus')
         spanMesFN.classList.add('top')
@@ -32,15 +34,14 @@ export function inputsInteractivos() {
     }
     selectMes.onblur = () => {
         console.log(selectMes.value);
-        
+
         if (selectMes.value == "-1") {
             spanMesFN.classList.remove('top')
-        }        
+        }
         selectMes.classList.remove('focus')
         spanMesFN.classList.remove('focus')
     }
 }
-
 export function mostarContra() {
 
     var inp = document.getElementById('inpIdContra')
