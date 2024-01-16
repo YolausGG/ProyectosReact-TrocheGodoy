@@ -54,8 +54,7 @@ function InicioSesion() {
                 }}>
                 {({ handleChange, handleSubmit, values, isSubmitting }) => (
                     <Form className='formInicioSesion' onSubmit={handleSubmit}>
-                        
-                        
+                                                
                         <div className="divSimpleInp">
                             <label>
                                 <span>Correo</span>
