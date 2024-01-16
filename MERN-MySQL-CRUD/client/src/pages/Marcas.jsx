@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import Marca from '../components/Marca.jsx'
 import { useMarcas } from '../contexts/marcas.jsx'
 import '../styles/categoria.css'

@@ -1,0 +1,34 @@
+.tituloPagina{
+    text-align: center;
+}
+
+.productosContainer{  
+    text-align: center; 
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.cardProducto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.imgProducto {
+    width: 220px;
+    height: 320px;
+    object-fit: cover;
+}
+
+.datosProducto{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+}

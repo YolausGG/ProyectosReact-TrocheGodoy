@@ -16,6 +16,7 @@ import es from 'date-fns/locale/es';
 import Usuarios from './pages/Usuarios.jsx'
 import CreateUsuario from './pages/CreateUsuario.jsx'
 import InicioSesion from './pages/InicioSesion.jsx'
+import Productos from './pages/Productos.jsx'
 
 function App() {
   registerLocale('es', es)
@@ -37,6 +38,7 @@ function App() {
           <Route path='/usuarios' element={<Usuarios />} />
           <Route path='/createUsuario' element={<CreateUsuario />} />
           <Route path='/inicioSesion' element={<InicioSesion />} />
+          <Route path='/productos' element={<Productos />} />
         </Routes>
       </MarcaProvider>
     </CategoriaProvider>

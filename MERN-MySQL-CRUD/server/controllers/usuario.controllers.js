@@ -50,12 +50,12 @@ export const getSesionUsuario = async (req, res) => {
 export const createUsuario = async (req, res) => {
 
     console.log(req.body)
-    const { correo, userPassword, nombre, apellido, fechaNacimiento, telefono, direccion } = req.body        
-    
+    const { correo, userPassword, nombre, apellido, fechaNacimiento, telefono, direccion } = req.body
+
     var txtFechaSeleccionada = fechaNacimiento.year + "-" +
-                        fechaNacimiento.mes + "-" +
-                        fechaNacimiento.dia
-    
+        fechaNacimiento.mes + "-" +
+        fechaNacimiento.dia
+
     const [result] = await pool.promise().query("Insert into Usuario (correo, userPassword, nombre, apellido, fechaNacimiento, telefono, direccion) " +
         "values (?,?,?,?,?,?,?)", [correo, userPassword, nombre, apellido, txtFechaSeleccionada, telefono, direccion])
 

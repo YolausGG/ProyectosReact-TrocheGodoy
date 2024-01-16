@@ -1,4 +1,4 @@
-import {pool} from "../db.js"
+import { pool } from "../db.js"
 
 //MARCA
 export const getMarcas = async (req, res) => {
@@ -24,7 +24,7 @@ export const getMarca = async (req, res) => {
         )
 
     } catch (error) {
-        console.error(error) 
+        console.error(error)
     }
 };
 export const createMarca = async (req, res) => {

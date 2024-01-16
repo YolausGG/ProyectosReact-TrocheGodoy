@@ -8,6 +8,9 @@ function NavBar() {
             </Link>
             <ul className='navList'>
                 <li>
+                    <Link className='navItem' to="/productos">Productos</Link>
+                </li>
+                <li>
                     <Link className='navItem' to="/usuarios">Usuarios</Link>
                 </li>
                 <li>
