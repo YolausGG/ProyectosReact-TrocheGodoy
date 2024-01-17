@@ -91,7 +91,7 @@ export const createProducto = async (req, res) => {
     try {
         console.log(result)
         res.json({
-            id: result.insertId,
+            idProducto: result.insertId,
             nombre,
             precio,
             talle,

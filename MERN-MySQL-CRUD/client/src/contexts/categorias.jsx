@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import { getCategoriasRequest, getCategoriaRequest, deleteCategoriaRequest, createCategoriaRequest, updateCategoriaRequest } from '../api/categorias.api.js'
 
 export const CategoriaContext = createContext()
@@ -17,14 +17,18 @@ export const CategoriaProvider = ({ children }) => {
 
     const [categorias, setCategorias] = useState([])
 
+    useEffect(() => {
+        loadCategorias()
+    }, [])
+    
     const loadCategorias = async () => {
         try {
             const response = await getCategoriasRequest()
+            console.log(response);
             setCategorias(response.data.result)
         } catch (error) {
             console.error(error)
-        }
-       
+        }       
     }
 
     const getCategoria = async (id) => {
@@ -40,16 +44,18 @@ export const CategoriaProvider = ({ children }) => {
     const deleteCategoria = async (id) => {
         try {
             const response = await deleteCategoriaRequest(id)
+            console.log(response)
             setCategorias(categorias.filter(categorias => categorias.idCategoria !== id))
         } catch (error) {
             console.error(error)
         }
     }
+
     const createCategoria = async (values) => {
         try {
             const response = await createCategoriaRequest(values)
             console.log(response)
-            //setCategorias([...categorias, response.data])
+            setCategorias([...categorias, response.data])
         } catch (error) {
             console.error(error)
         }

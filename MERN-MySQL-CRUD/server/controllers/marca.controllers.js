@@ -35,7 +35,7 @@ export const createMarca = async (req, res) => {
     try {
         console.log(result);
         res.json({
-            id: result.insertId,
+            idMarca: result.insertId,
             nombre
         })
     } catch (error) {

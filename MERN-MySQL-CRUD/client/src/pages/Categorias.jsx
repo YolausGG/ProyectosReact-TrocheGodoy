@@ -1,17 +1,15 @@
-import React, { useEffect } from 'react'
 import Categoria from '../components/Categoria.jsx'
 import { useCategorias } from '../contexts/categorias.jsx'
 import '../styles/categoria.css'
 
 function Categorias() {
 
-    const { categorias, loadCategorias } = useCategorias()
+    const { categorias } = useCategorias()
 
-    useEffect(() => {
-        loadCategorias()
-    }, [])
-
+    console.log("antes de cargar")
+    console.log(categorias);
     return (
+        
         <div className='listCategorias'>
             <h2>Lista de Categorias</h2>
             {

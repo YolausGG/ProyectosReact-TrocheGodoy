@@ -29,19 +29,18 @@ export const getCategoria = async (req, res) => {
 };
 export const createCategoria = async (req, res) => {
 
-    console.log(req.body)
+    console.log("Body: "+ req.body)
     const { nombre } = req.body;
     const [result] = await pool.promise().query("insert into Categoria (nombre) values(?)", [nombre])
     try {
         console.log(result);
         res.json({
-            id: result.insertId,
+            idCategoria: result.insertId,
             nombre
         })
     } catch (error) {
         console.error(error)
     }
-
 
 }
 export const updateCategoria = async (req, res) => {

@@ -62,7 +62,7 @@ export const createUsuario = async (req, res) => {
     try {
         console.log(result)
         res.json({
-            id: result.insertId,
+            idUsuario: result.insertId,
             correo,
             userPassword,
             nombre, apellido,
