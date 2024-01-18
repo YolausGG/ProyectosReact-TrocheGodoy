@@ -29,7 +29,7 @@ export const getCategoria = async (req, res) => {
 };
 export const createCategoria = async (req, res) => {
 
-    console.log("Body: "+ req.body)
+    console.log(req.body)
     const { nombre } = req.body;
     const [result] = await pool.promise().query("insert into Categoria (nombre) values(?)", [nombre])
     try {
