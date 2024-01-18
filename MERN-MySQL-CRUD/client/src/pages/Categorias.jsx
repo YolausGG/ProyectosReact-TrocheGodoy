@@ -6,8 +6,6 @@ function Categorias() {
 
     const { categorias } = useCategorias()
 
-    console.log("antes de cargar")
-    console.log(categorias);
     return (
         
         <div className='listCategorias'>

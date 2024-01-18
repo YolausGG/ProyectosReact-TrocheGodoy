@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Form, Formik } from 'formik'
 import { useCategorias } from '../contexts/categorias.jsx'
 import { useNavigate, useParams } from "react-router-dom";

@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import { getProductosRequest, getProductoRequest, } from '../api/productos.api.js'
 
 export const ProductoContext = createContext()
@@ -17,6 +17,9 @@ export const ProductoProvider = ({ children }) => {
 
     const [productos, setProductos] = useState([])
 
+    useEffect(() => {
+        loadProductos()
+    }, [])
 
     const loadProductos = async () => {
         try {
@@ -38,7 +41,7 @@ export const ProductoProvider = ({ children }) => {
     }
     
     return (
-        <ProductoProvider.Provider value={{ productos, loadProductos, getProducto }}>
+        <ProductoProvider.Provider value={{ productos, getProducto }}>
             {children}
         </ProductoProvider.Provider>
     )

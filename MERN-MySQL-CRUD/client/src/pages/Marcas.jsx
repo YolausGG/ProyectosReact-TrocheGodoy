@@ -1,15 +1,10 @@
-import { useEffect } from 'react'
 import Marca from '../components/Marca.jsx'
 import { useMarcas } from '../contexts/marcas.jsx'
 import '../styles/categoria.css'
 
 function Marcas() {
 
-    const { marcas, loadMarcas } = useMarcas()
-
-    useEffect(() => {
-        loadMarcas()
-    }, [])
+    const { marcas } = useMarcas()
 
     return (
         <div className='listCategorias'>

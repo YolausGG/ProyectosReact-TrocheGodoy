@@ -19,8 +19,8 @@ export const CategoriaProvider = ({ children }) => {
 
     useEffect(() => {
         loadCategorias()
-    }, [])
-    
+    }, [categorias])
+
     const loadCategorias = async () => {
         try {
             const response = await getCategoriasRequest()
@@ -28,7 +28,7 @@ export const CategoriaProvider = ({ children }) => {
             setCategorias(response.data.result)
         } catch (error) {
             console.error(error)
-        }       
+        }
     }
 
     const getCategoria = async (id) => {
@@ -38,14 +38,16 @@ export const CategoriaProvider = ({ children }) => {
         } catch (error) {
             console.error(error)
         }
-       
+
     }
 
     const deleteCategoria = async (id) => {
         try {
             const response = await deleteCategoriaRequest(id)
             console.log(response)
-            setCategorias(categorias.filter(categorias => categorias.idCategoria !== id))
+            if (response.status == 204) {
+                setCategorias(categorias.filter(categorias => categorias.idCategoria !== id))
+            }
         } catch (error) {
             console.error(error)
         }
@@ -65,6 +67,9 @@ export const CategoriaProvider = ({ children }) => {
         try {
             const response = await updateCategoriaRequest(id, values)
             console.log(response)
+            if (response.status == 200) {
+                //Terminar
+            }
         } catch (error) {
             console.error(error)
         }
