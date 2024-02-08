@@ -16,6 +16,7 @@ export function useProductos() {
 export const ProductoProvider = ({ children }) => {
 
     const [productos, setProductos] = useState([])
+    const [imagenesActivas, setImagenesActivas] = useState([])
 
     useEffect(() => {
         loadProductos()
@@ -31,6 +32,23 @@ export const ProductoProvider = ({ children }) => {
 
     }
 
+    const cargarImagenes = (imagen) => {
+
+        if (imagen != undefined) {
+            console.log(1);
+            setImagenesActivas([...imagenesActivas, imagen])            
+        }
+        else
+            console.log("No llegaron imagenes");
+
+    }
+    const eliminarImagenes = () => {
+        console.log(imagenesActivas);
+        setImagenesActivas([])
+        console.log(imagenesActivas);
+        console.log("Imagenes eliminadas");
+    }
+
     const getProducto = async (id) => {
         try {
             const result = await getProductoRequest(id)
@@ -39,10 +57,10 @@ export const ProductoProvider = ({ children }) => {
             console.error(error)
         }
     }
-    
+
     return (
-        <ProductoProvider.Provider value={{ productos, getProducto }}>
+        <ProductoContext.Provider value={{ productos, imagenesActivas, getProducto, cargarImagenes }}>
             {children}
-        </ProductoProvider.Provider>
+        </ProductoContext.Provider>
     )
 }

@@ -19,7 +19,7 @@ export const CategoriaProvider = ({ children }) => {
 
     useEffect(() => {
         loadCategorias()
-    }, [categorias])
+    }, [])
 
     const loadCategorias = async () => {
         try {

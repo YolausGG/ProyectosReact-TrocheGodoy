@@ -134,9 +134,6 @@ function CreateUsuario() {
                                         onChange={handleChange} value={values.fechaNacimiento.dia} />
                                 </label>
                             </div>
-
-
-
                             <div className='containerMesFN'>
                                 <label className='labelMesFN'>
                                     <span id='idSpanMesFN' className='spanMesFN'>Mes</span>
@@ -152,9 +149,6 @@ function CreateUsuario() {
                                     </select>
                                 </label>
                             </div>
-
-
-
                             <div className='divSimpleInp'>
                                 <label>
                                     <span>Año</span>
@@ -174,7 +168,7 @@ function CreateUsuario() {
                         <div className='divSimpleInp'>
                             <label>
                                 <span>Dirección</span>
-                                <input required pattern="[A-Za-z0-9]{1,50}" type="text" name='direccion'
+                                <input required pattern="[A-Za-z0-9 ]{1,50}" type="text" name='direccion'
                                     onChange={handleChange} value={values.direccion} />
                             </label>
                         </div>

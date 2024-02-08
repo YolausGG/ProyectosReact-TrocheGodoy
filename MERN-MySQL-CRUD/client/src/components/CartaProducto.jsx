@@ -25,9 +25,9 @@ export default CartaProducto
 CartaProducto.propTypes = {
     producto: PropTypes.object.isRequired,
     nombre: PropTypes.string,
-    precio: PropTypes.string,
+    precio: PropTypes.number,
     talle: PropTypes.string,
-    stock: PropTypes.string,
+    stock: PropTypes.number,
     descripcion: PropTypes.string,
     imagen: PropTypes.string
 }

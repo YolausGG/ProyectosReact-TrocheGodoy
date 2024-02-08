@@ -67,8 +67,7 @@ idVestimenta int references Producto(idProducto) primary key,
 );
 
 create table Accesorio (
-idAccesorio int references Producto(idProducto) primary key,
-tipo varchar(30) not null
+idAccesorio int references Producto(idProducto) primary key
 );
 
 create table Imagen(

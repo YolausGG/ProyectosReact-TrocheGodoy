@@ -1,9 +1,15 @@
-.tituloPagina{
+.tituloPagina {
     text-align: center;
 }
 
-.productosContainer{  
-    text-align: center; 
+.container-forms{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.productosContainer {
+    text-align: center;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -11,13 +17,12 @@
     justify-content: center;
 }
 
-
 .cardProducto {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 10px;    
 }
 
 .imgProducto {
@@ -26,9 +31,97 @@
     object-fit: cover;
 }
 
-.datosProducto{
+.datosProducto {
     display: flex;
     justify-content: space-around;
     align-items: center;
     gap: 10px;
+}
+
+.createProductoContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.listaProductosABM {
+    margin: 20px;
+    border: 2px solid black;
+}
+
+.itemProductABM {
+    display: flex;
+    gap: 10px;
+}
+
+.divConainerChBoxProducto {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.divConainerChBoxProducto label {
+    display: flex;
+    gap: 5px;
+}
+
+.divConainerChBoxProducto input {
+    scale: 1.4;
+}
+
+#drag-area {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    border: 5px dashed #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+    margin: 10px;
+}
+
+#drag-area.active {
+    background-color: #b8d4fe;
+    color: black;
+    border: 5px dashed #618ac9;
+}
+
+#drag-area button {
+    padding: 5px 25px;
+    font-size: 15px;
+    border: 1px solid black;
+    outline: none;
+    background-color: rgb(0, 206, 86);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;   
+}
+
+#drag-area button:hover {
+    box-shadow: 0px 0px 5px black;
+}
+
+.file-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.img-preview{
+    width: 50px;
+}
+
+.status-text{
+    padding: 0 10px;
+}
+
+.success {
+    color: #52ad5a;
+}
+
+.failure{
+   color:  #ff0000; 
 }

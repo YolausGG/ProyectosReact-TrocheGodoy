@@ -81,7 +81,6 @@ constraint FK_VestimentaProducto foreign key(idVestimenta) references Producto(i
 
 create table Accesorio (
 idAccesorio int primary key,
-tipo varchar(30) not null,
 constraint FK_AccesorioProducto foreign key(idAccesorio) references Producto(idProducto)
 );
 
