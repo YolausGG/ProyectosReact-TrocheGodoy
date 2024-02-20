@@ -36,16 +36,15 @@ export const ProductoProvider = ({ children }) => {
 
         if (imagen != undefined) {
             console.log(1);
-            setImagenesActivas([...imagenesActivas, imagen])            
+            setImagenesActivas([...imagenesActivas, imagen])
         }
         else
             console.log("No llegaron imagenes");
 
     }
     const eliminarImagenes = () => {
-        console.log(imagenesActivas);
+        
         setImagenesActivas([])
-        console.log(imagenesActivas);
         console.log("Imagenes eliminadas");
     }
 
@@ -59,7 +58,7 @@ export const ProductoProvider = ({ children }) => {
     }
 
     return (
-        <ProductoContext.Provider value={{ productos, imagenesActivas, getProducto, cargarImagenes }}>
+        <ProductoContext.Provider value={{ productos, imagenesActivas, getProducto, cargarImagenes, eliminarImagenes }}>
             {children}
         </ProductoContext.Provider>
     )

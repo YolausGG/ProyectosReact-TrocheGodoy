@@ -1,11 +1,13 @@
 import { Form, Formik } from 'formik'
 import { useEffect, useState } from 'react'
-import { createProductoRequest, deleteProductoRequest, updateProductoRequest } from '../api/productos.api.js'
+import { createProductoRequest } from '../api/productos.api.js'
 import { useProductos } from '../contexts/productos.jsx'
 
 import { inputsInteractivos } from "../hooks/forms.js"
 import { useNavigate } from 'react-router-dom'
 import { createAccesorioRequest, createCalzadoRequest, createVestimentaRequest } from '../api/tipoProducto.api.js'
+import { createImagenRequest } from '../api/imagenes.api.js'
+
 //import { cargarImagen } from '../hooks/imagen.jsx'
 
 export default function ABMProducto() {
@@ -18,16 +20,13 @@ export default function ABMProducto() {
         talle: "",
         stock: "",
         descripcion: "",
-        tipoProducto: "",
-        imagenes: []
+        tipoProducto: ""
     })
-    
+    const [imagenes, setImagenes] = useState([])
 
-    useEffect(() => {        
+    useEffect(() => {
         inputsInteractivos()
-        cargarFuncionalidadImagen()
-        console.log(imagenesActivas);
-    },[])
+    }, [])
 
     const [chkbs, setChks] = useState([
         { id: 1, isChecked: true, name: 'Calzado' },
@@ -42,94 +41,26 @@ export default function ABMProducto() {
         }))
     }
 
-    function cargarFuncionalidadImagen() {
+    function selectedHandler(e) {
+        console.log(e.target.files);
 
-        //const { createImagen } = useImagen();        
-        let files;
-
-        const areaImagen = document.querySelector("#drag-area");
-
-        const dragText = areaImagen.querySelector("#h4-img");
-        const button = areaImagen.querySelector("#button-img");
-        const input = areaImagen.querySelector("#inp-file");
-
-        button.addEventListener("click", () => {
-            input.click();
-        })
-
-        input.addEventListener('change', () => {
-            files = input.files
-            areaImagen.classList.add('active')
-            console.log('change');
-            showFiles(files)
-            areaImagen.classList.remove('active')
-        })
-
-        areaImagen.addEventListener('dragover', (e) => {
-            e.preventDefault()
-            areaImagen.classList.add('active')
-            dragText.textContent = 'Suelta para subir la Imagenes'
-        })
-        areaImagen.addEventListener('dragleave', (e) => {
-            e.preventDefault()
-            areaImagen.classList.remove('active')
-            dragText.textContent = 'Arrastra y suelta Imagenes'
-        })
-        areaImagen.addEventListener('drop', (e) => {
-            e.preventDefault()
-            files = e.dataTransfer.files
-            console.log('drop');
-            showFiles(files)
-            areaImagen.classList.remove('active')
-            dragText.textContent = 'Arrastra y suelta Imagenes'
-        })
-    }
-
-    function showFiles(files) {
-        console.log(files);
-        for (const file of files) {
-            processFile(file)
-        }
-
-    }
-
-    function processFile(file) {
-
-        const docType = file.type;
-        const validExtensions = ['image/jpeg', 'image/jpg', 'image/png']
-
-        const fileReader = new FileReader()
-        const id = `file-${Math.random().toString(32).substring(7)}`
-
-
-        if (validExtensions.includes(docType)) {
-            fileReader.addEventListener('load', () => {
-                const fileUrl = fileReader.result
-                const image = `
-                    <div id="${id}" className="file-container">
-                        <img src="${fileUrl}" alt="${file.name}" width="50px">
-                        <div className="img-status">
-                            <span>${file.name}</span>
-                            <span className='status-text'>
-                                Loading...
-                            </span>
-                        </div>
-                    </div>
-                    `
-                const htmlImage = document.querySelector('#imgs-preview').innerHTML
-                document.querySelector('#imgs-preview').innerHTML = image + htmlImage
-
-            })
-            
-            const formData = new FormData()
-            formData.append("file", file)
-            
-            fileReader.readAsDataURL(file)
-
-            cargarImagenes(file)
-
+        const formData = new FormData()
+        if (e.target.files.length == 1) {
+            console.log('uno');
+            formData.append('img', e.target.files.length[0])
+            setImagenes([...imagenes, e.target.files[0]])
         } else {
-            alert('No es un archivo valido')
+            console.log('dos');
+            let lista = []
+            for (let i = 0; i < e.target.files.length; i++) {
+
+                const img = e.target.files[i]
+                formData.append('img', img)
+                lista.push(img)
+                console.log(img);
+
+            }
+            setImagenes(lista);
         }
     }
 
@@ -144,6 +75,8 @@ export default function ABMProducto() {
                         onSubmit={async (values, actions) => {
 
                             console.log(producto);
+                            console.log('values:');
+                            console.log(imagenes);
                             values.tipoProducto = producto.tipoProducto
 
                             const respuestaP = await createProductoRequest(values)
@@ -151,7 +84,25 @@ export default function ABMProducto() {
                             console.log(values);
                             console.log(respuestaP);
                             if (respuestaP.status == 200) {
-                                
+
+                                if (!imagenes) {
+                                    alert('Ninguna imagen seleccionada')
+                                }
+                                else {
+                                    imagenes.forEach(img => {
+                                        
+                                        const formData = new FormData()
+                                        formData.append('img', img)
+                                        //createImagenRequest(respuestaP.data.idProducto, img)
+                                        console.log(img);
+                                        fetch(`http://localhost:4000/imagen/${respuestaP.data.idProducto}`,{
+                                            method: 'POST',
+                                            body: img
+                                        })
+                                    });
+
+                                    //createImagenRequest()
+                                }
 
                                 if (producto.tipoProducto == 'Calzado') {
 
@@ -167,8 +118,7 @@ export default function ABMProducto() {
                                                 stock: "",
                                                 descripcion: "",
                                                 tipoProducto: "",
-                                                tipo: "",
-                                                imagenes: []
+                                                tipo: ""
                                             },
                                         })
                                         console.log('Calzado ingresado con Éxito');
@@ -189,8 +139,7 @@ export default function ABMProducto() {
                                                 stock: "",
                                                 descripcion: "",
                                                 tipoProducto: "",
-                                                tipo: "",
-                                                imagenes: []
+                                                tipo: ""
                                             },
                                         })
                                         console.log('Vestimenta ingresada con Éxito');
@@ -214,8 +163,7 @@ export default function ABMProducto() {
                                                 stock: "",
                                                 descripcion: "",
                                                 tipoProducto: "",
-                                                tipo: "",
-                                                imagenes: []
+                                                tipo: ""
                                             },
                                         })
                                     }
@@ -229,7 +177,7 @@ export default function ABMProducto() {
 
                         }}>
                         {({ handleChange, handleSubmit, values, isSubmitting }) => (
-                            <Form className='formUsuario' onSubmit={handleSubmit}>
+                            <Form encType='multipart/form-data' className='formUsuario' onSubmit={handleSubmit}>
                                 <div className='divSimpleInp'>
                                     <label>
                                         <span>Nombre</span>
@@ -277,15 +225,12 @@ export default function ABMProducto() {
                                             onChange={handleChange} value={values.descripcion} />
                                     </label>
                                 </div>
-                                <div className='div-subir-imagenes'>
-                                    <div id='drag-area'>
-                                        <h4 id='h4-img'>Arrastre y suelte imágenes</h4>
-                                        <span>0</span>
-                                        <button id='button-img'>Seleccione sus archivos</button>
-                                        <input id='inp-file' type="file" name='imagenes' hidden multiple
-                                        />
-
-                                    </div>
+                                <div className='div-inp-img'>
+                                    <label>
+                                        <span className='span-inp-img'>Seleccionar Archivos</span>
+                                        <input id='inp-file' type="file" name='imagenes' multiple
+                                            onChange={selectedHandler} value={''} />
+                                    </label>
 
                                 </div>
                                 <button className='bontonCategoria btnCreate' type="submit" disabled={isSubmitting}>
@@ -301,7 +246,6 @@ export default function ABMProducto() {
                     <div className='formUsuario'>
                         <div id='imgs-preview'></div>
                     </div>
-
                 </div>
             </div>
             <section className='listaProductosABM'>

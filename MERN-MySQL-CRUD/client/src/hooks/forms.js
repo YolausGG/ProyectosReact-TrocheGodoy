@@ -5,14 +5,14 @@ export function inputsInteractivos() {
     const inputs = document.querySelectorAll('input');
 
     inputs.forEach(input => {
-        if (input.type != 'checkbox') {
+        if (input.type != 'checkbox' && input.type != 'file') {
             input.onfocus = () => {
                 input.previousElementSibling.classList.add('top')
                 input.previousElementSibling.classList.add('focus')
                 input.parentNode.classList.add('focus')
             }
             input.onblur = () => {
-
+               
                 input.value = input.value.trim();
 
                 if (input.value.trim().length == 0) {

@@ -69,59 +69,37 @@
     scale: 1.4;
 }
 
-#drag-area {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    justify-content: center;
-    align-items: center;
-    border: 5px dashed #ddd;
+.div-inp-img{
+    margin: 10px
+}
+
+.div-inp-img span,
+input {
+    font: 16px/16px "versana";
+}
+
+.div-inp-img label {
+    display: block;
+    width: 100%;
+    border: 2px solid silver;
+    padding: 8px 10px;
+    position: relative;
+    box-sizing: border-box;
     border-radius: 5px;
-    padding: 1rem;
-    margin: 10px;
+    transition: 0.25s;
+    cursor: pointer;
 }
 
-#drag-area.active {
-    background-color: #b8d4fe;
-    color: black;
-    border: 5px dashed #618ac9;
+.span-inp-img{
+    color: silver;
+    position: absolute;    
+    transition: 0.25s;
+    left: 6px;
+    top: -10px;
+    font-size: 12px;
+    background: white;
+    padding: 0 6px;
 }
-
-#drag-area button {
-    padding: 5px 25px;
-    font-size: 15px;
-    border: 1px solid black;
-    outline: none;
-    background-color: rgb(0, 206, 86);
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;   
-}
-
-#drag-area button:hover {
-    box-shadow: 0px 0px 5px black;
-}
-
-.file-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    border: 1px solid black;
-}
-
-.img-preview{
-    width: 50px;
-}
-
-.status-text{
-    padding: 0 10px;
-}
-
-.success {
-    color: #52ad5a;
-}
-
-.failure{
-   color:  #ff0000; 
+#inp-file{
+    cursor: pointer;
 }
