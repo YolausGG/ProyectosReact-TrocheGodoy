@@ -23,7 +23,7 @@ const diskstorage = multer.diskStorage({
 }).single('imagen')
 */
 const storage = multer.diskStorage({
-    destination: 'C:/Users/Yolaus/Documents/GitHub/ProyectosReact-TrocheGodoy/MERN-MySQL-CRUD/server/imagenesBD',
+    destination: 'server/imagenesBD',
     
     filename: function (req, file, cb) {
         const name = Date.now() + '-' + file.filename
@@ -48,7 +48,7 @@ router.post('/imagen/:id', upload, async (req, res) => {
     console.log('req.file');
     console.log(req.file);
     const name = req.file.originalname
-    const dataImagen = fs.readFileSyn('C:/Users/Yolaus/Documents/GitHub/ProyectosReact-TrocheGodoy/MERN-MySQL-CRUD/server/imagenesBD/' + req.file.filename)
+    const dataImagen = fs.readFileSyn('server/imagenesBD/' + req.file.filename)
 
     const [result] = await pool.promise().query(`Insert into Imagen (idProducto, titulo, dataImagen)
         values(?,?,?)`, [req.params.idProducto, name, dataImagen])
