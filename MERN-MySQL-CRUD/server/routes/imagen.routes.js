@@ -24,14 +24,14 @@ const diskstorage = multer.diskStorage({
 */
 const storage = multer.diskStorage({
     destination: 'server/imagenesBD',
-    
+
     filename: function (req, file, cb) {
-        const name = Date.now() + '-' + file.filename
+        const name = Date.now() + '-' + file.originalname
         cb(null, name)
     }
 })
 
-const upload = multer({ storage: storage }).single('imagenes')
+const upload = multer({ storage: storage }).single('img')
 
 //const upload = multer({ dest: 'server/imagenesBD' })
 
@@ -43,21 +43,21 @@ router.get('/imagenes', getImagenes);
 
 router.post('/imagen/:id', upload, async (req, res) => {
 
-    console.log('req.body');
-    console.log(req.body);
+    console.log('req.params');
+    console.log(req.params);
     console.log('req.file');
     console.log(req.file);
     const name = req.file.originalname
-    const dataImagen = fs.readFileSyn('server/imagenesBD/' + req.file.filename)
+    const dataImagen = fs.readFileSync('server/imagenesBD/' + req.file.filename, { encoding: 'utf-8', })
 
     const [result] = await pool.promise().query(`Insert into Imagen (idProducto, titulo, dataImagen)
-        values(?,?,?)`, [req.params.idProducto, name, dataImagen])
+        values(?,?,?)`, [req.params.id, name, dataImagen])
 
     try {
         console.log(result)
         res.json({
             idImagen: result.insertId,
-            idProducto,
+            idProducto: req.params.id,
             titulo,
             dataImagen
         })

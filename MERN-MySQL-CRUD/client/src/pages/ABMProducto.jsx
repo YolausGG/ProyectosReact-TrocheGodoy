@@ -6,7 +6,7 @@ import { useProductos } from '../contexts/productos.jsx'
 import { inputsInteractivos } from "../hooks/forms.js"
 import { useNavigate } from 'react-router-dom'
 import { createAccesorioRequest, createCalzadoRequest, createVestimentaRequest } from '../api/tipoProducto.api.js'
-import { createImagenRequest } from '../api/imagenes.api.js'
+//import { createImagenRequest } from '../api/imagenes.api.js'
 
 //import { cargarImagen } from '../hooks/imagen.jsx'
 
@@ -44,10 +44,8 @@ export default function ABMProducto() {
     function selectedHandler(e) {
         console.log(e.target.files);
 
-        const formData = new FormData()
         if (e.target.files.length == 1) {
             console.log('uno');
-            formData.append('img', e.target.files.length[0])
             setImagenes([...imagenes, e.target.files[0]])
         } else {
             console.log('dos');
@@ -55,7 +53,6 @@ export default function ABMProducto() {
             for (let i = 0; i < e.target.files.length; i++) {
 
                 const img = e.target.files[i]
-                formData.append('img', img)
                 lista.push(img)
                 console.log(img);
 
@@ -90,17 +87,23 @@ export default function ABMProducto() {
                                 }
                                 else {
                                     imagenes.forEach(img => {
-                                        
+
                                         const formData = new FormData()
                                         formData.append('img', img)
+                                        
                                         //createImagenRequest(respuestaP.data.idProducto, img)
                                         console.log(img);
-                                        fetch(`http://localhost:4000/imagen/${respuestaP.data.idProducto}`,{
+                                        fetch(`http://localhost:4000/imagen/${respuestaP.data.idProducto}`, {
                                             method: 'POST',
-                                            body: img
+                                            body: formData
                                         })
+                                            //.then(res => res.text())
+                                            .then(res => console.log(res))
+                                            .catch(err => {
+                                                console.log(err);
+                                            })
                                     });
-
+                                    setImagenes([])
                                     //createImagenRequest()
                                 }
 

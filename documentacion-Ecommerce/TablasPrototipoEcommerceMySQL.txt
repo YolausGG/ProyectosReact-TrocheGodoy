@@ -63,11 +63,17 @@ create table Producto (
 idProducto int auto_increment primary key,
 nombre varchar(50) not null,
 precio decimal(10,2) not null,
-talle varchar(10) not null,
-stock numeric(4) not null,
-descripcion text,
-constraint UQ_Producto_NombreTalle unique(nombre, talle)
+descripcion text
 );
+
+create table ProductoTalleColor (
+idProducto int,
+talle varchar(10) not null,
+color varchar(30) not null
+stock numeric(4) not null,
+primary key(idProducto, talle, color),
+constraint FK_ProductoTalleColorProducto foreign key(idProducto) references Producto(idProducto)
+):
 
 create table Calzado (
 idCalzado int primary key,
