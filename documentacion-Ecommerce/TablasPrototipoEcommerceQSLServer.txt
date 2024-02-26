@@ -58,12 +58,12 @@ descripcion text,
 );
 
 create table ProductoTalleColor (
-idProducto int references Producto(idProducto)
+idProducto int references Producto(idProducto),
 talle varchar(10) not null,
-color varchar(30) not null
+color varchar(30) not null,
 stock numeric(4) not null,
 primary key(idProducto, talle, color)
-):
+);
 
 create table Calzado (
 idCalzado int references Producto(idProducto) primary key,

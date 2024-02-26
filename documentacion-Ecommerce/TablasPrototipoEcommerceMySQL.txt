@@ -69,11 +69,11 @@ descripcion text
 create table ProductoTalleColor (
 idProducto int,
 talle varchar(10) not null,
-color varchar(30) not null
+color varchar(30) not null,
 stock numeric(4) not null,
 primary key(idProducto, talle, color),
 constraint FK_ProductoTalleColorProducto foreign key(idProducto) references Producto(idProducto)
-):
+);
 
 create table Calzado (
 idCalzado int primary key,

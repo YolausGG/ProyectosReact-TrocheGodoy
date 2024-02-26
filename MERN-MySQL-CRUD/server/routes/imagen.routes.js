@@ -8,22 +8,8 @@ import multer from 'multer'
 import * as fs from 'node:fs'
 
 
-/*
-const diskstorage = multer.diskStorage({
-    destination: (req, file, cd) => {
-
-        cb(null, 'server/imagenesDB')
-    },
-    filename: (req, file, cd) => {
-        cb(null, Date.now() + '-' + file.originalname)
-    }
-})
-/*const fileUpload = multer({
-    storage: diskstorage
-}).single('imagen')
-*/
 const storage = multer.diskStorage({
-    destination: 'server/imagenesBD',
+    destination: 'server/imagenesTemporales',
 
     filename: function (req, file, cb) {
         const name = Date.now() + '-' + file.originalname
@@ -33,12 +19,30 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single('img')
 
-//const upload = multer({ dest: 'server/imagenesBD' })
-
 const router = Router()
 
-router.get('/imagenes', getImagenes);
 
+router.get('/imagenes', async (req, res) => {
+
+    const [result] = await pool.promise().query(`Select * from Imagen`)
+    console.log('result');
+    console.log(result);
+    try {
+        result.map(img => {            
+            fs.writeFileSync('server/imagenesDB/' + img.idImagen + '-' + img.titulo, img.dataImagen)
+        })
+
+        const imagenesDir = fs.readdirSync('server/imagenesDB')
+
+        console.log(imagenesDir)
+        res.json(
+            imagenesDir
+        )
+
+    } catch (error) {
+        console.error(error)
+    }
+});
 
 
 router.post('/imagen/:id', upload, async (req, res) => {
@@ -48,7 +52,7 @@ router.post('/imagen/:id', upload, async (req, res) => {
     console.log('req.file');
     console.log(req.file);
     const name = req.file.originalname
-    const dataImagen = fs.readFileSync('server/imagenesBD/' + req.file.filename, { encoding: 'utf-8', })
+    const dataImagen = fs.readFileSync('server/imagenesTemporales/' + req.file.filename, { encoding: 'utf-8', })
 
     const [result] = await pool.promise().query(`Insert into Imagen (idProducto, titulo, dataImagen)
         values(?,?,?)`, [req.params.id, name, dataImagen])

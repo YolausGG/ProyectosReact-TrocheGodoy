@@ -83,10 +83,10 @@ export const getProductoNombre = async (req, res) => {
 
 export const createProducto = async (req, res) => {
 
-    const { nombre, precio, talle, stock, descripcion } = req.body
+    const { nombre, precio, descripcion } = req.body
 
-    const [result] = await pool.promise().query(`Insert into Producto (nombre, precio, talle, stock, descripcion)
-        values(?,?,?,?,?)`, [nombre, precio, talle, stock, descripcion])
+    const [result] = await pool.promise().query(`Insert into Producto (nombre, precio, descripcion)
+        values(?,?,?)`, [nombre, precio, descripcion])
 
     try {
         console.log(result)
@@ -94,8 +94,6 @@ export const createProducto = async (req, res) => {
             idProducto: result.insertId,
             nombre,
             precio,
-            talle,
-            stock,
             descripcion
         })
     } catch (error) {
@@ -119,10 +117,10 @@ export const deleteProducto = async (req, res) => {
 
 export const updateProducto = async (req, res) => {
 
-    const { nombre, precio, talle, stock, descripcion, idProducto } = req.body
+    const { nombre, precio, descripcion, idProducto } = req.body
 
-    const [result] = await pool.promise().query(`Update Producto set nombre = ?, precio = ?, talle = ?, stock = ?, descripcion = ? 
-        where idProducto = ?`, [nombre, precio, talle, stock, descripcion, idProducto])
+    const [result] = await pool.promise().query(`Update Producto set nombre = ?, precio = ?, descripcion = ? 
+        where idProducto = ?`, [nombre, precio, descripcion, idProducto])
 
     try {
         res.json({

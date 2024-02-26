@@ -8,6 +8,7 @@ import usuarioRoutes from './routes/usuario.routes.js'
 import productoRoutes from './routes/producto.routes.js'
 import tipoProductoRoutes from './routes/tipoProducto.routes.js'
 import imagenRoutes from './routes/imagen.routes.js'
+import productosTalleColor from './routes/productoTalleColor.routes.js'
 const app = express();
 
 app.use(cors())
@@ -20,6 +21,9 @@ app.use(usuarioRoutes)
 app.use(productoRoutes)
 app.use(tipoProductoRoutes)
 app.use(imagenRoutes)
+app.use(productosTalleColor)
+app.use(express.static('server/imagenesDB'))
+
 
 app.listen(PORT)
 console.log(`server is running on port ${PORT}`)
