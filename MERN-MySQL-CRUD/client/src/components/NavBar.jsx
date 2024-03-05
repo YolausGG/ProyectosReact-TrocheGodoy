@@ -33,6 +33,9 @@ function NavBar() {
                 <li>
                     <Link className='navItem' to="/inicioSesion">Iniciar Sesion</Link>
                 </li>
+                <li>
+                    <Link className='navItem' to="/imagenes">Imagenes</Link>
+                </li>
             </ul>
         </nav>
     )

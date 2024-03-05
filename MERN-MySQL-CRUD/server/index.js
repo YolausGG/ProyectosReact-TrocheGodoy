@@ -22,8 +22,7 @@ app.use(productoRoutes)
 app.use(tipoProductoRoutes)
 app.use(imagenRoutes)
 app.use(productosTalleColor)
-app.use(express.static('server/imagenesDB'))
-
+app.use(express.static('./server/imagenesDB/'))
 
 app.listen(PORT)
 console.log(`server is running on port ${PORT}`)

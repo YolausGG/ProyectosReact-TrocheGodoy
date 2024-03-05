@@ -4,8 +4,9 @@ import {
     getImagenes, createImagen
 } from '../controllers/imagen.controllers.js'
 import multer from 'multer'
-//import phat from 'phat'
+import path from 'path'
 import * as fs from 'node:fs'
+import { log } from "console";
 
 
 const storage = multer.diskStorage({
@@ -27,8 +28,12 @@ router.get('/imagenes', async (req, res) => {
     const [result] = await pool.promise().query(`Select * from Imagen`)
     console.log('result');
     console.log(result);
+    
     try {
-        result.map(img => {            
+        result.map(img => {
+            console.log('img.dataImagen');
+            console.log(img.dataImagen);
+            //fs.writeFileSync(path.join(__dirname, '../imagenesDB/' + img.idImagen + '-' + img.titulo, buf))
             fs.writeFileSync('server/imagenesDB/' + img.idImagen + '-' + img.titulo, img.dataImagen)
         })
 
@@ -36,7 +41,7 @@ router.get('/imagenes', async (req, res) => {
 
         console.log(imagenesDir)
         res.json(
-            imagenesDir
+            { result }
         )
 
     } catch (error) {

@@ -12,7 +12,7 @@ import { createProductosTalleColorRequest } from '../api/prodcutosTalleColor.api
 
 export default function ABMProducto() {
 
-    const { productos, imagenesActivas, cargarImagenes } = useProductos()
+    const { productos } = useProductos()
 
     const [producto, setProducto] = useState({
         nombre: "",

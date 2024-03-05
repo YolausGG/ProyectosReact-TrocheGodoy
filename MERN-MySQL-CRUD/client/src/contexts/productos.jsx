@@ -1,5 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { getProductosRequest, getProductoRequest, } from '../api/productos.api.js'
+import { getImagenesRequest } from "../api/imagenes.api.js";
 
 export const ProductoContext = createContext()
 
@@ -16,10 +17,11 @@ export function useProductos() {
 export const ProductoProvider = ({ children }) => {
 
     const [productos, setProductos] = useState([])
-    const [imagenesActivas, setImagenesActivas] = useState([])
+    const [imagenes, setImagenes] = useState([])
 
     useEffect(() => {
         loadProductos()
+        loadImagenes()
     }, [])
 
     const loadProductos = async () => {
@@ -32,11 +34,21 @@ export const ProductoProvider = ({ children }) => {
 
     }
 
+    const loadImagenes = async () => {
+        try {
+            const response = await getImagenesRequest()
+            setImagenes(response.data.result)
+        } catch (error) {
+            console.error(error)
+        }
+
+    }
+
     const cargarImagenes = (imagen) => {
 
         if (imagen != undefined) {
             console.log(1);
-            setImagenesActivas([...imagenesActivas, imagen])
+            setImagenes([...imagenes, imagen])
         }
         else
             console.log("No llegaron imagenes");
@@ -44,7 +56,7 @@ export const ProductoProvider = ({ children }) => {
     }
     const eliminarImagenes = () => {
         
-        setImagenesActivas([])
+        setImagenes([])
         console.log("Imagenes eliminadas");
     }
 
@@ -58,7 +70,7 @@ export const ProductoProvider = ({ children }) => {
     }
 
     return (
-        <ProductoContext.Provider value={{ productos, imagenesActivas, getProducto, cargarImagenes, eliminarImagenes }}>
+        <ProductoContext.Provider value={{ productos, imagenes, getProducto, eliminarImagenes }}>
             {children}
         </ProductoContext.Provider>
     )
