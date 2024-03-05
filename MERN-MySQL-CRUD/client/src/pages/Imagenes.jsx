@@ -5,21 +5,23 @@ export default function Imagenes() {
 
   const { imagenes } = useProductos()
 
-  console.log(imagenes);
+
 
   function crearURL(dataImg) {
     var bytes = new Uint8Array(dataImg);
-
+    console.log(imagenes);
     // Convertir los bytes a un blob
-    var myBlob = new Blob([bytes], { type: "image/png" });
+    var myBlob = new Blob([bytes]);
+    
 
     // Obtener el url
-    var url = URL.createObjectURL(myBlob);
+        var url = URL.createObjectURL(myBlob);
 
     console.log(url);
     //console.log(url.substring(5,url.length))
     return url
   }
+
 
 
   return (

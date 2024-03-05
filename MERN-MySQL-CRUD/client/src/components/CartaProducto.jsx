@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 
-
 import imgDefult from '../images/iconCamisa2.png'
+
 function CartaProducto( {producto} ) {
     return (
         <div className='cardProducto'>

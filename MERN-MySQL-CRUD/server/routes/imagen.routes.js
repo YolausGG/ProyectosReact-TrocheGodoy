@@ -58,7 +58,7 @@ router.post('/imagen/:id', upload, async (req, res) => {
     console.log('req.file');
     console.log(req.file);
     const name = req.file.originalname
-    const dataImagen = fs.readFileSync('server/imagenesTemporales/' + req.file.filename, { encoding: 'utf-8', })
+    const dataImagen = fs.readFileSync('server/imagenesTemporales/' + req.file.filename)
 
     const [result] = await pool.promise().query(`Insert into Imagen (idProducto, titulo, dataImagen)
         values(?,?,?)`, [req.params.id, name, dataImagen])
@@ -68,8 +68,8 @@ router.post('/imagen/:id', upload, async (req, res) => {
         res.json({
             idImagen: result.insertId,
             idProducto: req.params.id,
-            titulo,
-            dataImagen
+            titulo: name,
+            dataImagen: dataImagen
         })
     } catch (error) {
         console.error(error)
