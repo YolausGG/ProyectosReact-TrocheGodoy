@@ -40,6 +40,7 @@ router.get('/imagenes', async (req, res) => {
         const imagenesDir = fs.readdirSync('server/imagenesDB')
 
         console.log(imagenesDir)
+        
         res.json(
             { result }
         )
