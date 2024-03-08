@@ -8,7 +8,6 @@ import path from 'path'
 import * as fs from 'node:fs'
 import { log } from "console";
 
-
 const storage = multer.diskStorage({
     destination: 'server/imagenesTemporales',
 
@@ -34,14 +33,14 @@ router.get('/imagenes', async (req, res) => {
             console.log('img.dataImagen');
             console.log(img.dataImagen);
             //fs.writeFileSync(path.join(__dirname, '../imagenesDB/' + img.idImagen + '-' + img.titulo, buf))
-            fs.writeFileSync('server/imagenesDB/' + img.idImagen + '-' + img.titulo, img.dataImagen)
+            fs.writeFileSync('client/src/imagenesDB/' + img.idImagen + '-' + img.titulo, img.dataImagen)
         })
 
-        const imagenesDir = fs.readdirSync('server/imagenesDB')
+        const imagenesDir = fs.readdirSync('client/src/imagenesDB')
 
         console.log(imagenesDir)
         
-        res.json(
+        res.json(            
             { result }
         )
 
