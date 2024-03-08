@@ -1,27 +1,16 @@
-import { useEffect, useState } from "react"
-import { getProductosRequest } from "../api/productos.api.js"
+import { useEffect } from "react"
 import CartaProducto from "../components/CartaProducto.jsx"
 import '../styles/producto.css'
+import { useProductos } from "../contexts/productos.jsx"
 
 export default function Productos() {
 
-    const [productos, setProductos] = useState([])
-
-    useEffect(() => {
-        const cargarProductos = async () => {
-            try {
-                const response = await getProductosRequest()
-                console.log(response);
-                setProductos(response.data.result)
-            } catch (error) {
-                console.error(error)
-            }
-    
-        }
-        cargarProductos()
-    }, [])
+    const { productos } = useProductos()
    
-    console.log(productos);
+    useEffect(() => {
+        
+    }, [])
+
     return (
         <>
             <h2 className="tituloPagina">Productos</h2>

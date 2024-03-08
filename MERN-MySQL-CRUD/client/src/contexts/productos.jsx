@@ -1,7 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { getProductosRequest, getProductoRequest, } from '../api/productos.api.js'
 import { getImagenesRequest } from "../api/imagenes.api.js";
-import { getCategoriasIdCategoria } from "../../../server/controllers/productoCategoria.controllers.js";
+import { getCategoriasIdProductoRequest } from '../api/productoCategoria.api.js'
 
 export const ProductoContext = createContext()
 
@@ -29,27 +29,26 @@ export const ProductoProvider = ({ children }) => {
         try {
             var productosFinal = []
             const response = await getProductosRequest()
+            /*response.data.result.map(async (prod) => {
+                var producto = {
+                    nombre: prod.nombre,
+                    precio: prod.precio,
+                    talle: "",
+                    color: "",
+                    stock: "",
+                    descripcion: prod.descripcion,
+                    categorias: [],
+                    ofertas: [],
+                    imagenes: [],
+                    marcas: []
+                }
 
-            /*response.data.result.map(prod => {
-                            var producto = {
-                                nombre: "",
-                                precio: "",
-                                talle: "",
-                                color: "",
-                                stock: "",
-                                descripcion: "",
-                                categorias: [],
-                                ofertas: [],
-                                imagenes: [],
-                                marcas: []
-                            }
-            
-                            const responsePC = getCategoriasIdCategoria(prod.idProducto)
-                            console.log(responsePC);
-                            producto.categorias = responsePC.data.result
-                            productosFinal.push(producto)
-                        })
-            */
+                const responsePC = await getCategoriasIdProductoRequest(prod.idProducto)               
+                responsePC.status === 200 ? producto.categorias = responsePC.data.resul : producto.categorias = []
+
+                productosFinal.push(producto)
+            })*/
+
             setProductos(response.data.result)
         } catch (error) {
             console.error(error)

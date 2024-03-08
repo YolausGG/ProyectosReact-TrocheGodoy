@@ -7,6 +7,7 @@ export default function Imagenes() {
   const { imagenes } = useProductos()
   console.log(imagenes);
 
+  
   function crearURL(dataImg) {
     var bytes = new Uint8Array(dataImg);
     
