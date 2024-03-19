@@ -1,7 +1,8 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { getProductosRequest, getProductoRequest, } from '../api/productos.api.js'
-import { getImagenesRequest } from "../api/imagenes.api.js";
+import { getImagenesIdProductoRequest, getImagenesRequest } from "../api/imagenes.api.js";
 import { getCategoriasIdProductoRequest } from '../api/productoCategoria.api.js'
+
 
 export const ProductoContext = createContext()
 
@@ -17,18 +18,34 @@ export function useProductos() {
 
 export const ProductoProvider = ({ children }) => {
 
-    const [productos, setProductos] = useState([])
+    const [productos, setProductos] = useState([
+        {
+            idProducto: 0,
+            nombre: "",
+            precio: 0,
+            talle: "",
+            color: "",
+            stock: 0,
+            descripcion: "",
+            categorias: [],
+            ofertas: [],
+            imagenes: [],
+            marcas: []
+        }
+    ])
     const [imagenes, setImagenes] = useState([])
 
     useEffect(() => {
         loadProductos()
         loadImagenes()
+        cargarImagenes()
     }, [])
 
     const loadProductos = async () => {
         try {
-            var productosFinal = []
+            //var productosFinal = []
             const response = await getProductosRequest()
+            console.log(response.data.result);
             /*response.data.result.map(async (prod) => {
                 var producto = {
                     nombre: prod.nombre,
@@ -56,6 +73,7 @@ export const ProductoProvider = ({ children }) => {
 
     }
 
+
     const loadImagenes = async () => {
         try {
             const response = await getImagenesRequest()
@@ -66,15 +84,17 @@ export const ProductoProvider = ({ children }) => {
 
     }
 
-    const cargarImagenes = (imagen) => {
-
-        if (imagen != undefined) {
-            console.log(1);
-            setImagenes([...imagenes, imagen])
-        }
-        else
-            console.log("No llegaron imagenes");
-
+    const cargarImagenes = () => {
+        var newArray = [] 
+        productos.map(async prod => {                       
+            const response = await getImagenesIdProductoRequest(prod.idProducto)
+            console.log(response.data.result);
+            prod.imagenes = response.data.result
+            newArray.push(prod)      
+                 
+        })
+        console.log(newArray); 
+        setProductos(newArray)
     }
     const eliminarImagenes = () => {
 

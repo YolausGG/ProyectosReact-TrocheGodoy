@@ -11,6 +11,9 @@ export default function Productos() {
         
     }, [])
 
+    console.log(productos);
+
+    
     return (
         <>
             <h2 className="tituloPagina">Productos</h2>

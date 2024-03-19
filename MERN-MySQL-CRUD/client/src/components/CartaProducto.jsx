@@ -11,8 +11,6 @@ function CartaProducto( {producto} ) {
                 <strong>${producto.precio}</strong>
             </div>
             <div className='datosProducto'>
-                <label>Talle: {producto.talle}</label>
-                <label>Stock: {producto.stock}</label>
             </div>
             <label>{producto.descripcion}</label>
         </div>

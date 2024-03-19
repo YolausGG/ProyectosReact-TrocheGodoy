@@ -27,7 +27,7 @@ router.get('/imagenes', async (req, res) => {
     const [result] = await pool.promise().query(`Select * from Imagen`)
     console.log('result');
     console.log(result);
-    
+
     try {
         result.map(img => {
             console.log('img.dataImagen');
@@ -39,8 +39,8 @@ router.get('/imagenes', async (req, res) => {
         const imagenesDir = fs.readdirSync('client/src/imagenesDB')
 
         console.log(imagenesDir)
-        
-        res.json(            
+
+        res.json(
             { result }
         )
 
@@ -49,6 +49,21 @@ router.get('/imagenes', async (req, res) => {
     }
 });
 
+router.get('/imagenes/:idProducto', async (req, res) => {
+
+    const [result] = await pool.promise().query(`Select * from Imagen where idProducto = ?`, [req.params.idProducto])
+    console.log('result imagen: ' + req.params.idProducto);
+    console.log(result);
+
+    try {
+        res.json(
+            { result }
+        )
+
+    } catch (error) {
+        console.error(error)
+    }
+});
 
 router.post('/imagen/:id', upload, async (req, res) => {
 

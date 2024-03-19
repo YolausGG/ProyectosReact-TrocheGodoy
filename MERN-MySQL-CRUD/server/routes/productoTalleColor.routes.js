@@ -4,7 +4,8 @@ import {
     getProductoTalleColor,
     createProductoTalleColor,
     updateProductoTalleColor,
-    deleteProductoTalleColor
+    deleteProductoTalleColor,
+    getProductosTalleColorIdProducto
     
 } from '../controllers/productoTalleColor.controllers.js'
 
@@ -13,6 +14,8 @@ const router = Router()
 router.get('/productosTalleColor', getProductosTalleColor)
 
 router.get('/productoTalleColor/:id', getProductoTalleColor)
+
+router.get('/productoTalleColor/:idProducto', getProductosTalleColorIdProducto)
 
 router.post('/productoTalleColor', createProductoTalleColor)
 

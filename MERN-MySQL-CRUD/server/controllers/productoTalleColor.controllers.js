@@ -30,6 +30,20 @@ export const getProductoTalleColor = async (req, res) => {
     }
 }
 
+export const getProductosTalleColorIdProducto = async (req, res) => {
+
+    const [result] = await pool.promise().query(`Select * from ProductoTalleColor where idProducto = ?`, [req.params.idProducto])
+
+    try {
+        res.json({
+            result
+        })
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+
 export const createProductoTalleColor = async (req, res) => {
 
     const { idProducto, talle, color, stock } = req.body
