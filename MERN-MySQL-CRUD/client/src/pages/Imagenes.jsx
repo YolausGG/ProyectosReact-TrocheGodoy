@@ -8,22 +8,6 @@ export default function Imagenes() {
   console.log(imagenes);
 
   
-  function crearURL(dataImg) {
-    var bytes = new Uint8Array(dataImg);
-    
-    // Convertir los bytes a un blob
-    var myBlob = new Blob([bytes]);
-
-
-    // Obtener el url
-        var url = URL.createObjectURL(myBlob);
-
-    console.log(url);
-    
-    //console.log(url.substring(5,url.length))
-    return url
-  }
-
   return (
     <div className="container-imagenes">
       <h2>Imagenes</h2>

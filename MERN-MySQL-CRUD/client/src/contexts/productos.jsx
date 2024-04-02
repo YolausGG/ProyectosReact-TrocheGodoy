@@ -19,34 +19,25 @@ export function useProductos() {
 export const ProductoProvider = ({ children }) => {
 
     const [productos, setProductos] = useState([
-        {
-            idProducto: 0,
-            nombre: "",
-            precio: 0,
-            talle: "",
-            color: "",
-            stock: 0,
-            descripcion: "",
-            categorias: [],
-            ofertas: [],
-            imagenes: [],
-            marcas: []
-        }
+
     ])
-    const [imagenes, setImagenes] = useState([])
+    const [imagenes, setImagenes] = useState([
+
+    ])
+    //const [num, setNum] = useState()
 
     useEffect(() => {
         loadProductos()
-        loadImagenes()
-        cargarImagenes()
+      //  loadImagenes()
     }, [])
 
     const loadProductos = async () => {
+
         try {
-            //var productosFinal = []
             const response = await getProductosRequest()
             console.log(response.data.result);
-            /*response.data.result.map(async (prod) => {
+            // setNum(response.data.result.length)
+            response.data.result.map(async (prod) => {
                 var producto = {
                     nombre: prod.nombre,
                     precio: prod.precio,
@@ -60,13 +51,13 @@ export const ProductoProvider = ({ children }) => {
                     marcas: []
                 }
 
-                const responsePC = await getCategoriasIdProductoRequest(prod.idProducto)               
-                responsePC.status === 200 ? producto.categorias = responsePC.data.resul : producto.categorias = []
+                const responsePC = await getImagenesIdProductoRequest(prod.idProducto)
+                responsePC.status === 200 ? producto.imagenes = responsePC.data.result : producto.imagenes = []
+                console.log(producto);
+                //setNum(num - 1)
+                productos.push(producto)
+            })
 
-                productosFinal.push(producto)
-            })*/
-
-            setProductos(response.data.result)
         } catch (error) {
             console.error(error)
         }
@@ -77,6 +68,7 @@ export const ProductoProvider = ({ children }) => {
     const loadImagenes = async () => {
         try {
             const response = await getImagenesRequest()
+            console.log(response.data.result);
             setImagenes(response.data.result)
         } catch (error) {
             console.error(error)
@@ -85,17 +77,18 @@ export const ProductoProvider = ({ children }) => {
     }
 
     const cargarImagenes = () => {
-        var newArray = [] 
-        productos.map(async prod => {                       
+        //var newArray = [] 
+        productos.map(async prod => {
             const response = await getImagenesIdProductoRequest(prod.idProducto)
             console.log(response.data.result);
             prod.imagenes = response.data.result
-            newArray.push(prod)      
-                 
+            //newArray.push(prod)      
+
         })
-        console.log(newArray); 
-        setProductos(newArray)
+        //console.log(newArray); 
+        //setProductos(newArray)
     }
+
     const eliminarImagenes = () => {
 
         setImagenes([])
