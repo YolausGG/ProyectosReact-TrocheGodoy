@@ -28,15 +28,18 @@ export const ProductoProvider = ({ children }) => {
 
     useEffect(() => {
         loadProductos()
-      //  loadImagenes()
+        //  loadImagenes()
     }, [])
 
     const loadProductos = async () => {
+
 
         try {
             const response = await getProductosRequest()
             console.log(response.data.result);
             // setNum(response.data.result.length)
+            var allProducts = []
+
             response.data.result.map(async (prod) => {
                 var producto = {
                     nombre: prod.nombre,
@@ -55,13 +58,13 @@ export const ProductoProvider = ({ children }) => {
                 responsePC.status === 200 ? producto.imagenes = responsePC.data.result : producto.imagenes = []
                 console.log(producto);
                 //setNum(num - 1)
-                productos.push(producto)
+                allProducts.push(producto)
             })
 
+            setProductos(allProducts)
         } catch (error) {
             console.error(error)
         }
-
     }
 
 
