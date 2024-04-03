@@ -24,42 +24,49 @@ export const ProductoProvider = ({ children }) => {
     const [imagenes, setImagenes] = useState([
 
     ])
-    //const [num, setNum] = useState()
 
     useEffect(() => {
         loadProductos()
-        //  loadImagenes()
+        //loadImagenes()
     }, [])
 
     const loadProductos = async () => {
-
-
         try {
             const response = await getProductosRequest()
-            console.log(response.data.result);
-            // setNum(response.data.result.length)
-            var allProducts = []
+            try {
+                const responses = await Promise.allSettled(
+                    response.data.result.map(async (prod) => {
+                        var producto = {
+                            idProducto: prod.idProducto,
+                            nombre: prod.nombre,
+                            precio: prod.precio,
+                            talle: "",
+                            color: "",
+                            stock: "",
+                            descripcion: prod.descripcion,
+                            categorias: [],
+                            ofertas: [],
+                            imagenes: [],
+                            marcas: []
+                        }
+                        const responseImagenes = await getImagenesIdProductoRequest(prod.idProducto)
+                        responseImagenes.status === 200 ? producto.imagenes = responseImagenes.data.result : producto.imagenes = []
+                        
+                        const responseCategorias = await getCategoriasIdProductoRequest(prod.idProducto)
+                        responseCategorias.status === 200 ? producto.categorias = responseCategorias.data.result : producto.categorias = []
+                                                
+                        return producto
+                    })
+                )
+                var allProducts = responses.map(item => (item.status == 'fulfilled' ? item.value : null))
+                
+                console.log(allProducts);
+                setProductos(allProducts)
 
-            response.data.result.map(async (prod) => {
-                var producto = {
-                    nombre: prod.nombre,
-                    precio: prod.precio,
-                    talle: "",
-                    color: "",
-                    stock: "",
-                    descripcion: prod.descripcion,
-                    categorias: [],
-                    ofertas: [],
-                    imagenes: [],
-                    marcas: []
-                }
+            } catch (error) {
+                console.error(error);
+            }
 
-                const responsePC = await getImagenesIdProductoRequest(prod.idProducto)
-                responsePC.status === 200 ? producto.imagenes = responsePC.data.result : producto.imagenes = []
-                console.log(producto);
-                //setNum(num - 1)
-                allProducts.push(producto)
-            })
 
             setProductos(allProducts)
         } catch (error) {
