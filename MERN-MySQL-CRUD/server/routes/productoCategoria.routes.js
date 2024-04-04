@@ -1,11 +1,11 @@
 import { Router } from "express";
 import {
-    getCategoriasIdCategoria
+    getCategoriasIdProducto
     
 } from '../controllers/productoCategoria.controllers.js'
 
 const router = Router()
 
-router.get('/categoriasProducto/:id', getCategoriasIdCategoria)
+router.get('/categoriasProducto/:id', getCategoriasIdProducto)
 
 export default router

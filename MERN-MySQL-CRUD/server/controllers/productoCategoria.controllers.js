@@ -1,10 +1,10 @@
 import { pool } from "../db.js";
 
-export const getCategoriasIdCategoria = async (req, res) => {
+export const getCategoriasIdProducto = async (req, res) => {
 
     const [result] = await pool.promise().query(`Select C.idCategoria, C.nombre 
         from ProductoCategoria PC inner join Categoria C on PC.idCategoria = C.idCategoria 
-        where C.idCategoria = ?`, [req.params.id]);
+        where PC.idProducto = ?`, [req.params.id]);
         console.log(result);
     try {
         /* if (result.length === 0){
