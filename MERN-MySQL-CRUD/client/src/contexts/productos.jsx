@@ -2,6 +2,7 @@ import { createContext, useState, useContext, useEffect } from "react";
 import { getProductosRequest, getProductoRequest, } from '../api/productos.api.js'
 import { getImagenesIdProductoRequest, getImagenesRequest } from "../api/imagenes.api.js";
 import { getCategoriasIdProductoRequest } from '../api/productoCategoria.api.js'
+import { getMarcasIdProductoRequest } from '../api/productoMarca.api.js'
 
 
 export const ProductoContext = createContext()
@@ -51,15 +52,18 @@ export const ProductoProvider = ({ children }) => {
                         }
                         const responseImagenes = await getImagenesIdProductoRequest(prod.idProducto)
                         responseImagenes.status === 200 ? producto.imagenes = responseImagenes.data.result : producto.imagenes = []
-                        
+
                         const responseCategorias = await getCategoriasIdProductoRequest(prod.idProducto)
                         responseCategorias.status === 200 ? producto.categorias = responseCategorias.data.result : producto.categorias = []
-                                                
+
+                        const responseMarcas = await getMarcasIdProductoRequest(prod.idProducto)
+                        responseMarcas.status === 200 ? producto.marcas = responseMarcas.data.result : producto.marcas = []
+
                         return producto
                     })
                 )
                 var allProducts = responses.map(item => (item.status == 'fulfilled' ? item.value : null))
-                
+
                 console.log(allProducts);
                 setProductos(allProducts)
 

@@ -48,6 +48,11 @@ function CartaProducto({ producto }) {
                     <li key={cat.idCategoria} >{cat.nombre}</li>
                 ))}
             </ul>
+            <ul>
+                {producto.marcas.map(marca => (
+                    <li key={marca.idMarca} >{marca.nombre}</li>
+                ))}
+            </ul>
         </div>
     )
 }

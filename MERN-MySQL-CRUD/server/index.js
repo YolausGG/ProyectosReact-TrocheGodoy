@@ -10,6 +10,7 @@ import tipoProductoRoutes from './routes/tipoProducto.routes.js'
 import imagenRoutes from './routes/imagen.routes.js'
 import productosTalleColorRoutes from './routes/productoTalleColor.routes.js'
 import productoCategoriaRoutes from './routes/productoCategoria.routes.js'
+import productoMarcaRoutes from './routes/productoMarca.routes.js' 
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(tipoProductoRoutes)
 app.use(imagenRoutes)
 app.use(productosTalleColorRoutes)
 app.use(productoCategoriaRoutes)
+app.use(productoMarcaRoutes)
 //app.use(express.static('./client/src/imagenesDB/'))
 
 app.listen(PORT)
