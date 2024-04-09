@@ -12,7 +12,7 @@ export function inputsInteractivos() {
                 input.parentNode.classList.add('focus')
             }
             input.onblur = () => {
-               
+
                 input.value = input.value.trim();
 
                 if (input.value.trim().length == 0) {
@@ -58,5 +58,29 @@ export function mostarContra() {
         eye.src = ojo
     }
 
+}
+export function marcaYCategoriaIntetacticas() {
+
+    const selectsMC = document.querySelectorAll('selectMC')
+    const spansMC = document.querySelectorAll('spanMC')
+
+    selectsMC.forEach(select => {
+        select.onfocus = () => {
+            select.previousElementSibling.classList.add('focus')
+            select.previousElementSibling.classList.add('top')
+            select.parentNode.classList.add('focus')
+        }
+    })
+    selectsMC.forEach(select => {
+        select.onblur = () => {
+            console.log(select.value);
+
+            if (select.value == "-1") {
+                select.classList.remove('top')
+            }
+            select.classList.remove('focus')
+            select.previousElementSibling.classList.remove('focus')
+        }
+    })
 }
 

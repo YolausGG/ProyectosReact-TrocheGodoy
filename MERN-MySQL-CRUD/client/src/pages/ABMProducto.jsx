@@ -2,8 +2,10 @@ import { Form, Formik } from 'formik'
 import { useEffect, useState } from 'react'
 import { createProductoRequest } from '../api/productos.api.js'
 import { useProductos } from '../contexts/productos.jsx'
+import { useMarcas } from '../contexts/marcas.jsx'
+import { useCategorias } from '../contexts/categorias.jsx'
 
-import { inputsInteractivos } from "../hooks/forms.js"
+import { inputsInteractivos, marcaYCategoriaIntetacticas } from "../hooks/forms.js"
 import { useNavigate } from 'react-router-dom'
 import { createAccesorioRequest, createCalzadoRequest, createVestimentaRequest } from '../api/tipoProducto.api.js'
 import { createProductosTalleColorRequest } from '../api/prodcutosTalleColor.api.js'
@@ -13,6 +15,8 @@ import { createProductosTalleColorRequest } from '../api/prodcutosTalleColor.api
 export default function ABMProducto() {
 
     const { productos } = useProductos()
+    const { marcas } = useMarcas()
+    const { categorias } = useCategorias()
 
     const [producto, setProducto] = useState({
         nombre: "",
@@ -24,9 +28,14 @@ export default function ABMProducto() {
         tipoProducto: ""
     })
     const [imagenes, setImagenes] = useState([])
+    const [marcasP, setMarcasP] = useState([])
+    const [categoriasP, setCategoriasP] = useState([])
+
+    const [marcaSelected, setMarcaSelected] = useState()
 
     useEffect(() => {
         inputsInteractivos()
+        marcaYCategoriaIntetacticas()
     }, [])
 
     const [chkbs, setChks] = useState([
@@ -62,6 +71,19 @@ export default function ABMProducto() {
         }
     }
 
+    const cargarMarca = (e) => {
+        const select = document.getElementById('selectMarca')
+        console.log(e.target.value);
+        console.log(select.options[select.selectedIndex].textContent);
+        
+        var mP = {
+            idMarca: e.target.value,
+            nombre: select.options[select.selectedIndex].textContent
+        }
+        console.log(mP);
+        setMarcasP([...marcasP, mP])
+
+    }
     return (
         <>
             <div className='container-forms'>
@@ -225,7 +247,21 @@ export default function ABMProducto() {
                                             onChange={handleChange} value={values.talle} />
                                     </label>
                                 </div>
-
+                                <div className='divSimpleInp'>
+                                    <label>
+                                        <span>Marcas</span>
+                                        <select id='selectMarca' className='selectMC' name='producto.marca'
+                                            onChange={cargarMarca} value={values.marcaSelected}
+                                        >
+                                            <option className='optionVacio' key={"-1"} value={"-1"}></option>
+                                            {marcas.map((marca) => (
+                                                <option key={marca.idMarca} value={marca.idMarca}>
+                                                    {marca.nombre}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </label>
+                                </div>
                                 <div className='divSimpleInp'>
                                     <label>
                                         <span>Stock</span>
@@ -267,6 +303,16 @@ export default function ABMProducto() {
                     <h2>Imagenes cargadas</h2>
                     <div className='formUsuario'>
                         <div id='imgs-preview'></div>
+                    </div>
+                </div>
+                <div className='createProductoContainer formContainer'>
+                    <h2>Marcas Seleccoinadas</h2>
+                    <div className='formUsuario'>
+                        {
+                            marcasP?.map(marca => (
+                                <strong key={marca.idMarca}>{marca.nombre}</strong>
+                            ))
+                        }
                     </div>
                 </div>
             </div>

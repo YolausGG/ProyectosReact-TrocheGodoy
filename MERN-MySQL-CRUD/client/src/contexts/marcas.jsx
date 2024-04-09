@@ -24,6 +24,7 @@ export const MarcaProvider = ({ children }) => {
     const loadMarcas = async () => {
         try {
             const response = await getMarcasRequest()
+            console.log(response.data.result);
             setMarcas(response.data.result)
         } catch (error) {
             console.error(error)
