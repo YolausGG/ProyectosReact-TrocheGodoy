@@ -39,7 +39,7 @@
     display: flex;
 }
 
-.sectionMes {    
+.selectMes {
     border: 2px solid silver;
     border-radius: 5px;
     padding-left: 5px;
@@ -47,26 +47,27 @@
     transition: .25s;
     cursor: pointer;
 }
-.sectionMes.focus {   
-    border-color: lightcoral;    
+
+.selectMes.focus {
+    border-color: lightcoral;
 }
 
 .optionVacio {
     display: none;
 }
 
-.containerMesFN{
+.containerMesFN {
     display: flex;
-    width: 100%;        
+    width: 100%;
 }
-.labelMesFN{
+
+.labelMesFN {
     position: relative;
     display: flex;
     outline: none;
-    
 }
 
-.spanMesFN{
+.spanMesFN {
     position: absolute;
     top: 22px;
     left: 24px;
@@ -75,13 +76,15 @@
     cursor: pointer;
     font: 16px/16px "versana";
 }
-.spanMesFN.top{
+
+.spanMesFN.top {
     top: 2px;
     left: 20px;
     font-size: 12px;
     background-color: white;
     padding: 0 6px;
 }
-.spanMesFN.focus{
+
+.spanMesFN.focus {
     color: lightcoral;
 }

@@ -59,16 +59,15 @@ export function mostarContra() {
     }
 
 }
-export function marcaYCategoriaIntetacticas() {
+export function marcaYCategoriaInteractivas() {
 
-    const selectsMC = document.querySelectorAll('selectMC')
-    const spansMC = document.querySelectorAll('spanMC')
+    const selectsMC = document.querySelectorAll('select')
 
     selectsMC.forEach(select => {
         select.onfocus = () => {
+            select.classList.add('focus')
             select.previousElementSibling.classList.add('focus')
             select.previousElementSibling.classList.add('top')
-            select.parentNode.classList.add('focus')
         }
     })
     selectsMC.forEach(select => {
@@ -76,7 +75,7 @@ export function marcaYCategoriaIntetacticas() {
             console.log(select.value);
 
             if (select.value == "-1") {
-                select.classList.remove('top')
+                select.previousElementSibling.classList.remove('top')
             }
             select.classList.remove('focus')
             select.previousElementSibling.classList.remove('focus')

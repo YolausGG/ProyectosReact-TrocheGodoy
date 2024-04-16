@@ -137,7 +137,7 @@ function CreateUsuario() {
                             <div className='containerMesFN'>
                                 <label className='labelMesFN'>
                                     <span id='idSpanMesFN' className='spanMesFN'>Mes</span>
-                                    <select id='selectMes' className='divSimpleInp sectionMes' name='fechaNacimiento.mes'
+                                    <select id='selectMes' className='divSimpleInp selectMes' name='fechaNacimiento.mes'
                                         onChange={handleChange} value={values.fechaNacimiento.mes}
                                     >
                                         <option className='optionVacio' key={"-1"} value={"-1"}></option>

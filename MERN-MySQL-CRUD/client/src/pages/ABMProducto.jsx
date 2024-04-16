@@ -5,7 +5,7 @@ import { useProductos } from '../contexts/productos.jsx'
 import { useMarcas } from '../contexts/marcas.jsx'
 import { useCategorias } from '../contexts/categorias.jsx'
 
-import { inputsInteractivos, marcaYCategoriaIntetacticas } from "../hooks/forms.js"
+import { inputsInteractivos, marcaYCategoriaInteractivas } from "../hooks/forms.js"
 import { useNavigate } from 'react-router-dom'
 import { createAccesorioRequest, createCalzadoRequest, createVestimentaRequest } from '../api/tipoProducto.api.js'
 import { createProductosTalleColorRequest } from '../api/prodcutosTalleColor.api.js'
@@ -29,13 +29,14 @@ export default function ABMProducto() {
     })
     const [imagenes, setImagenes] = useState([])
     const [marcasP, setMarcasP] = useState([])
+
     const [categoriasP, setCategoriasP] = useState([])
 
-    const [marcaSelected, setMarcaSelected] = useState()
+    const [marcaSelected, setMarcaSelected] = useState([])
 
     useEffect(() => {
         inputsInteractivos()
-        marcaYCategoriaIntetacticas()
+        marcaYCategoriaInteractivas()
     }, [])
 
     const [chkbs, setChks] = useState([
@@ -75,13 +76,46 @@ export default function ABMProducto() {
         const select = document.getElementById('selectMarca')
         console.log(e.target.value);
         console.log(select.options[select.selectedIndex].textContent);
-        
+
         var mP = {
             idMarca: e.target.value,
-            nombre: select.options[select.selectedIndex].textContent
+            nombre: select.options[select.selectedIndex].textContent.trim()
         }
+
         console.log(mP);
-        setMarcasP([...marcasP, mP])
+
+        var repetido = false
+
+        marcasP.map(marca => {
+            if (marca.idMarca == mP.idMarca) {
+                repetido = true
+                return
+            }
+        })
+        repetido ? null : setMarcasP([...marcasP, mP])
+
+    }
+    const cargarCategoria = (e) => {
+        const select = document.getElementById('selectCategoria')
+        console.log(e.target.value);
+        console.log(select.options[select.selectedIndex].textContent);
+
+        var cP = {
+            idCategoria: e.target.value,
+            nombre: select.options[select.selectedIndex].textContent.trim()
+        }
+
+        console.log(cP);
+
+        var repetido = false
+
+        categoriasP.map(cat => {
+            if (cat.idCategoria == cP.idCategoria) {
+                repetido = true
+                return
+            }
+        })
+        repetido ? null : setCategoriasP([...categoriasP, cP])
 
     }
     return (
@@ -247,16 +281,31 @@ export default function ABMProducto() {
                                             onChange={handleChange} value={values.talle} />
                                     </label>
                                 </div>
-                                <div className='divSimpleInp'>
-                                    <label>
-                                        <span>Marcas</span>
-                                        <select id='selectMarca' className='selectMC' name='producto.marca'
+                                <div className='containerMC'>
+                                    <label className='labelMC'>
+                                        <span className='spanMC' >Marcas</span>
+                                        <select id='selectMarca' className='divSimpleInp selectMC' name='producto.marca'
                                             onChange={cargarMarca} value={values.marcaSelected}
                                         >
                                             <option className='optionVacio' key={"-1"} value={"-1"}></option>
                                             {marcas.map((marca) => (
                                                 <option key={marca.idMarca} value={marca.idMarca}>
                                                     {marca.nombre}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </label>
+                                </div>
+                                <div className='containerMC'>
+                                    <label className='labelMC'>
+                                        <span className='spanMC'>Categorias</span>
+                                        <select id='selectCategoria' className='divSimpleInp selectMC' name='producto.categoria'
+                                            onChange={cargarCategoria} value={values.marcaSelected}
+                                        >
+                                            <option className='optionVacio' key={"-1"} value={"-1"}></option>
+                                            {categorias.map((cat) => (
+                                                <option key={cat.idCategoria} value={cat.idCategoria}>
+                                                    {cat.nombre}
                                                 </option>
                                             ))}
                                         </select>
@@ -299,20 +348,32 @@ export default function ABMProducto() {
 
                     </Formik>
                 </div>
-                <div className='createProductoContainer formContainer'>
-                    <h2>Imagenes cargadas</h2>
-                    <div className='formUsuario'>
-                        <div id='imgs-preview'></div>
+                <div className='containers-list-selecteds'>
+                    <div className='createProductoContainer formContainer'>
+                        <h2>Imagenes cargadas</h2>
+                        <div className='formUsuario'>
+                            <div id='imgs-preview'></div>
+                        </div>
                     </div>
-                </div>
-                <div className='createProductoContainer formContainer'>
-                    <h2>Marcas Seleccoinadas</h2>
-                    <div className='formUsuario'>
-                        {
-                            marcasP?.map(marca => (
-                                <strong key={marca.idMarca}>{marca.nombre}</strong>
-                            ))
-                        }
+                    <div className='createProductoContainer formContainer'>
+                        <h2>Marcas Seleccoinadas</h2>
+                        <div className='formUsuario'>
+                            {
+                                marcasP?.map(marca => (
+                                    <strong key={marca.idMarca}>{marca.nombre}</strong>
+                                ))
+                            }
+                        </div>
+                    </div>
+                    <div className='createProductoContainer formContainer'>
+                        <h2>Marcas Seleccoinadas</h2>
+                        <div className='formUsuario'>
+                            {
+                                categoriasP?.map(cat => (
+                                    <strong key={cat.idCategoria}>{cat.nombre}</strong>
+                                ))
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

@@ -76,10 +76,10 @@ function processFile(file) {
             document.querySelector('#imgs-preview').innerHTML = image + htmlImage
 
         })
-        
+
         const formData = new FormData()
         formData.append("file", file)
-        
+
         fileReader.readAsDataURL(file)
 
         cargarImagenes(file)
