@@ -177,3 +177,31 @@ input {
     display: flex;
     flex-direction: column;
 }
+
+.lista-agergados-productos {
+    text-align: start;
+    display: grid;
+    width: 12rem;
+    padding: 1rem;
+    border: 2px solid black;
+    border-radius: 6px;
+    box-shadow: 2px 2px 5px black;
+}
+
+
+.item-selecionado{
+    display: flex;
+    gap: 4px;
+    justify-content: space-between;
+    
+}
+.btn-quitar-marca {
+    padding: 0.1rem 0.5rem;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.btn-quitar-marca:hover {
+    cursor: pointer;
+}
+

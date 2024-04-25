@@ -9,6 +9,7 @@ import { inputsInteractivos, marcaYCategoriaInteractivas } from "../hooks/forms.
 import { useNavigate } from 'react-router-dom'
 import { createAccesorioRequest, createCalzadoRequest, createVestimentaRequest } from '../api/tipoProducto.api.js'
 import { createProductosTalleColorRequest } from '../api/prodcutosTalleColor.api.js'
+import { showFiles } from '../hooks/imagen.js'
 
 //import { cargarImagen } from '../hooks/imagen.jsx'
 
@@ -36,7 +37,7 @@ export default function ABMProducto() {
 
     useEffect(() => {
         inputsInteractivos()
-        marcaYCategoriaInteractivas()
+        marcaYCategoriaInteractivas()        
     }, [])
 
     const [chkbs, setChks] = useState([
@@ -53,37 +54,26 @@ export default function ABMProducto() {
     }
 
     function selectedHandler(e) {
-        console.log(e.target.files);
+        console.log('event');
 
+        console.log(e.target.files);
         if (e.target.files.length == 1) {
             console.log('uno');
             setImagenes([...imagenes, e.target.files[0]])
         } else {
             console.log('dos');
-            let lista = []
-            for (let i = 0; i < e.target.files.length; i++) {
-
-                const img = e.target.files[i]
-                lista.push(img)
-                console.log(img);
-
-            }
+            let lista = [...imagenes, ...e.target.files]
             setImagenes(lista);
         }
+        showFiles(e.target.files)
     }
 
     const cargarMarca = (e) => {
         const select = document.getElementById('selectMarca')
-        console.log(e.target.value);
-        console.log(select.options[select.selectedIndex].textContent);
-
         var mP = {
             idMarca: e.target.value,
             nombre: select.options[select.selectedIndex].textContent.trim()
         }
-
-        console.log(mP);
-
         var repetido = false
 
         marcasP.map(marca => {
@@ -97,16 +87,11 @@ export default function ABMProducto() {
     }
     const cargarCategoria = (e) => {
         const select = document.getElementById('selectCategoria')
-        console.log(e.target.value);
-        console.log(select.options[select.selectedIndex].textContent);
 
         var cP = {
             idCategoria: e.target.value,
             nombre: select.options[select.selectedIndex].textContent.trim()
         }
-
-        console.log(cP);
-
         var repetido = false
 
         categoriasP.map(cat => {
@@ -118,6 +103,17 @@ export default function ABMProducto() {
         repetido ? null : setCategoriasP([...categoriasP, cP])
 
     }
+    const quitarMarca = (idMarca) => {
+
+        const newArray = marcasP?.filter(marca => marca.idMarca != idMarca)
+        setMarcasP(newArray)
+    }
+    const quitarCategoria = (idCategoria) => {
+
+        const newArray = categoriasP?.filter(categoria => categoria.idCategoria != idCategoria)
+        setCategoriasP(newArray)
+    }
+
     return (
         <>
             <div className='container-forms'>
@@ -350,27 +346,33 @@ export default function ABMProducto() {
                 </div>
                 <div className='containers-list-selecteds'>
                     <div className='createProductoContainer formContainer'>
-                        <h2>Imagenes cargadas</h2>
-                        <div className='formUsuario'>
+                        <h3>Imagenes cargadas</h3>
+                        <div className='lista-agergados-productos'>
                             <div id='imgs-preview'></div>
                         </div>
                     </div>
                     <div className='createProductoContainer formContainer'>
-                        <h2>Marcas Seleccoinadas</h2>
-                        <div className='formUsuario'>
+                        <h3>Marcas Seleccoinadas</h3>
+                        <div className='lista-agergados-productos'>
                             {
                                 marcasP?.map(marca => (
-                                    <strong key={marca.idMarca}>{marca.nombre}</strong>
+                                    <div className='item-selecionado' key={marca.idMarca}>
+                                        <strong>{marca.nombre}</strong>
+                                        <button className='btn-quitar-marca' onClick={() => quitarMarca(marca.idMarca)}>X</button>
+                                    </div>
                                 ))
                             }
                         </div>
                     </div>
                     <div className='createProductoContainer formContainer'>
-                        <h2>Marcas Seleccoinadas</h2>
-                        <div className='formUsuario'>
+                        <h3>Categorias Seleccoinadas</h3>
+                        <div className='lista-agergados-productos'>
                             {
                                 categoriasP?.map(cat => (
-                                    <strong key={cat.idCategoria}>{cat.nombre}</strong>
+                                    <div className='item-selecionado' key={cat.idCategoria}>
+                                        <strong >{cat.nombre}</strong>
+                                        <button className='btn-quitar-marca' onClick={() => quitarCategoria(cat.idCategoria)}>X</button>
+                                    </div>
                                 ))
                             }
                         </div>
@@ -393,7 +395,6 @@ export default function ABMProducto() {
                         ))
                     }
                 </ul>
-
             </section >
         </>
     )

@@ -24,7 +24,6 @@ export const CategoriaProvider = ({ children }) => {
     const loadCategorias = async () => {
         try {
             const response = await getCategoriasRequest()
-            console.log(response);
             setCategorias(response.data.result)
         } catch (error) {
             console.error(error)
