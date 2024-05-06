@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import CartaProducto from "../components/CartaProducto.jsx"
-import '../styles/producto.css'
 import PropTypes from 'prop-types'
 import { useProductos } from "../contexts/productos.jsx"
 

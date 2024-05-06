@@ -1,0 +1,8 @@
+.formUsuario {
+    text-align: start;
+    display: grid;
+    padding: 1rem;
+    border: 3px solid black;
+    border-radius: 6px;
+    box-shadow: 2px 2px 5px black;
+}

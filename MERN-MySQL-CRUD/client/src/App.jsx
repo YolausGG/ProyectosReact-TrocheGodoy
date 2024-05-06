@@ -1,5 +1,7 @@
 import './App.css'
 import './styles/navBar.css'
+import './styles/producto.css'
+import './styles/usuario.css'
 import { Route, Routes } from 'react-router-dom'
 
 import Categorias from './pages/Categorias.jsx'

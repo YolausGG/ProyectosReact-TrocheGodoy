@@ -17,3 +17,25 @@ export const getMarcasIdProducto = async (req, res) => {
         console.error(error)
     }
 };
+
+export const createMarcasProducto = async (req, res) => {
+
+    const { idProducto, idMarca } = req.body
+
+    const [result] = await pool.promise().query(`Insert into ProductoMarca (idProducto,idMarca)
+        values(?,?)`, [idProducto, idMarca]);
+    console.log(result);
+    try {
+        /* if (result.length === 0){
+            return res.status(404).json({ message: "No existe la categoria" })
+        
+        }*/
+        res.json(
+            { result }
+        )
+
+    } catch (error) {
+
+        console.error(error)
+    }
+};

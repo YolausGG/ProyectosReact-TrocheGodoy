@@ -161,7 +161,7 @@ function CreateUsuario() {
                         <div className='divSimpleInp'>
                             <label>
                                 <span>Teléfono</span>
-                                <input required pattern="[0-9]{1,30}" type="tel" name='telefono'
+                                <input required pattern="[0-9+]{1,30}" type="tel" name='telefono'
                                     onChange={handleChange} value={values.telefono} />
                             </label>
                         </div>

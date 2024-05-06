@@ -6,10 +6,11 @@ import { useMarcas } from '../contexts/marcas.jsx'
 import { useCategorias } from '../contexts/categorias.jsx'
 
 import { inputsInteractivos, marcaYCategoriaInteractivas } from "../hooks/forms.js"
-import { useNavigate } from 'react-router-dom'
 import { createAccesorioRequest, createCalzadoRequest, createVestimentaRequest } from '../api/tipoProducto.api.js'
 import { createProductosTalleColorRequest } from '../api/prodcutosTalleColor.api.js'
 import { showFiles } from '../hooks/imagen.js'
+import { createCategoriasProductoRequest } from '../api/productoCategoria.api.js'
+import { createMarcasProductoRequest } from '../api/productoMarca.api.js'
 
 //import { cargarImagen } from '../hooks/imagen.jsx'
 
@@ -33,11 +34,9 @@ export default function ABMProducto() {
 
     const [categoriasP, setCategoriasP] = useState([])
 
-    const [marcaSelected, setMarcaSelected] = useState([])
-
     useEffect(() => {
         inputsInteractivos()
-        marcaYCategoriaInteractivas()        
+        marcaYCategoriaInteractivas()
     }, [])
 
     const [chkbs, setChks] = useState([
@@ -132,16 +131,17 @@ export default function ABMProducto() {
                             const product = { nombre: values.nombre, precio: values.precio, descripcion: values.descripcion }
                             console.log(product);
 
-
                             const respuestaP = await createProductoRequest(product)
 
                             console.log(values);
                             console.log(respuestaP);
+
                             if (respuestaP.status == 200) {
 
                                 const productoTalleColor = { idProducto: respuestaP.data.idProducto, talle: values.talle, color: values.color, stock: values.stock }
 
                                 const respuestaPTC = await createProductosTalleColorRequest(productoTalleColor)
+
                                 if (respuestaPTC.status == 200) {
                                     if (!imagenes) {
                                         alert('Ninguna imagen seleccionada')
@@ -159,86 +159,111 @@ export default function ABMProducto() {
                                                 body: formData
                                             })
                                                 //.then(res => res.text())
-                                                .then(res => console.log(res))
+                                                .then(res => {
+                                                    if (res.status == 200) {
+                                                        setImagenes([])
+                                                        showFiles([])
+                                                    }
+                                                    console.log(res)
+                                                })
                                                 .catch(err => {
-                                                    console.log(err);
+                                                    console.error(err);
                                                 })
                                         });
-                                        setImagenes([])
                                         //createImagenRequest()
                                     }
-
-                                    if (producto.tipoProducto == 'Calzado') {
-
-                                        const respuestaC = await createCalzadoRequest(respuestaP.data.idProducto)
-                                        console.log(respuestaC);
-                                        if (respuestaC.status == 200) {
-                                            console.log(producto);
-                                            actions.resetForm({
-                                                values: {
-                                                    nombre: "",
-                                                    precio: "",
-                                                    talle: "",
-                                                    color: "",
-                                                    stock: "",
-                                                    descripcion: "",
-                                                    tipoProducto: "",
-                                                    tipo: ""
-                                                },
-                                            })
-                                            console.log('Calzado ingresado con Éxito');
-                                        }
-                                        else
-                                            console.log('Calzado no ingresado');
+                                    if (categoriasP.length > 0) {
+                                        categoriasP.forEach(async catP => {
+                                            var respuestaCCP = await createCategoriasProductoRequest({ idProducto: respuestaP.data.idProducto, idCategoria: catP.idCategoria })
+                                            console.log(respuestaCCP);
+                                            respuestaCCP.status == 200 ? console.log('Categoria dada de alta a Producto') : console.log('Categoria NO dada de alta a Producto');
+                                        })
+                                        setCategoriasP([])
                                     }
-                                    if (producto.tipoProducto == 'Vestimenta') {
-                                        const respuestaV = await createVestimentaRequest(respuestaP.data.idProducto)
-                                        console.log(respuestaV);
-                                        if (respuestaV.status == 200) {
-                                            console.log(producto);
-                                            actions.resetForm({
-                                                values: {
-                                                    nombre: "",
-                                                    precio: "",
-                                                    talle: "",
-                                                    color: "",
-                                                    stock: "",
-                                                    descripcion: "",
-                                                    tipoProducto: "",
-                                                    tipo: ""
-                                                },
-                                            })
-                                            console.log('Vestimenta ingresada con Éxito');
-                                        }
-                                        else
-                                            console.log('Vestimenta no ingresada');
+                                    if (marcasP.length > 0) {
+                                        marcasP.forEach(async marcaP => {
+                                            var respuestaCMP = await createMarcasProductoRequest({ idProducto: respuestaP.data.idProducto, idMarca: marcaP.idMarca })
+                                            console.log(respuestaCMP);
+                                            respuestaCMP.status == 200 ? console.log('Marca dada de alta a Producto') : console.log('Marca NO dada de alta a Producto');
+                                        })
+                                        setMarcasP([])
                                     }
-                                    if (producto.tipoProducto == 'Accesorio') {
 
-                                        const respuestaA = await createAccesorioRequest(respuestaP.data.idProducto)
-                                        console.log(respuestaA);
-                                        if (respuestaA.status == 200) {
-                                            console.log('Accesorio ingresado con Éxito');
-                                            console.log(producto);
-
-                                            actions.resetForm({
-                                                values: {
-                                                    nombre: "",
-                                                    precio: "",
-                                                    talle: "",
-                                                    color: "",
-                                                    stock: "",
-                                                    descripcion: "",
-                                                    tipoProducto: "",
-                                                    tipo: ""
-                                                },
-                                            })
+                                    switch (producto.tipoProducto) {
+                                        case 'Calzado': {
+                                            const respuestaC = await createCalzadoRequest(respuestaP.data.idProducto)
+                                            console.log(respuestaC);
+                                            if (respuestaC.status == 200) {
+                                                console.log(producto);
+                                                actions.resetForm({
+                                                    values: {
+                                                        nombre: "",
+                                                        precio: "",
+                                                        talle: "",
+                                                        color: "",
+                                                        stock: "",
+                                                        descripcion: "",
+                                                        tipoProducto: "",
+                                                        tipo: ""
+                                                    },
+                                                })
+                                                console.log('Calzado ingresado con Éxito');
+                                            }
+                                            else
+                                                console.log('Calzado no ingresado');
+                                            break;
                                         }
-                                        else
-                                            console.log('Accesorio no ingresado');
+                                        case 'Vestimenta': {
+                                            const respuestaV = await createVestimentaRequest(respuestaP.data.idProducto)
+                                            console.log(respuestaV);
+                                            if (respuestaV.status == 200) {
+                                                console.log(producto);
+                                                actions.resetForm({
+                                                    values: {
+                                                        nombre: "",
+                                                        precio: "",
+                                                        talle: "",
+                                                        color: "",
+                                                        stock: "",
+                                                        descripcion: "",
+                                                        tipoProducto: "",
+                                                        tipo: ""
+                                                    },
+                                                })
+                                                console.log('Vestimenta ingresada con Éxito');
+                                            }
+                                            else
+                                                console.log('Vestimenta no ingresada');
+                                            break;
+                                        }
+                                        case 'Accesorio': {
+                                            const respuestaA = await createAccesorioRequest(respuestaP.data.idProducto)
+                                            console.log(respuestaA);
+                                            if (respuestaA.status == 200) {
+                                                console.log('Accesorio ingresado con Éxito');
+                                                console.log(producto);
+
+                                                actions.resetForm({
+                                                    values: {
+                                                        nombre: "",
+                                                        precio: "",
+                                                        talle: "",
+                                                        color: "",
+                                                        stock: "",
+                                                        descripcion: "",
+                                                        tipoProducto: "",
+                                                        tipo: ""
+                                                    },
+                                                })
+                                            }
+                                            else
+                                                console.log('Accesorio no ingresado');
+                                            break;
+                                        }
+                                        default:
+                                            break;
                                     }
                                 }
-                                //navigate('/productos')
                             }
 
 
