@@ -5,44 +5,11 @@ import { useProductos } from "../contexts/productos.jsx"
 
 export default function Productos() {
 
-    const { productos, imagenes} = useProductos()
+    const { productos } = useProductos()
 
-    const [productosCompletos, setProductosCompletos] = useState([])
 
     useEffect(() => {
-        // cargarImagenesJavaScript()
     }, [])
-
-    const cargarImagenesJavaScript = () => {
-
-        var newArray = []
-        console.log(productos);
-        console.log(imagenes);
-        productos.map(prod => {
-            var product = {
-                idProducto: prod.idProducto,
-                nombre: prod.nombre,
-                precio: prod.precio,
-                talle: "",
-                color: "",
-                stock: 0,
-                descripcion: prod.descripcion,
-                imagenes: [],
-            }
-            imagenes.map(img => {
-                if (img.idProducto == prod.idProducto) {
-                    product.imagenes.push(img)
-                }
-            })
-            newArray.push(product)
-        })
-        console.log(newArray);
-        setProductosCompletos(newArray)
-
-    }
-
-    console.log(productosCompletos);
-
 
     return (
         <>

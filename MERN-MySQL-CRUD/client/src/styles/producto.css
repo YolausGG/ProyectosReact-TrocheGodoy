@@ -1,3 +1,12 @@
+.form-ABM-producto {
+    text-align: start;
+    display: grid;
+    padding: 1rem;
+    border: 3px solid black;
+    border-radius: 6px;
+    box-shadow: 2px 2px 5px black;
+}
+
 .tituloPagina {
     text-align: center;
 }
@@ -14,7 +23,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    align-items: center;
+    align-items: start;
     justify-content: center;
 }
 
@@ -189,12 +198,13 @@ input {
 }
 
 
-.item-selecionado{
+.item-selecionado {
     display: flex;
     gap: 4px;
     justify-content: space-between;
-    
+
 }
+
 .btn-quitar-marca {
     padding: 0.1rem 0.5rem;
     border-radius: 5px;
@@ -204,4 +214,3 @@ input {
 .btn-quitar-marca:hover {
     cursor: pointer;
 }
-

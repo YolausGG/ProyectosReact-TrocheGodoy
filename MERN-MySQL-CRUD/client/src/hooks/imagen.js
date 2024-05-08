@@ -1,8 +1,12 @@
 
 export function showFiles(files) {
     console.log(files);
-    for (const file of files) {
-        processFile(file)
+    if (files == null) {
+        document.querySelector('#imgs-preview').innerHTML = null
+    } else {
+        for (const file of files) {
+            processFile(file)
+        }
     }
 }
 

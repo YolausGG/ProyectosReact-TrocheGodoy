@@ -162,7 +162,7 @@ export default function ABMProducto() {
                                                 .then(res => {
                                                     if (res.status == 200) {
                                                         setImagenes([])
-                                                        showFiles([])
+                                                        showFiles(null)
                                                     }
                                                     console.log(res)
                                                 })
@@ -269,7 +269,7 @@ export default function ABMProducto() {
 
                         }}>
                         {({ handleChange, handleSubmit, values, isSubmitting }) => (
-                            <Form encType='multipart/form-data' className='formUsuario' onSubmit={handleSubmit}>
+                            <Form encType='multipart/form-data' className='form-ABM-producto' onSubmit={handleSubmit}>
                                 <div className='divSimpleInp'>
                                     <label>
                                         <span>Nombre</span>
