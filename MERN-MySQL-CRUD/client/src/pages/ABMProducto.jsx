@@ -1,13 +1,13 @@
 import { Form, Formik } from 'formik'
 import { useEffect, useState } from 'react'
-import { createProductoRequest } from '../api/productos.api.js'
+import { createProductoRequest, deleteProductoRequest } from '../api/productos.api.js'
 import { useProductos } from '../contexts/productos.jsx'
 import { useMarcas } from '../contexts/marcas.jsx'
 import { useCategorias } from '../contexts/categorias.jsx'
 
 import { inputsInteractivos, marcaYCategoriaInteractivas } from "../hooks/forms.js"
 import { createAccesorioRequest, createCalzadoRequest, createVestimentaRequest } from '../api/tipoProducto.api.js'
-import { createProductosTalleColorRequest } from '../api/prodcutosTalleColor.api.js'
+import { createProductosTalleColorRequest, deleteProductosTalleColorRequest } from '../api/prodcutosTalleColor.api.js'
 import { showFiles } from '../hooks/imagen.js'
 import { createCategoriasProductoRequest } from '../api/productoCategoria.api.js'
 import { createMarcasProductoRequest } from '../api/productoMarca.api.js'
@@ -113,6 +113,31 @@ export default function ABMProducto() {
         setCategoriasP(newArray)
     }
 
+    const eliminarProducto = async (pProducto) => {
+        const data = {
+            talle: pProducto.talle,
+            color: pProducto.color
+        }
+        console.log(pProducto);
+        try {
+            const responsePTL = await deleteProductosTalleColorRequest(pProducto.idProducto, data)
+
+            if (responsePTL.status == 200) {
+                try {
+                    const responseDP = await deleteProductoRequest(pProducto.idProducto)
+                    responseDP.status == 22 ? console.log('Producto eliminado por Completo') : console.log('Producto No eliminado por Completo');
+                } catch (error) {
+                    console.error(error);
+                }
+            } else {
+                console.log('Producto No eliminado de Talle Color');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
+
+    }
     return (
         <>
             <div className='container-forms'>
@@ -122,7 +147,6 @@ export default function ABMProducto() {
                         initialValues={producto}
                         enableReinitialize={true}
                         onSubmit={async (values, actions) => {
-
                             console.log(producto);
                             console.log('values:');
                             console.log(imagenes);
@@ -175,7 +199,7 @@ export default function ABMProducto() {
                                     if (categoriasP.length > 0) {
                                         categoriasP.forEach(async catP => {
                                             var respuestaCCP = await createCategoriasProductoRequest({ idProducto: respuestaP.data.idProducto, idCategoria: catP.idCategoria })
-                                            console.log(respuestaCCP);
+                                           
                                             respuestaCCP.status == 200 ? console.log('Categoria dada de alta a Producto') : console.log('Categoria NO dada de alta a Producto');
                                         })
                                         setCategoriasP([])
@@ -183,7 +207,7 @@ export default function ABMProducto() {
                                     if (marcasP.length > 0) {
                                         marcasP.forEach(async marcaP => {
                                             var respuestaCMP = await createMarcasProductoRequest({ idProducto: respuestaP.data.idProducto, idMarca: marcaP.idMarca })
-                                            console.log(respuestaCMP);
+                                            
                                             respuestaCMP.status == 200 ? console.log('Marca dada de alta a Producto') : console.log('Marca NO dada de alta a Producto');
                                         })
                                         setMarcasP([])
@@ -414,8 +438,8 @@ export default function ABMProducto() {
                                 <p>Stock: {product.stock}</p>
                                 <p>Talle: {product.talle}</p>
                                 <p>Desc: {product.descripcion}</p>
-                                <button>Modificar</button>
-                                <button>Eliminar</button>
+                                <button >Modificar</button>
+                                <button onClick={() => { eliminarProducto(product) }}>Eliminar</button>
                             </li>
                         ))
                     }

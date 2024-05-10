@@ -15,12 +15,12 @@ router.get('/productosTalleColor', getProductosTalleColor)
 
 router.get('/productoTalleColor/:id', getProductoTalleColor)
 
-router.get('/productoTalleColor/:idProducto', getProductosTalleColorIdProducto)
+router.get('/productoTalleColorIdProducto/:idProducto', getProductosTalleColorIdProducto)
 
 router.post('/productoTalleColor', createProductoTalleColor)
 
-router.put('/productoTalleColor', updateProductoTalleColor)
+router.put('/productoTalleColor/:id', updateProductoTalleColor)
 
-router.delete('/productoTalleColor', deleteProductoTalleColor)
+router.delete('/productoTalleColor/:id', deleteProductoTalleColor)
 
 export default router

@@ -18,7 +18,7 @@ export const getProductoTalleColor = async (req, res) => {
 
     const { talle, color } = req.body
 
-    const [result] = await pool.promise().query(`Select * from ProductoTalleColor where idProducto = ? and talle = ? and color = ?`, [req.params.idProducto, talle, color])
+    const [result] = await pool.promise().query(`Select * from ProductoTalleColor where idProducto = ? and talle = ? and color = ?`, [req.params.id, talle, color])
 
     try {
         res.json({
@@ -33,11 +33,11 @@ export const getProductoTalleColor = async (req, res) => {
 export const getProductosTalleColorIdProducto = async (req, res) => {
 
     const [result] = await pool.promise().query(`Select * from ProductoTalleColor where idProducto = ?`, [req.params.idProducto])
-
+    
     try {
-        res.json({
-            result
-        })
+        res.json(
+            result[0]
+        )
     } catch (error) {
         console.error(error)
     }
@@ -83,7 +83,7 @@ export const deleteProductoTalleColor = async (req, res) => {
 
     const { talle, color } = res.body
 
-    const [result] = await pool.promise().query(`Delete from ProductoTalleColor where idProducto = ? and talle = ? and color = ?`, [req.params.idProducto, talle, color])
+    const [result] = await pool.promise().query(`Delete from ProductoTalleColor where idProducto = ? and talle = ? and color = ?`, [req.params.id, talle, color])
 
     try {
         if (result.affectedRows === 0)

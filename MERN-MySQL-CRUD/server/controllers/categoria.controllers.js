@@ -53,7 +53,6 @@ export const updateCategoria = async (req, res) => {
     } catch (error) {
         console.error(error)
     }
-
 }
 export const deleteCategoria = async (req, res) => {
     const [result] = await pool.promise().query("Delete from Categoria where idCategoria = ? ", [req.params.id]);

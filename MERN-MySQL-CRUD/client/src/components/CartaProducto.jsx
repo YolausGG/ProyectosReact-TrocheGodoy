@@ -39,15 +39,7 @@ function CartaProducto({ producto }) {
             <div className='datosProducto'>
                 <h4>{producto.nombre}</h4>
                 <strong>${producto.precio}</strong>
-            </div>
-            <div className='datosProducto'>
-            </div>
-            <label>{producto.descripcion}</label>
-            <ul>
-                {producto.categorias.map(cat => (
-                    <li key={cat.idCategoria} >{cat.nombre}</li>
-                ))}
-            </ul>
+            </div>        
             <ul>
                 {producto.marcas.map(marca => (
                     <li key={marca.idMarca} >{marca.nombre}</li>

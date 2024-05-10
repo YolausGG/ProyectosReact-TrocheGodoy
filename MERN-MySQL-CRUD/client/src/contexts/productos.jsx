@@ -1,8 +1,9 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { getProductosRequest, getProductoRequest, } from '../api/productos.api.js'
-import { getImagenesIdProductoRequest, getImagenesRequest } from "../api/imagenes.api.js";
+import { getImagenesIdProductoRequest } from "../api/imagenes.api.js";
 import { getCategoriasIdProductoRequest } from '../api/productoCategoria.api.js'
 import { getMarcasIdProductoRequest } from '../api/productoMarca.api.js'
+import { getProductosTalleColorIdProductoRequest } from "../api/prodcutosTalleColor.api.js";
 
 
 export const ProductoContext = createContext()
@@ -20,9 +21,6 @@ export function useProductos() {
 export const ProductoProvider = ({ children }) => {
 
     const [productos, setProductos] = useState([
-
-    ])
-    const [imagenes, setImagenes] = useState([
 
     ])
 
@@ -50,21 +48,48 @@ export const ProductoProvider = ({ children }) => {
                             imagenes: [],
                             marcas: []
                         }
-                        const responseImagenes = await getImagenesIdProductoRequest(prod.idProducto)
-                        responseImagenes.status === 200 ? producto.imagenes = responseImagenes.data.result : producto.imagenes = []
 
-                        const responseCategorias = await getCategoriasIdProductoRequest(prod.idProducto)
-                        responseCategorias.status === 200 ? producto.categorias = responseCategorias.data.result : producto.categorias = []
+                        try {
+                            const responseImagenes = await getImagenesIdProductoRequest(prod.idProducto)
+                            responseImagenes.status === 200 ? producto.imagenes = responseImagenes.data.result : producto.imagenes = []
 
-                        const responseMarcas = await getMarcasIdProductoRequest(prod.idProducto)
-                        responseMarcas.status === 200 ? producto.marcas = responseMarcas.data.result : producto.marcas = []
+                        } catch (error) {
+                            console.error(error);
+                        }
 
+                        try {
+                            const responseCategorias = await getCategoriasIdProductoRequest(prod.idProducto)
+                            responseCategorias.status === 200 ? producto.categorias = responseCategorias.data.result : producto.categorias = []
+
+                        } catch (error) {
+                            console.error(error);
+                        }
+
+                        try {
+                            const responseMarcas = await getMarcasIdProductoRequest(prod.idProducto)
+                            responseMarcas.status === 200 ? producto.marcas = responseMarcas.data.result : producto.marcas = []
+
+                        } catch (error) {
+                            console.error(error);
+                        }
+                        try {
+                            const responsePTC = await getProductosTalleColorIdProductoRequest(prod.idProducto)                            
+                            console.log(responsePTC.data);
+                            if (responsePTC.status == 200) {
+                                producto.talle = responsePTC.data.talle
+                                producto.color = responsePTC.data.color
+                                producto.stock = responsePTC.data.stock
+                            }
+
+                        } catch (error) {
+                            console.error(error);
+                        }
                         return producto
                     })
                 )
-                var allProducts = responses.map(item => (item.status == 'fulfilled' ? item.value : null))
+                var allProducts = responses.filter(item => item.status == 'fulfilled')
 
-                console.log(allProducts);
+                
                 setProductos(allProducts)
 
             } catch (error) {
@@ -79,35 +104,6 @@ export const ProductoProvider = ({ children }) => {
     }
 
 
-    const loadImagenes = async () => {
-        try {
-            const response = await getImagenesRequest()
-            console.log(response.data.result);
-            setImagenes(response.data.result)
-        } catch (error) {
-            console.error(error)
-        }
-
-    }
-
-    const cargarImagenes = () => {
-        //var newArray = [] 
-        productos.map(async prod => {
-            const response = await getImagenesIdProductoRequest(prod.idProducto)
-            console.log(response.data.result);
-            prod.imagenes = response.data.result
-            //newArray.push(prod)      
-
-        })
-        //console.log(newArray); 
-        //setProductos(newArray)
-    }
-
-    const eliminarImagenes = () => {
-
-        setImagenes([])
-        console.log("Imagenes eliminadas");
-    }
 
     const getProducto = async (id) => {
         try {
@@ -119,7 +115,7 @@ export const ProductoProvider = ({ children }) => {
     }
 
     return (
-        <ProductoContext.Provider value={{ productos, imagenes, getProducto, eliminarImagenes }}>
+        <ProductoContext.Provider value={{ productos, getProducto }}>
             {children}
         </ProductoContext.Provider>
     )
