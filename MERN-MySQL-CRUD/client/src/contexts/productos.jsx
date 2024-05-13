@@ -73,9 +73,9 @@ export const ProductoProvider = ({ children }) => {
                             console.error(error);
                         }
                         try {
-                            const responsePTC = await getProductosTalleColorIdProductoRequest(prod.idProducto)                            
+                            const responsePTC = await getProductosTalleColorIdProductoRequest(prod.idProducto)
                             console.log(responsePTC.data);
-                            if (responsePTC.status == 200) {
+                            if (responsePTC.status === 200) {
                                 producto.talle = responsePTC.data.talle
                                 producto.color = responsePTC.data.color
                                 producto.stock = responsePTC.data.stock
@@ -87,24 +87,31 @@ export const ProductoProvider = ({ children }) => {
                         return producto
                     })
                 )
-                var allProducts = responses.filter(item => item.status == 'fulfilled')
 
-                
-                setProductos(allProducts)
+
+                var allProducts = responses.map(item => isFulfilled(item))
+
+                console.log(allProducts);
 
             } catch (error) {
                 console.error(error);
             }
-
-
+            console.log(allProducts);
             setProductos(allProducts)
         } catch (error) {
             console.error(error)
         }
     }
 
-
-
+    const isFulfilled = (item) => {
+        console.log(item);
+        if (item.status == 'fulfilled') {
+            return item.value
+        }
+        else{
+            return null
+        }
+    }
     const getProducto = async (id) => {
         try {
             const result = await getProductoRequest(id)

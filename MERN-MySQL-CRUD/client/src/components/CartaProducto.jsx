@@ -9,7 +9,6 @@ function CartaProducto({ producto }) {
 
     console.log(producto);
 
-
     useEffect(() => {
         if (producto.imagenes.length > 0 && producto.imagenes[0].idProducto != 0) {
             console.log(producto.imagenes[0].dataImagen.data);
