@@ -36,17 +36,17 @@ monto decimal(10,2) not null
 create table Tarjeta(
 idTarjeta int primary key,
 cantidadDeCuotas numeric(2) not null,
-constraint FK_TarjetaFormaDePago foreign key(idTarjeta) references FormaDePago(idFormaDePago)
+constraint FK_TarjetaFormaDePago foreign key(idTarjeta) references FormaDePago(idFormaDePago) on delete cascade
 );
 
 create table Contado(
 idContado int primary key,
-constraint FK_ContadoFormaDePago foreign key(idContado) references FormaDePago(idFormaDePago)
+constraint FK_ContadoFormaDePago foreign key(idContado) references FormaDePago(idFormaDePago) on delete cascade
 );
 
 create table Deposito(
 idDeposito int primary key,
-constraint FK_DepositoFormaDePago foreign key(idDeposito) references FormaDePago(idFormaDePago)
+constraint FK_DepositoFormaDePago foreign key(idDeposito) references FormaDePago(idFormaDePago) on delete cascade
 );
 
 create table Pago(
@@ -72,22 +72,22 @@ talle varchar(10) not null,
 color varchar(30) not null,
 stock numeric(4) not null,
 primary key(idProducto, talle, color),
-constraint FK_ProductoTalleColorProducto foreign key(idProducto) references Producto(idProducto)
+constraint FK_ProductoTalleColorProducto foreign key(idProducto) references Producto(idProducto) on delete cascade
 );
 
 create table Calzado (
 idCalzado int primary key,
-constraint FK_CalzadoProducto foreign key(idCalzado) references Producto(idProducto)
+constraint FK_CalzadoProducto foreign key(idCalzado) references Producto(idProducto) on delete cascade
 );
 
 create table Vestimenta (
 idVestimenta int primary key,
-constraint FK_VestimentaProducto foreign key(idVestimenta) references Producto(idProducto)
+constraint FK_VestimentaProducto foreign key(idVestimenta) references Producto(idProducto) on delete cascade
 );
 
 create table Accesorio (
 idAccesorio int primary key,
-constraint FK_AccesorioProducto foreign key(idAccesorio) references Producto(idProducto)
+constraint FK_AccesorioProducto foreign key(idAccesorio) references Producto(idProducto) on delete cascade
 );
 
 create table Imagen(
@@ -95,7 +95,7 @@ idImagen int auto_increment primary key,
 idProducto int not null,
 titulo varchar(70) unique not null,
 dataImagen longblob not null,
-constraint FK_ImagenProducto foreign key(idProducto) references Producto(idProducto)
+constraint FK_ImagenProducto foreign key(idProducto) references Producto(idProducto) on delete cascade
 );
 
 create table Marca(
@@ -130,31 +130,31 @@ idUsuario int,
 idProducto int,
 cantidad numeric(4) not null,
 constraint FK_Carrito_Usuario foreign key(idUsuario) references Usuario(idUsuario),
-constraint FK_Carritp_Producto foreign key(idProducto) references Producto(idProducto),
+constraint FK_Carritp_Producto foreign key(idProducto) references Producto(idProducto) on delete cascade,
 primary key(idUsuario, idProducto)
 );
 
 create table ProductoCategoria (
 idProducto int,
 idCategoria int,
-constraint FK_ProductoCategoria_Producto foreign key(idProducto) references Producto(idProducto),
-constraint FK_ProductoCategoria_Categoria foreign key(idCategoria) references Categoria(idCategoria),
+constraint FK_ProductoCategoria_Producto foreign key(idProducto) references Producto(idProducto) on delete cascade,
+constraint FK_ProductoCategoria_Categoria foreign key(idCategoria) references Categoria(idCategoria)on delete cascade,
 primary key(idProducto,idCategoria)
 );
 
 create table ProductoOferta (
 idProducto int,
 idOferta int,
-constraint FK_ProductoOferta_Producto foreign key(idProducto) references Producto(idProducto),
-constraint FK_ProductoOfertaa_Oferta foreign key(idOferta) references Oferta(idOferta),
+constraint FK_ProductoOferta_Producto foreign key(idProducto) references Producto(idProducto)on delete cascade,
+constraint FK_ProductoOfertaa_Oferta foreign key(idOferta) references Oferta(idOferta) on delete cascade,
 primary key(idProducto,idOferta)
 );
 
 create table ProductoMarca(
 idProducto int,
 idMarca int,
-constraint FK_ProductoMarca_Producto foreign key(idProducto) references Producto(idProducto),
-constraint FK_ProductoMarca_Marca foreign key(idMarca) references Marca(idMarca),
+constraint FK_ProductoMarca_Producto foreign key(idProducto) references Producto(idProducto) on delete cascade,
+constraint FK_ProductoMarca_Marca foreign key(idMarca) references Marca(idMarca)on delete cascade,
 primary key(idProducto, idMarca)
 );
 
