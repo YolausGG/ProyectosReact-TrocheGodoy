@@ -7,7 +7,6 @@ export default function Productos() {
 
     const { productos } = useProductos()
 
-
     useEffect(() => {
     }, [])
 

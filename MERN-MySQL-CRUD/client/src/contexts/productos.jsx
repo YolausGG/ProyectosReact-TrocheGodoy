@@ -88,7 +88,6 @@ export const ProductoProvider = ({ children }) => {
                     })
                 )
 
-
                 var allProducts = responses.map(item => isFulfilled(item))
 
                 console.log(allProducts);

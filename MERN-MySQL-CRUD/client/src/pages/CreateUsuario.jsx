@@ -45,7 +45,7 @@ function CreateUsuario() {
     ];
 
     return (
-        <div className='createUsuarioContainer formContainer'>
+        <div className='createUsuarioContainer'>
             <h2>Crear Usuario</h2>
             <Formik
                 initialValues={usuario}

@@ -141,7 +141,7 @@ export default function ABMProducto() {
     return (
         <>
             <div className='container-forms'>
-                <div className='createProductoContainer formContainer'>
+                <div className='createProductoContainer'>
                     <h2>Crear Producto</h2>
                     <Formik
                         initialValues={producto}
@@ -293,7 +293,7 @@ export default function ABMProducto() {
 
                         }}>
                         {({ handleChange, handleSubmit, values, isSubmitting }) => (
-                            <Form encType='multipart/form-data' className='form-ABM-producto' onSubmit={handleSubmit}>
+                            <Form encType='multipart/form-data' className='form-ABM-producto estandarForm' onSubmit={handleSubmit}>
                                 <div className='divSimpleInp'>
                                     <label>
                                         <span>Nombre</span>
@@ -394,13 +394,13 @@ export default function ABMProducto() {
                     </Formik>
                 </div>
                 <div className='containers-list-selecteds'>
-                    <div className='createProductoContainer formContainer'>
+                    <div className='createProductoContainer'>
                         <h3>Imagenes cargadas</h3>
                         <div className='lista-agergados-productos'>
                             <div id='imgs-preview'></div>
                         </div>
                     </div>
-                    <div className='createProductoContainer formContainer'>
+                    <div className='createProductoContainer'>
                         <h3>Marcas Seleccoinadas</h3>
                         <div className='lista-agergados-productos'>
                             {
@@ -413,7 +413,7 @@ export default function ABMProducto() {
                             }
                         </div>
                     </div>
-                    <div className='createProductoContainer formContainer'>
+                    <div className='createProductoContainer'>
                         <h3>Categorias Seleccoinadas</h3>
                         <div className='lista-agergados-productos'>
                             {
