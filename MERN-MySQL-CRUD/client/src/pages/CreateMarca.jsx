@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import{ useEffect, useState } from 'react'
 import { Form, Formik } from 'formik'
 import { useMarcas } from '../contexts/marcas.jsx'
 import { useNavigate, useParams } from "react-router-dom";
@@ -47,14 +47,23 @@ function CreateMarca() {
                     if (params.id) {
                         await updateMarca(params.id, values)
                         navigate('/marcas')
+                        actions.resetForm({
+                            values: {
+                                nombre: ""
+                            },
+                        })
                     } else {
                         await createMarca(values)
+                        actions.resetForm({
+                            values: {
+                                nombre: ""
+                            },
+                        })
                     }
-                    actions.resetForm({
-                        values: {
-                            nombre: ""
-                        },
+                    setMarca({
+                        nombre: ""
                     })
+                    
                 }}
             >
                 {({ handleChange, handleSubmit, values, isSubmitting }) => (

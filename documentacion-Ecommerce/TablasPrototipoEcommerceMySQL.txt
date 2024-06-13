@@ -126,12 +126,28 @@ constraint FK_PagoPendiente_Venta foreign key(idVenta) references Venta(idVenta)
 );
 
 create table Carrito (
-idUsuario int,
+idCarrito int primary key,
+constraint FK_Carrito_Usuario foreign key(idCarrito) references Usuario(idUsuario)
+);
+
+create table HistorialCarrito (
+idHistorialCarrito int auto_increment primary key,
+idVenta int,
+idCarrito int,
+idProducto int,
+cantidad numeric(4),
+constraint FK_HistorialCarrito_Venta foreign key(idVenta) references Venta(idVenta),
+constraint FK_HistorialCarrito_Carrito foreign key(idCarrito) references Carrito(idCarrito),
+constraint FK_HistorialCarrito_Producto foreign key(idProducto) references Producto(idProducto)    
+);
+
+create table CarritoProducto (
+idCarrito int,
 idProducto int,
 cantidad numeric(4) not null,
-constraint FK_Carrito_Usuario foreign key(idUsuario) references Usuario(idUsuario),
-constraint FK_Carritp_Producto foreign key(idProducto) references Producto(idProducto) on delete cascade,
-primary key(idUsuario, idProducto)
+constraint FK_CarritoProducto_Carrito foreign key(idCarrito) references Carrito(idCarrito),
+constraint FK_CarritoProducto_Producto foreign key(idProducto) references Producto(idProducto) on delete cascade,
+primary key(idCarrito, idProducto)
 );
 
 create table ProductoCategoria (

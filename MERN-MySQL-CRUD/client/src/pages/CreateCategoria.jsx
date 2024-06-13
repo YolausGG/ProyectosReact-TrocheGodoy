@@ -36,18 +36,28 @@ function CreateCategoria() {
         <div className='createCategoriaContainer'>
             <h2>{params.id ? 'Editar Categoria' : 'Crear Categoria'}</h2>
 
-            <Formik
+            <Formik 
                 initialValues={categoria}
                 enableReinitialize={true}
-                onSubmit={async (values) => {
+                onSubmit={async (values, actions) => {
                     console.log(values)
 
                     if (params.id) {
                         await updateCategoria(params.id, values)
                         navigate('/categorias')
+                        actions.resetForm({
+                            values: {
+                                nombre: ""
+                            },
+                        })
                     } else {
                         await createCategoria(values)
-                    }
+                        actions.resetForm({
+                            values: {
+                                nombre: ""
+                            },
+                        })
+                    }                    
                     setCategoria({
                         nombre: ""
                     })

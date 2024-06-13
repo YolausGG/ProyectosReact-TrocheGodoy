@@ -56,7 +56,9 @@ export const CategoriaProvider = ({ children }) => {
         try {
             const response = await createCategoriaRequest(values)
             console.log(response)
-            setCategorias([...categorias, response.data])
+            if (response.status == 200) {
+                setCategorias([...categorias, response.data])
+            }
         } catch (error) {
             console.error(error)
         }
@@ -67,7 +69,7 @@ export const CategoriaProvider = ({ children }) => {
             const response = await updateCategoriaRequest(id, values)
             console.log(response)
             if (response.status == 200) {
-                //Terminar
+                loadCategorias()
             }
         } catch (error) {
             console.error(error)
