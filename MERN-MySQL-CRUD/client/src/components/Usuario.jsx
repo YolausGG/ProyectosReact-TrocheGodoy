@@ -8,7 +8,7 @@ function Usuario({ usuario }) {
     var fechaFinal = ""
 
     for (let index = nombreArray.length - 1; index >= 0; index--) {
-        
+
         if (index == nombreArray.length - 1)
             fechaFinal = nombreArray[index];
         else {
@@ -19,7 +19,7 @@ function Usuario({ usuario }) {
 
     return (
         <li>
-            <h3>{usuario.nombre} {usuario.apellido}</h3>            
+            <h3>{usuario.nombre} {usuario.apellido}</h3>
             <p>{usuario.correo}</p>
             <p>{usuario.userPassword}</p>
             <p>{fechaFinal}</p>

@@ -7,7 +7,6 @@ export const getMarcasIdProducto = async (req, res) => {
         where PM.idProducto = ?`, [req.params.id]);
     console.log(result);
     try {
-
         res.json(
             { result }
         )

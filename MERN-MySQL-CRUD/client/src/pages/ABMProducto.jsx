@@ -16,7 +16,7 @@ import { createMarcasProductoRequest } from '../api/productoMarca.api.js'
 
 export default function ABMProducto() {
 
-    const { productos } = useProductos()
+    const { loadProducto, productos } = useProductos()
     const { marcas } = useMarcas()
     const { categorias } = useCategorias()
 
@@ -199,7 +199,7 @@ export default function ABMProducto() {
                                     if (categoriasP.length > 0) {
                                         categoriasP.forEach(async catP => {
                                             var respuestaCCP = await createCategoriasProductoRequest({ idProducto: respuestaP.data.idProducto, idCategoria: catP.idCategoria })
-                                           
+
                                             respuestaCCP.status == 200 ? console.log('Categoria dada de alta a Producto') : console.log('Categoria NO dada de alta a Producto');
                                         })
                                         setCategoriasP([])
@@ -207,7 +207,7 @@ export default function ABMProducto() {
                                     if (marcasP.length > 0) {
                                         marcasP.forEach(async marcaP => {
                                             var respuestaCMP = await createMarcasProductoRequest({ idProducto: respuestaP.data.idProducto, idMarca: marcaP.idMarca })
-                                            
+
                                             respuestaCMP.status == 200 ? console.log('Marca dada de alta a Producto') : console.log('Marca NO dada de alta a Producto');
                                         })
                                         setMarcasP([])
@@ -232,6 +232,7 @@ export default function ABMProducto() {
                                                     },
                                                 })
                                                 console.log('Calzado ingresado con Éxito');
+
                                             }
                                             else
                                                 console.log('Calzado no ingresado');
@@ -286,11 +287,11 @@ export default function ABMProducto() {
                                         }
                                         default:
                                             break;
+
                                     }
                                 }
-                            }
-
-
+                            }                            
+                            loadProducto()
                         }}>
                         {({ handleChange, handleSubmit, values, isSubmitting }) => (
                             <Form encType='multipart/form-data' className='form-ABM-producto estandarForm' onSubmit={handleSubmit}>

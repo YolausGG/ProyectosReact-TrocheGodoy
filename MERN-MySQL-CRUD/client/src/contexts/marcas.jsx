@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { createContext, useState, useContext, useEffect } from "react";
 import {
   getMarcasRequest,
@@ -70,7 +71,7 @@ export const MarcaProvider = ({ children }) => {
     try {
       const response = await updateMarcaRequest(id, values);
       if (response.status == 200) {
-        loadMarcas()
+        loadMarcas();
       }
       console.log(response);
     } catch (error) {
@@ -85,4 +86,8 @@ export const MarcaProvider = ({ children }) => {
       {children}
     </MarcaContext.Provider>
   );
+};
+
+MarcaProvider.propTypes = {
+  children: PropTypes.object.isRequired,
 };
