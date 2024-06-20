@@ -8,7 +8,7 @@ import usuarioRoutes from './routes/usuario.routes.js'
 import productoRoutes from './routes/producto.routes.js'
 import tipoProductoRoutes from './routes/tipoProducto.routes.js'
 import imagenRoutes from './routes/imagen.routes.js'
-import productosTalleColorRoutes from './routes/productoTalleColor.routes.js'
+import productosTalleEstiloRoutes from './routes/productoTalleEstilo.routes.js'
 import productoCategoriaRoutes from './routes/productoCategoria.routes.js'
 import productoMarcaRoutes from './routes/productoMarca.routes.js' 
 
@@ -24,7 +24,7 @@ app.use(usuarioRoutes)
 app.use(productoRoutes)
 app.use(tipoProductoRoutes)
 app.use(imagenRoutes)
-app.use(productosTalleColorRoutes)
+app.use(productosTalleEstiloRoutes)
 app.use(productoCategoriaRoutes)
 app.use(productoMarcaRoutes)
 //app.use(express.static('./client/src/imagenesDB/'))

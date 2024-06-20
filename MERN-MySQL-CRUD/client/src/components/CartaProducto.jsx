@@ -11,7 +11,6 @@ function CartaProducto({ producto }) {
 
     useEffect(() => {
         if (producto.imagenes.length > 0 && producto.imagenes[0].idProducto != 0) {
-            console.log(producto.imagenes[0].dataImagen.data);
 
             var bytes = new Uint8Array(producto.imagenes[0].dataImagen.data);
 
@@ -20,7 +19,6 @@ function CartaProducto({ producto }) {
 
             // Obtener el url
             var url = URL.createObjectURL(myBlob);
-            console.log(url);
 
             setImgURL(url)
         }

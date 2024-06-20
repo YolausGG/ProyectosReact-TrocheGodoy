@@ -6,7 +6,6 @@ import {
 import multer from 'multer'
 import path from 'path'
 import * as fs from 'node:fs'
-import { log } from "console";
 
 const storage = multer.diskStorage({
     destination: 'server/imagenesTemporales',
@@ -78,6 +77,7 @@ router.post('/imagen/:id', upload, async (req, res) => {
         values(?,?,?)`, [req.params.id, name, dataImagen])
 
     try {
+        console.log('Result alta imagen')
         console.log(result)
         res.json({
             idImagen: result.insertId,

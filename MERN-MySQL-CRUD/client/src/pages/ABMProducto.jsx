@@ -7,16 +7,17 @@ import { useCategorias } from '../contexts/categorias.jsx'
 
 import { inputsInteractivos, marcaYCategoriaInteractivas } from "../hooks/forms.js"
 import { createAccesorioRequest, createCalzadoRequest, createVestimentaRequest } from '../api/tipoProducto.api.js'
-import { createProductosTalleColorRequest, deleteProductosTalleColorRequest } from '../api/prodcutosTalleColor.api.js'
+import { createProductosTalleEstiloRequest, deleteProductosTalleEstiloRequest } from '../api/prodcutosTalleEstilo.api.js'
 import { showFiles } from '../hooks/imagen.js'
 import { createCategoriasProductoRequest } from '../api/productoCategoria.api.js'
 import { createMarcasProductoRequest } from '../api/productoMarca.api.js'
+import { createImagenRequest } from '../api/imagenes.api.js'
 
 //import { cargarImagen } from '../hooks/imagen.jsx'
 
 export default function ABMProducto() {
 
-    const { loadProducto, productos } = useProductos()
+    const { loadProductos, productos } = useProductos()
     const { marcas } = useMarcas()
     const { categorias } = useCategorias()
 
@@ -24,7 +25,7 @@ export default function ABMProducto() {
         nombre: "",
         precio: "",
         talle: "",
-        color: "",
+        estilo: "",
         stock: "",
         descripcion: "",
         tipoProducto: ""
@@ -116,11 +117,11 @@ export default function ABMProducto() {
     const eliminarProducto = async (pProducto) => {
         const data = {
             talle: pProducto.talle,
-            color: pProducto.color
+            estilo: pProducto.estilo
         }
         console.log(pProducto);
         try {
-            const responsePTL = await deleteProductosTalleColorRequest(pProducto.idProducto, data)
+            const responsePTL = await deleteProductosTalleEstiloRequest(pProducto.idProducto, data)
 
             if (responsePTL.status == 200) {
                 try {
@@ -130,7 +131,7 @@ export default function ABMProducto() {
                     console.error(error);
                 }
             } else {
-                console.log('Producto No eliminado de Talle Color');
+                console.log('Producto No eliminado de Talle Estilo');
             }
         } catch (error) {
             console.error(error);
@@ -162,39 +163,33 @@ export default function ABMProducto() {
 
                             if (respuestaP.status == 200) {
 
-                                const productoTalleColor = { idProducto: respuestaP.data.idProducto, talle: values.talle, color: values.color, stock: values.stock }
+                                const productoTalleEstilo = { idProducto: respuestaP.data.idProducto, talle: values.talle, estilo: values.estilo, stock: values.stock }
 
-                                const respuestaPTC = await createProductosTalleColorRequest(productoTalleColor)
+                                const respuestaPTC = await createProductosTalleEstiloRequest(productoTalleEstilo)
 
                                 if (respuestaPTC.status == 200) {
                                     if (!imagenes) {
                                         alert('Ninguna imagen seleccionada')
                                     }
                                     else {
-                                        imagenes.forEach(img => {
+                                        imagenes.forEach(async img => {
 
                                             const formData = new FormData()
                                             formData.append('img', img)
 
-                                            //createImagenRequest(respuestaP.data.idProducto, img)
-                                            console.log(img);
-                                            fetch(`http://localhost:4000/imagen/${respuestaP.data.idProducto}`, {
-                                                method: 'POST',
-                                                body: formData
-                                            })
-                                                //.then(res => res.text())
-                                                .then(res => {
-                                                    if (res.status == 200) {
-                                                        setImagenes([])
-                                                        showFiles(null)
-                                                    }
-                                                    console.log(res)
-                                                })
-                                                .catch(err => {
-                                                    console.error(err);
-                                                })
+                                            var responseI = await createImagenRequest(respuestaP.data.idProducto, formData)
+
+                                            console.log('res: ' + responseI);
+                                            if (responseI.status == 200) {
+                                                setImagenes([])
+                                                showFiles(null)
+                                                console.log('Imagen dada de alta a Producto')
+                                            }
+                                            else {
+                                                console.log('Imagen NO dada de alta a Producto')
+                                            }
+
                                         });
-                                        //createImagenRequest()
                                     }
                                     if (categoriasP.length > 0) {
                                         categoriasP.forEach(async catP => {
@@ -224,7 +219,7 @@ export default function ABMProducto() {
                                                         nombre: "",
                                                         precio: "",
                                                         talle: "",
-                                                        color: "",
+                                                        estilo: "",
                                                         stock: "",
                                                         descripcion: "",
                                                         tipoProducto: "",
@@ -248,7 +243,7 @@ export default function ABMProducto() {
                                                         nombre: "",
                                                         precio: "",
                                                         talle: "",
-                                                        color: "",
+                                                        estilo: "",
                                                         stock: "",
                                                         descripcion: "",
                                                         tipoProducto: "",
@@ -273,7 +268,7 @@ export default function ABMProducto() {
                                                         nombre: "",
                                                         precio: "",
                                                         talle: "",
-                                                        color: "",
+                                                        estilo: "",
                                                         stock: "",
                                                         descripcion: "",
                                                         tipoProducto: "",
@@ -290,8 +285,8 @@ export default function ABMProducto() {
 
                                     }
                                 }
-                            }                            
-                            loadProducto()
+                            }
+                            loadProductos()
                         }}>
                         {({ handleChange, handleSubmit, values, isSubmitting }) => (
                             <Form encType='multipart/form-data' className='form-ABM-producto estandarForm' onSubmit={handleSubmit}>
@@ -373,9 +368,9 @@ export default function ABMProducto() {
                                 </div>
                                 <div className='divSimpleInp'>
                                     <label>
-                                        <span>Color</span>
-                                        <input required pattern='[A-Za-z0-9 ]{1,50}' type="text" name='color'
-                                            onChange={handleChange} value={values.color} />
+                                        <span>Estilo</span>
+                                        <input required pattern='[A-Za-z0-9 ]{1,50}' type="text" name='estilo'
+                                            onChange={handleChange} value={values.estilo} />
                                     </label>
                                 </div>
                                 <div className='div-inp-img'>

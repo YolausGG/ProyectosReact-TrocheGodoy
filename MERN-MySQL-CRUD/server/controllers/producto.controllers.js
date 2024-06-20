@@ -13,6 +13,20 @@ export const getProductos = async (req, res) => {
         console.error(error)
     }
 }
+export const getProductosCompletos = async (req, res) => {
+
+    const [result] = await pool.promise().query(`Select * from Producto`)
+
+    try {
+        res.json({
+            result
+        })
+
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 
 export const getProductosCategorias = async (req, res) => {
 
