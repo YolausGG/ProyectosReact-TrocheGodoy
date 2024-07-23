@@ -1,11 +1,9 @@
 import { Router } from "express";
-import { pool } from "../db.js";
 import {
-    getImagenes, createImagen
+    getImagenes, createImagen,
+    getImagenesIdProducto
 } from '../controllers/imagen.controllers.js'
 import multer from 'multer'
-import path from 'path'
-import * as fs from 'node:fs'
 
 const storage = multer.diskStorage({
     destination: 'server/imagenesTemporales',
@@ -18,77 +16,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single('img')
 
+
 const router = Router()
 
 
-router.get('/imagenes', async (req, res) => {
+router.get('/imagenes', getImagenes)
 
-    const [result] = await pool.promise().query(`Select * from Imagen`)
-    console.log('result');
-    console.log(result);
+router.get('/imagenes/:idProducto', getImagenesIdProducto)
 
-    try {
-        result.map(img => {
-            console.log('img.dataImagen');
-            console.log(img.dataImagen);
-            //fs.writeFileSync(path.join(__dirname, '../imagenesDB/' + img.idImagen + '-' + img.titulo, buf))
-            fs.writeFileSync('client/src/imagenesDB/' + img.idImagen + '-' + img.titulo, img.dataImagen)
-        })
-
-        const imagenesDir = fs.readdirSync('client/src/imagenesDB')
-
-        console.log(imagenesDir)
-
-        res.json(
-            { result }
-        )
-
-    } catch (error) {
-        console.error(error)
-    }
-});
-
-router.get('/imagenes/:idProducto', async (req, res) => {
-
-    const [result] = await pool.promise().query(`Select * from Imagen where idProducto = ?`, [req.params.idProducto])
-    console.log('result imagen: ' + req.params.idProducto);
-    console.log(result);
-
-    try {
-        res.json(
-            { result }
-        )
-
-    } catch (error) {
-        console.error(error)
-    }
-});
-
-router.post('/imagen/:id', upload, async (req, res) => {
-
-    console.log('req.params');
-    console.log(req.params);
-    console.log('req.file');
-    console.log(req.file);
-    const name = req.file.originalname
-    const dataImagen = fs.readFileSync('server/imagenesTemporales/' + req.file.filename)
-
-    const [result] = await pool.promise().query(`Insert into Imagen (idProducto, titulo, dataImagen)
-        values(?,?,?)`, [req.params.id, name, dataImagen])
-
-    try {
-        console.log('Result alta imagen')
-        console.log(result)
-        res.json({
-            idImagen: result.insertId,
-            idProducto: req.params.id,
-            titulo: name,
-            dataImagen: dataImagen
-        })
-    } catch (error) {
-        console.error(error)
-    }
-})
+router.post('/imagen/:idProducto', upload, createImagen)
 
 
 

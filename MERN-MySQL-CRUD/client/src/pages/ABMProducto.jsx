@@ -178,8 +178,8 @@ export default function ABMProducto() {
                                             formData.append('img', img)
 
                                             var responseI = await createImagenRequest(respuestaP.data.idProducto, formData)
-
-                                            console.log('res: ' + responseI);
+                                            console.log('res: responseI')
+                                            console.log(responseI);
                                             if (responseI.status == 200) {
                                                 setImagenes([])
                                                 showFiles(null)

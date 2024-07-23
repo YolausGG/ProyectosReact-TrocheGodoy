@@ -75,7 +75,6 @@ export const ProductoProvider = ({ children }) => {
                         }
                         try {
                             const responsePTC = await getProductosTalleEstiloIdProductoRequest(prod.idProducto)
-                            console.log(responsePTC.data);
                             if (responsePTC.status === 200) {
                                 producto.talle = responsePTC.data.talle
                                 producto.estilo = responsePTC.data.estilo
