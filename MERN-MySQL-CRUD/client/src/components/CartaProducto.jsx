@@ -1,38 +1,12 @@
 import PropTypes from 'prop-types'
 
-//import imgDefult from '../images/iconCamisa2.png'
-import { useEffect, useState } from 'react';
-
 function CartaProducto({ producto }) {
-
-    const [imgURL, setImgURL] = useState()
 
     console.log(producto);
 
-    useEffect(() => {
-        if (producto.imagenes.length > 0 && producto.imagenes[0].idProducto != 0) {
-
-            var bytes = new Uint8Array(producto.imagenes[0].dataImagen.data);
-
-            // Convertir los bytes a un blob
-            var myBlob = new Blob([bytes]);
-
-            // Obtener el url
-            var url = URL.createObjectURL(myBlob);
-
-            setImgURL(url)
-        }
-        else {
-            setImgURL('https://rickandmortyapi.com/api/character/avatar/2.jpeg')
-        }
-    }, [])
-
-
-    //console.log(url.substring(5,url.length))
-    //https://rickandmortyapi.com/api/character/avatar/2.jpeg
     return (
         <div className='cardProducto'>
-            <img className='imgProducto' src={imgURL} alt="imagen de producto" />
+            <img className='imgProducto' src={producto.imagenes[0]?.URLImagen} alt="imagen de producto" />
             <div className='datosProducto'>
                 <h4>{producto.nombre}</h4>
                 <strong>${producto.precio}</strong>

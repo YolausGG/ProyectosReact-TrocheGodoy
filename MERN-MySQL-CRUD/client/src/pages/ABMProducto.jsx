@@ -12,6 +12,8 @@ import { showFiles } from '../hooks/imagen.js'
 import { createCategoriasProductoRequest } from '../api/productoCategoria.api.js'
 import { createMarcasProductoRequest } from '../api/productoMarca.api.js'
 import { createImagenRequest } from '../api/imagenes.api.js'
+import { setImagenStorage } from '../hooks/firebaseStorage.js'
+
 
 //import { cargarImagen } from '../hooks/imagen.jsx'
 
@@ -113,7 +115,6 @@ export default function ABMProducto() {
         const newArray = categoriasP?.filter(categoria => categoria.idCategoria != idCategoria)
         setCategoriasP(newArray)
     }
-
     const eliminarProducto = async (pProducto) => {
         const data = {
             talle: pProducto.talle,
@@ -139,6 +140,7 @@ export default function ABMProducto() {
 
 
     }
+
     return (
         <>
             <div className='container-forms'>
@@ -173,11 +175,13 @@ export default function ABMProducto() {
                                     }
                                     else {
                                         imagenes.forEach(async img => {
+                                            console.log('Imagen antes de enviar');
+                                            console.log(img);
 
-                                            const formData = new FormData()
-                                            formData.append('img', img)
+                                            let URLImagen = await setImagenStorage(img)
+                                            let imgData = { titulo: img.name, URLImagen: URLImagen }
 
-                                            var responseI = await createImagenRequest(respuestaP.data.idProducto, formData)
+                                            const responseI = await createImagenRequest(respuestaP.data.idProducto, imgData)
                                             console.log('res: responseI')
                                             console.log(responseI);
                                             if (responseI.status == 200) {
@@ -289,7 +293,7 @@ export default function ABMProducto() {
                             loadProductos()
                         }}>
                         {({ handleChange, handleSubmit, values, isSubmitting }) => (
-                            <Form encType='multipart/form-data' className='form-ABM-producto estandarForm' onSubmit={handleSubmit}>
+                            <Form method='POST' encType='multipart/form-data' className='form-ABM-producto estandarForm' onSubmit={handleSubmit}>
                                 <div className='divSimpleInp'>
                                     <label>
                                         <span>Nombre</span>
