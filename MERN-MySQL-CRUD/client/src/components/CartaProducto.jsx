@@ -6,11 +6,11 @@ function CartaProducto({ producto }) {
 
     return (
         <div className='cardProducto'>
-            <img className='imgProducto' src={producto.imagenes[0]?.URLImagen} alt="imagen de producto" />
+            <img className='imgProducto' src={producto.imagenes[0]?.URLImagen} alt={`imagen de ${producto.nombre}`}/>
             <div className='datosProducto'>
                 <h4>{producto.nombre}</h4>
                 <strong>${producto.precio}</strong>
-            </div>        
+            </div>
             <ul>
                 {producto.marcas.map(marca => (
                     <li key={marca.idMarca} >{marca.nombre}</li>

@@ -21,7 +21,6 @@ import InicioSesion from './pages/InicioSesion.jsx'
 import Productos from './pages/Productos.jsx'
 import ABMProducto from './pages/ABMProducto.jsx'
 import { ProductoProvider } from './contexts/productos.jsx'
-import Imagenes from './pages/Imagenes.jsx'
 
 function App() {
   registerLocale('es', es)
@@ -46,7 +45,6 @@ function App() {
             <Route path='/inicioSesion' element={<InicioSesion />} />
             <Route path='/productos' element={<Productos />} />
             <Route path='/ABMproducto' element={<ABMProducto />} />
-            <Route path='/imagenes' element={<Imagenes />} />
           </Routes>
         </ProductoProvider>
       </MarcaProvider>

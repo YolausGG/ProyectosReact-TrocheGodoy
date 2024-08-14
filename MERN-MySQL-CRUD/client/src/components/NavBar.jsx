@@ -26,16 +26,13 @@ function NavBar() {
                     <Link className='navItem' to="/createCategoria">Crear Categoria</Link>
                 </li>
                 <li>
-                    <Link className='navItem' to="/createUsuario">Crear Usuario</Link>
-                </li>
-                <li>
                     <Link className='navItem' to="/createMarca">Crear Marca</Link>
                 </li>
                 <li>
-                    <Link className='navItem' to="/inicioSesion">Iniciar Sesion</Link>
-                </li>
+                    <Link className='navItem' to="/createUsuario">Crear Usuario</Link>
+                </li>                
                 <li>
-                    <Link className='navItem' to="/imagenes">Imagenes</Link>
+                    <Link className='navItem' to="/inicioSesion">Iniciar Sesion</Link>
                 </li>
             </ul>
         </nav>

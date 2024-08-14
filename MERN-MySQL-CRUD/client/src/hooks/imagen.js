@@ -39,8 +39,6 @@ function processFile(file) {
 
         fileReader.readAsDataURL(file)
 
-        //cargarImagenes(file)
-
     } else {
         alert('No es un archivo valido')
     }

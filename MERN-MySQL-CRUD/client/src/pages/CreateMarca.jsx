@@ -1,4 +1,4 @@
-import{ useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Form, Formik } from 'formik'
 import { useMarcas } from '../contexts/marcas.jsx'
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 function CreateMarca() {
 
     const { createMarca, getMarca, updateMarca } = useMarcas();
-    
+
     const navigate = useNavigate()
 
     const [marca, setMarca] = useState({
@@ -26,12 +26,12 @@ function CreateMarca() {
         }
         if (params.id !== undefined)
             loadMarca()
-        else{
+        else {
             setMarca({
                 nombre: ""
             })
         }
-        
+
     }, [])
 
     return (
@@ -41,7 +41,7 @@ function CreateMarca() {
             <Formik
                 initialValues={marca}
                 enableReinitialize={true}
-                onSubmit={async (values,actions) => {
+                onSubmit={async (values, actions) => {
                     console.log(values)
 
                     if (params.id) {
@@ -63,15 +63,15 @@ function CreateMarca() {
                     setMarca({
                         nombre: ""
                     })
-                    
+
                 }}
             >
                 {({ handleChange, handleSubmit, values, isSubmitting }) => (
                     <Form className='formCategoria' onSubmit={handleSubmit}>
                         <label>Nombre</label>
-                        <input className='inpNombre' type="text" name='nombre' placeholder='Escriba el Nombre de la Marca'
-                            onChange={handleChange} value={values.nombre}/>
-                           
+                        <input className='inpNombre' type="text" name='nombre' required  placeholder='Escriba el Nombre de la Marca'
+                            onChange={handleChange} value={values.nombre} />
+
 
                         <button className={`bontonCategoria ${params.id ? 'btnUpdate' : 'btnCreate'}`} type="submit" disabled={isSubmitting}>
                             {isSubmitting ? "Creando..." : `${params.id ? "Actualizar" : "Crear"}`}

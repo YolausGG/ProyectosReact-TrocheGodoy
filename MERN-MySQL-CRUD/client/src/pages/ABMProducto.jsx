@@ -11,8 +11,8 @@ import { createProductosTalleEstiloRequest, deleteProductosTalleEstiloRequest } 
 import { showFiles } from '../hooks/imagen.js'
 import { createCategoriasProductoRequest } from '../api/productoCategoria.api.js'
 import { createMarcasProductoRequest } from '../api/productoMarca.api.js'
-import { createImagenRequest } from '../api/imagenes.api.js'
 import { setImagenStorage } from '../hooks/firebaseStorage.js'
+import { createImagenRequest } from '../api/imagenes.api.js'
 
 
 //import { cargarImagen } from '../hooks/imagen.jsx'
@@ -175,18 +175,18 @@ export default function ABMProducto() {
                                     }
                                     else {
                                         imagenes.forEach(async img => {
-                                            console.log('Imagen antes de enviar');
                                             console.log(img);
 
                                             let URLImagen = await setImagenStorage(img)
+                                                                                    
                                             let imgData = { titulo: img.name, URLImagen: URLImagen }
 
-                                            const responseI = await createImagenRequest(respuestaP.data.idProducto, imgData)
-                                            console.log('res: responseI')
-                                            console.log(responseI);
-                                            if (responseI.status == 200) {
+                                            var respuestaI = await createImagenRequest(respuestaP.data.idProducto, imgData)
+                                           
+                                            if (respuestaI.status == 200) {
                                                 setImagenes([])
-                                                showFiles(null)
+                                                showFiles(null)  
+                                                loadProductos()                                              
                                                 console.log('Imagen dada de alta a Producto')
                                             }
                                             else {
@@ -290,7 +290,7 @@ export default function ABMProducto() {
                                     }
                                 }
                             }
-                            loadProductos()
+                            
                         }}>
                         {({ handleChange, handleSubmit, values, isSubmitting }) => (
                             <Form method='POST' encType='multipart/form-data' className='form-ABM-producto estandarForm' onSubmit={handleSubmit}>
@@ -305,7 +305,7 @@ export default function ABMProducto() {
                                     {chkbs.map((item) => {
                                         return (
                                             <label key={item.id}>
-                                                <input type='checkbox' checked={item.isChecked} onChange={() => onChangeCheckBoxs(item.id)} value={values.tipoProducto} />
+                                                <input type='checkbox' id={item.id} checked={item.isChecked} onChange={() => onChangeCheckBoxs(item.id)} value={values.tipoProducto} />
                                                 <h4>{item.name}</h4>
                                             </label>
                                         );
@@ -390,14 +390,15 @@ export default function ABMProducto() {
                                 </button>
                             </Form>
                         )}
-
                     </Formik>
                 </div>
                 <div className='containers-list-selecteds'>
                     <div className='createProductoContainer'>
                         <h3>Imagenes cargadas</h3>
                         <div className='lista-agergados-productos'>
-                            <div id='imgs-preview'></div>
+                            <div id='imgs-preview'>
+
+                            </div>
                         </div>
                     </div>
                     <div className='createProductoContainer'>

@@ -66,7 +66,7 @@ function CreateCategoria() {
                 {({ handleChange, handleSubmit, values, isSubmitting }) => (
                     <Form className='formCategoria' onSubmit={handleSubmit}>
                         <label>Nombre</label>
-                        <input className='inpNombre' type="text" name='nombre' placeholder='Escriba el Nombre de la Categoria'
+                        <input className='inpNombre' type="text" name='nombre' required placeholder='Escriba el Nombre de la Categoria'
                             onChange={handleChange} value={values.nombre} />
 
                         <button className={`bontonCategoria ${params.id ? 'btnUpdate' : 'btnCreate'}`} type="submit" disabled={isSubmitting}>
