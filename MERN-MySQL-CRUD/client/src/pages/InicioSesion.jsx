@@ -21,6 +21,8 @@ function InicioSesion() {
         userPassword: ""
     })
 
+    const [intentos, setIntentos] = useState(0)
+    const [mensaje, setMensaje] = useState()
     const navigate = useNavigate()
 
     return (
@@ -31,12 +33,10 @@ function InicioSesion() {
                 enableReinitialize={true}
                 onSubmit={async (values, actions) => {
 
-                    //console.log(values)
-
                     const respuesta = await getSesionUsuarioRequest(values)
-
-                    //console.log(respuesta);
-                    if (respuesta.data) {
+                    console.log('respuesta');
+                    console.log(respuesta);
+                    if (respuesta.data == 1) {
                         navigate('/usuarios')
 
                         actions.resetForm({
@@ -46,15 +46,32 @@ function InicioSesion() {
                             },
                         })
                     } else {
-                        var lblError = document.getElementById('lblMensajeError')
-                        lblError.innerText = "Usuario no registrado"
-                        lblError.style.display = 'block'
+                        var lblError = document.getElementById('lblMensajeErrorInicioSesion')
+                        lblError.style.color = 'red'
+
+                        if (respuesta.data == 2) {
+                            console.log(intentos);
+                            setIntentos(intentos+1)
+                            
+                            if (values.correo != usuario.correo) {
+                                setIntentos(0)
+                                setUsuario({ correo: values.correo, userPassword: values.userPassword })
+                            } else
+
+                            if (intentos < 3)
+                                setMensaje("Contraseña Incorrecta")
+                            else
+                                setMensaje(<Link id="linkOlvidastePassword" to="/inicioSesion">¿Olvidaste la contraseña?</Link>)
+                        }
+                        else {
+                            setMensaje("Correo no registrado")
+                        }
                     }
 
                 }}>
                 {({ handleChange, handleSubmit, values, isSubmitting }) => (
                     <Form className='formInicioSesion' onSubmit={handleSubmit}>
-                                                
+
                         <div className="divSimpleInp">
                             <label>
                                 <span>Correo</span>
@@ -71,6 +88,8 @@ function InicioSesion() {
                                 <img alt="mostrar u ocultar contraseña" className='icon' id='eye' onClick={mostarContra} />
                             </label>
                         </div>
+                        <label id="lblMensajeErrorInicioSesion">{mensaje}</label>
+
                         <button className='bontonCategoria btnCreate' type="submit" disabled={isSubmitting}>
                             {isSubmitting ? "Chequeando..." : "Iniciar Sesion"}
                         </button>
@@ -78,7 +97,6 @@ function InicioSesion() {
                         <Link id="lblCrearCuenta" to="/createUsuario">Crear una Cuenta</Link>
                         <Link id="lblCrearCuenta" to="/inicioSesion">¿Olvidaste la contraseña?</Link>
 
-                        <label id="lblMensajeError" ></label>
                     </Form>
                 )}
 

@@ -5,17 +5,17 @@ import { getUsuariosRequest } from '../api/usuarios.api.js'
 function Usuarios() {
 
     const [usuarios, setUsuarios] = useState([])
-   
+
     useEffect(() => {
         const loadUsaurios = async () => {
             try {
                 const response = await getUsuariosRequest()
-                console.log(response);
+
                 setUsuarios(response.data.result)
             } catch (error) {
                 console.error(error)
             }
-    
+
         }
         loadUsaurios()
     }, [])

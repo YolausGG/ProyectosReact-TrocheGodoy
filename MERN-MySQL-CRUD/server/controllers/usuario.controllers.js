@@ -32,19 +32,35 @@ export const getUsuario = async (req, res) => {
 export const getSesionUsuario = async (req, res) => {
 
     const { correo, userPassword } = req.body
-    console.log(req.body);
+    //console.log(req.body);
 
     const [result] = await pool.promise().query('Select * from Usuario where correo = ? and userPassword = ? and bajaLogica = 0', [correo, userPassword])
-    console.log(result);
+    //console.log(result);
     try {
         if (result.length > 0)
-            res.json(true)
+            res.json(1)
         else
-            res.json(false)
+            res.json(await getCorreoUsuario(correo))
+
     } catch (error) {
         console.error(error)
     }
 
+}
+
+const getCorreoUsuario = async (correo) => {
+
+    const [result] = await pool.promise().query('Select * from Usuario where correo = ? and bajaLogica = 0', [correo])
+    console.log('result correo');
+    console.log(result);
+    try {
+        if (result.length > 0)
+            return 2
+        else
+            return 3
+    } catch (error) {
+        console.error(error)
+    }
 }
 
 export const createUsuario = async (req, res) => {
