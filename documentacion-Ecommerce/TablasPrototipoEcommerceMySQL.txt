@@ -15,9 +15,28 @@ bajaLogica boolean default(false) not null,
 constraint CK_TipoUsuario check(tipo= 'a' or tipo= 'c')
 );
 
+create table Direccion (
+idDireccion int auto_increment,
+idUsuario int,
+calle varchar(100) not null,
+estado varchar(100) not null,
+ciudad varchar(100) not null,
+numeroExterior varchar(20),
+numeroInterior varchar(20),
+referencia text,
+codigoPostal varchar(20),
+constraint FK_Direccion_Usuario foreign key(idUsuario) references Usuario(idUsuario) on delete cascade,
+primary key(idDireccion, idUsuario)
+);
+
 create table Categoria(
 idCategoria int auto_increment primary key,
 nombre varchar(30) unique not null
+);
+
+create table Marca(
+idMarca int auto_increment primary key,
+nombre varchar(50) unique not null
 );
 
 create table Oferta(
@@ -36,27 +55,17 @@ monto decimal(10,2) not null
 create table Tarjeta(
 idTarjeta int primary key,
 cantidadDeCuotas numeric(2) not null,
-constraint FK_TarjetaFormaDePago foreign key(idTarjeta) references FormaDePago(idFormaDePago) on delete cascade
+constraint FK_Tarjeta_FormaDePago foreign key(idTarjeta) references FormaDePago(idFormaDePago) on delete cascade
 );
 
 create table Contado(
 idContado int primary key,
-constraint FK_ContadoFormaDePago foreign key(idContado) references FormaDePago(idFormaDePago) on delete cascade
+constraint FK_Contado_FormaDePago foreign key(idContado) references FormaDePago(idFormaDePago) on delete cascade
 );
 
 create table Deposito(
 idDeposito int primary key,
-constraint FK_DepositoFormaDePago foreign key(idDeposito) references FormaDePago(idFormaDePago) on delete cascade
-);
-
-create table Pago(
-idPago int auto_increment primary key,
-idUsuario int not null,
-fecha Date default(now()) not null,
-monto decimal(10,2) not null,
-tipo char(1) not null,
-constraint FK_PagoUsuario foreign key(idUsuario) references Usuario(idUsuario),
-constraint CK_TipoPago check(tipo = 't' or tipo = 'c' or tipo = 'd')
+constraint FK_Deposito_FormaDePago foreign key(idDeposito) references FormaDePago(idFormaDePago) on delete cascade
 );
 
 create table Producto (
@@ -72,82 +81,83 @@ talle varchar(10) not null,
 estilo varchar(30) not null,
 stock numeric(4) not null,
 primary key(idProducto, talle, estilo),
-constraint FK_ProductoTalleColorProducto foreign key(idProducto) references Producto(idProducto) on delete cascade
+constraint FK_ProductoTalleColor_Producto foreign key(idProducto) references Producto(idProducto) on delete cascade
 );
 
 create table Calzado (
 idCalzado int primary key,
-constraint FK_CalzadoProducto foreign key(idCalzado) references Producto(idProducto) on delete cascade
+constraint FK_Calzado_Producto foreign key(idCalzado) references Producto(idProducto) on delete cascade
 );
 
 create table Vestimenta (
 idVestimenta int primary key,
-constraint FK_VestimentaProducto foreign key(idVestimenta) references Producto(idProducto) on delete cascade
+constraint FK_Vestimenta_Producto foreign key(idVestimenta) references Producto(idProducto) on delete cascade
 );
 
 create table Accesorio (
 idAccesorio int primary key,
-constraint FK_AccesorioProducto foreign key(idAccesorio) references Producto(idProducto) on delete cascade
+constraint FK_Accesorio_Producto foreign key(idAccesorio) references Producto(idProducto) on delete cascade
 );
 
 create table Imagen(
 idImagen int auto_increment primary key,
 idProducto int not null,
-titulo varchar(70) unique not null,
+titulo varchar(100) unique not null,
 URLImagen text not null,
-constraint FK_ImagenProducto foreign key(idProducto) references Producto(idProducto) on delete cascade
+constraint FK_Imagen_Producto foreign key(idProducto) references Producto(idProducto) on delete cascade
 );
 
-create table Marca(
-idMarca int auto_increment primary key,
-nombre varchar(40) unique not null
+create table Carrito (
+idUsuario int,
+idProducto int,
+cantidad numeric(4) not null,
+constraint FK_Carrito_Usuario foreign key(idUsuario) references Usuario(idUsuario) on delete cascade,
+constraint FK_Carrito_Producto foreign key(idProducto) references Producto(idProducto) on delete cascade,
+primary key(idUsuario, idProducto)
 );
 
-create table Venta (
-idVenta int auto_increment primary key,
+create table Orden(
+idOrden int auto_increment primary key,
 idUsuario int not null,
-idProducto int not null,
 idFormaDePago int  not null,
 fecha timestamp default(now()) not null,
 monto decimal(10,2) not null,
 descuento numeric(3) not null,
-constraint FK_VentaUsuario foreign key(idUsuario) references Usuario(idUsuario),
-constraint FK_VentaProducto foreign key(idProducto) references Producto(idProducto),
-constraint FK_VentaFormaDePago foreign key(idFormaDePago) references FormaDePago(idFormaDePago),
-constraint CK_VentaDescuento check(descuento <= 100 and descuento >= 0)
+constraint FK_Orden_Usuario foreign key(idUsuario) references Usuario(idUsuario),
+constraint FK_Orden_FormaDePago foreign key(idFormaDePago) references FormaDePago(idFormaDePago),
+constraint CK_OrdenDescuento check(descuento <= 100 and descuento >= 0)
+);
+
+create table OrdenDetalle (
+idOrden int,
+idProducto int,
+cantidad numeric(4),
+precio decimal(10,2) not null,
+descuento numeric(3) not null,
+constraint FK_OrdenDetalle_Orden foreign key(idOrden) references Orden(idOrden),
+constraint FK_OrdenDetalle_Producto foreign key(idProducto) references Producto(idProducto),
+constraint CK_OrdenDetalleDescuento check(descuento <= 100 and descuento >= 0),  
+primary key(idOrden, idProducto)
+);
+
+create table Pago(
+idPago int auto_increment primary key,
+idUsuario int not null,
+idOrden int not null,
+fecha Date default(now()) not null,
+monto decimal(10,2) not null,
+tipo char(1) not null,
+constraint FK_PagoUsuario foreign key(idUsuario) references Usuario(idUsuario),
+constraint FK_Pago_Orden foreign key(idOrden) references Orden(idOrden),
+constraint CK_TipoPago check(tipo = 't' or tipo = 'c' or tipo = 'd')
 );
 
 create table PagoPendiente (
 idPagoPendiente int auto_increment primary key,
-idVenta int not null,
+idOrden int not null,
 fechaLimite Date not null,
 monto decimal(10,2) not null,
-constraint FK_PagoPendiente_Venta foreign key(idVenta) references Venta(idVenta)
-);
-
-create table Carrito (
-idCarrito int primary key,
-constraint FK_Carrito_Usuario foreign key(idCarrito) references Usuario(idUsuario)
-);
-
-create table HistorialCarrito (
-idHistorialCarrito int auto_increment primary key,
-idVenta int,
-idCarrito int,
-idProducto int,
-cantidad numeric(4),
-constraint FK_HistorialCarrito_Venta foreign key(idVenta) references Venta(idVenta),
-constraint FK_HistorialCarrito_Carrito foreign key(idCarrito) references Carrito(idCarrito),
-constraint FK_HistorialCarrito_Producto foreign key(idProducto) references Producto(idProducto)    
-);
-
-create table CarritoProducto (
-idCarrito int,
-idProducto int,
-cantidad numeric(4) not null,
-constraint FK_CarritoProducto_Carrito foreign key(idCarrito) references Carrito(idCarrito),
-constraint FK_CarritoProducto_Producto foreign key(idProducto) references Producto(idProducto) on delete cascade,
-primary key(idCarrito, idProducto)
+constraint FK_PagoPendiente_Orden foreign key(idOrden) references Orden(idOrden)
 );
 
 create table ProductoCategoria (
@@ -155,14 +165,14 @@ idProducto int,
 idCategoria int,
 constraint FK_ProductoCategoria_Producto foreign key(idProducto) references Producto(idProducto) on delete cascade,
 constraint FK_ProductoCategoria_Categoria foreign key(idCategoria) references Categoria(idCategoria)on delete cascade,
-primary key(idProducto,idCategoria)
+primary key(idProducto, idCategoria)
 );
 
 create table ProductoOferta (
 idProducto int,
 idOferta int,
 constraint FK_ProductoOferta_Producto foreign key(idProducto) references Producto(idProducto)on delete cascade,
-constraint FK_ProductoOfertaa_Oferta foreign key(idOferta) references Oferta(idOferta) on delete cascade,
+constraint FK_ProductoOferta_Oferta foreign key(idOferta) references Oferta(idOferta) on delete cascade,
 primary key(idProducto,idOferta)
 );
 
@@ -182,8 +192,9 @@ BEGIN
         SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'La fecha ingresada no es válida';
     END IF;
-END $$
-
+END 
+$$
+DELIMITER $$
 CREATE TRIGGER evaluaFechaLimite BEFORE INSERT ON PagoPendiente
 FOR EACH ROW
 BEGIN
@@ -191,5 +202,4 @@ BEGIN
         SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'La fecha ingresada no es válida';
     END IF;
-END 
-DELIMITER ;
+END $$

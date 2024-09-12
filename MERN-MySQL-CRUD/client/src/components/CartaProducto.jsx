@@ -1,21 +1,28 @@
 import PropTypes from 'prop-types'
+import addCartIcon from '../utils/icons/add-shopping-cart.png'
+import { useCarrito } from '../contexts/carrito';
 
 function CartaProducto({ producto }) {
 
-    console.log(producto);
+    const { agregarAlCarrito } = useCarrito()
+
 
     return (
         <div className='cardProducto'>
-            <img className='imgProducto' src={producto.imagenes[0]?.URLImagen} alt={`imagen de ${producto.nombre}`}/>
+            <img className='imgProducto' src={producto.imagenes[0]?.URLImagen} alt={`imagen de ${producto.nombre}`} />
             <div className='datosProducto'>
                 <h4>{producto.nombre}</h4>
                 <strong>${producto.precio}</strong>
             </div>
-            <ul>
-                {producto.marcas.map(marca => (
-                    <li key={marca.idMarca} >{marca.nombre}</li>
-                ))}
-            </ul>
+            <div className='container-btns-compra'>
+
+                <button className='btn-comprar'>
+                    Comprar
+                </button>
+                <a className='btn-agregar-al-carrito' onClick={() => agregarAlCarrito(producto)} >
+                    <img className='icon-add-carrito' src={addCartIcon} alt={`Agregar ${producto.nombre} al carrito`} />
+                </a>
+            </div>
         </div>
     )
 }

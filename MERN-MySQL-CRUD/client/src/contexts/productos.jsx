@@ -22,7 +22,7 @@ export function useProductos() {
 export const ProductoProvider = ({ children }) => {
 
     const [productos, setProductos] = useState([
-
+        
     ])
 
     useEffect(() => {
@@ -51,7 +51,7 @@ export const ProductoProvider = ({ children }) => {
                         }
 
                         try {
-                            const responseImagenes = await getImagenesIdProductoRequest(prod.idProducto)                           
+                            const responseImagenes = await getImagenesIdProductoRequest(prod.idProducto)
                             responseImagenes.status === 200 ? producto.imagenes = responseImagenes.data.result : producto.imagenes = []
 
                         } catch (error) {
@@ -117,6 +117,9 @@ export const ProductoProvider = ({ children }) => {
         }
     }
 
+   
+
+
     return (
         <ProductoContext.Provider value={{ productos, getProducto, loadProductos }}>
             {children}
@@ -126,5 +129,5 @@ export const ProductoProvider = ({ children }) => {
 
 
 ProductoProvider.propTypes = {
-    children: PropTypes.array.isRequired,
+    children: PropTypes.object.isRequired,
 };

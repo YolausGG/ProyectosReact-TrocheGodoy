@@ -2,6 +2,7 @@ import './App.css'
 import './styles/navBar.css'
 import './styles/producto.css'
 import './styles/usuario.css'
+import './styles/carrito.css'
 import { Route, Routes } from 'react-router-dom'
 
 import Categorias from './pages/Categorias.jsx'
@@ -21,31 +22,37 @@ import InicioSesion from './pages/InicioSesion.jsx'
 import Productos from './pages/Productos.jsx'
 import ABMProducto from './pages/ABMProducto.jsx'
 import { ProductoProvider } from './contexts/productos.jsx'
+import { CarritoProvider } from './contexts/carrito.jsx'
+import Carrito from './components/Carrito.jsx'
 
 function App() {
   registerLocale('es', es)
   setDefaultLocale('es');
 
   return (
+
     <CategoriaProvider>
       <MarcaProvider>
         <ProductoProvider>
-          <NavBar />
-          <Routes >
-            <Route path='/categorias' element={<Categorias />} />
-            <Route path='/createCategoria' element={<CreateCategoria />} />
-            <Route path='/updateCategoria/:id' element={<CreateCategoria />} />
-            <Route path='/marcas' element={<Marcas />} />
-            <Route path='/createMarca' element={<CreateMarca />} />
-            <Route path='/updateMarca/:id' element={<CreateMarca />} />
-            <Route path='/*' element={<NotFounds />} />
+          <CarritoProvider>
+            <NavBar />            
+            <Carrito />
+            <Routes >
+              <Route path='/categorias' element={<Categorias />} />
+              <Route path='/createCategoria' element={<CreateCategoria />} />
+              <Route path='/updateCategoria/:id' element={<CreateCategoria />} />
+              <Route path='/marcas' element={<Marcas />} />
+              <Route path='/createMarca' element={<CreateMarca />} />
+              <Route path='/updateMarca/:id' element={<CreateMarca />} />
+              <Route path='/*' element={<NotFounds />} />
 
-            <Route path='/usuarios' element={<Usuarios />} />
-            <Route path='/createUsuario' element={<CreateUsuario />} />
-            <Route path='/inicioSesion' element={<InicioSesion />} />
-            <Route path='/productos' element={<Productos />} />
-            <Route path='/ABMproducto' element={<ABMProducto />} />
-          </Routes>
+              <Route path='/usuarios' element={<Usuarios />} />
+              <Route path='/createUsuario' element={<CreateUsuario />} />
+              <Route path='/inicioSesion' element={<InicioSesion />} />
+              <Route path='/productos' element={<Productos />} />
+              <Route path='/ABMproducto' element={<ABMProducto />} />
+            </Routes>
+          </CarritoProvider>
         </ProductoProvider>
       </MarcaProvider>
     </CategoriaProvider>
