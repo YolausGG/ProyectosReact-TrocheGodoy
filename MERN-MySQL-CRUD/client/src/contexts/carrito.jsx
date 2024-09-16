@@ -14,12 +14,12 @@ export function useCarrito() {
 
 export const CarritoProvider = ({ children }) => {
     const productosIniciales = [
-        { idProducto: 155, nombre: 'Camisa rayada', precio: 1900.00, cantidad: 2, imagenes: [{ URLImagen: 'https://firebasestorage.googleapis.com/v0/b/ecommerce-images-4cfcf.appspot.com/o/imagenes%2Fcamisa-rayas-simple.webp?alt=media&token=6aabb0c9-ad84-49fa-af2e-bc6eb4f93e6d' }] },
-        { idProducto: 256, nombre: 'Camisa Bordo', precio: 1950.00, cantidad: 1, imagenes: [{ URLImagen: 'https://firebasestorage.googleapis.com/v0/b/ecommerce-images-4cfcf.appspot.com/o/imagenes%2Fcamisa-hombre-bordo-lila.webp?alt=media&token=d5c55746-a322-454d-b747-368313354a48' }] },
-        { idProducto: 324, nombre: 'Camisa bOrdo', precio: 1500.00, cantidad: 2, imagenes: [{ URLImagen: 'https://firebasestorage.googleapis.com/v0/b/ecommerce-images-4cfcf.appspot.com/o/imagenes%2Fcamisa-hombre-bordo-lila.webp?alt=media&token=d5c55746-a322-454d-b747-368313354a48' }] },
-        { idProducto: 464, nombre: 'Camisa boRdo', precio: 1400.00, cantidad: 1, imagenes: [{ URLImagen: 'https://firebasestorage.googleapis.com/v0/b/ecommerce-images-4cfcf.appspot.com/o/imagenes%2Fcamisa-hombre-bordo-lila.webp?alt=media&token=d5c55746-a322-454d-b747-368313354a48' }] },
-        { idProducto: 521, nombre: 'Camisa borDo', precio: 1100.00, cantidad: 2, imagenes: [{ URLImagen: 'https://firebasestorage.googleapis.com/v0/b/ecommerce-images-4cfcf.appspot.com/o/imagenes%2Fcamisa-hombre-bordo-lila.webp?alt=media&token=d5c55746-a322-454d-b747-368313354a48' }] },
-        { idProducto: 633, nombre: 'Camisa bordO', precio: 1300.00, cantidad: 1, imagenes: [{ URLImagen: 'https://firebasestorage.googleapis.com/v0/b/ecommerce-images-4cfcf.appspot.com/o/imagenes%2Fcamisa-hombre-bordo-lila.webp?alt=media&token=d5c55746-a322-454d-b747-368313354a48' }] },
+        { idProducto: 155, nombre: 'Camisa rayada', precio: 1900.00, cantidad: 2, imagenes: [{ URLImagen: 'https://firebasestorage.googleapis.com/v0/b/ecommerce-images-4cfcf.appspot.com/o/imagenes%2F182%20CHOPPED%20RED.webp?alt=media&token=1a47890c-c0fb-49a4-a242-013ce4eb168f' }] },
+        { idProducto: 256, nombre: 'Camisa Bordo', precio: 1950.00, cantidad: 1, imagenes: [{ URLImagen: 'https://firebasestorage.googleapis.com/v0/b/ecommerce-images-4cfcf.appspot.com/o/imagenes%2F182%20CHOPPED%20RED.webp?alt=media&token=1a47890c-c0fb-49a4-a242-013ce4eb168f' }] },
+        { idProducto: 324, nombre: 'Camisa bOrdo', precio: 1500.00, cantidad: 2, imagenes: [{ URLImagen: 'https://firebasestorage.googleapis.com/v0/b/ecommerce-images-4cfcf.appspot.com/o/imagenes%2F182%20CHOPPED%20RED.webp?alt=media&token=1a47890c-c0fb-49a4-a242-013ce4eb168f' }] },
+        { idProducto: 464, nombre: 'Camisa boRdo', precio: 1400.00, cantidad: 1, imagenes: [{ URLImagen: 'https://firebasestorage.googleapis.com/v0/b/ecommerce-images-4cfcf.appspot.com/o/imagenes%2F182%20CHOPPED%20RED.webp?alt=media&token=1a47890c-c0fb-49a4-a242-013ce4eb168f' }] },
+        { idProducto: 521, nombre: 'Camisa borDo', precio: 1100.00, cantidad: 2, imagenes: [{ URLImagen: 'https://firebasestorage.googleapis.com/v0/b/ecommerce-images-4cfcf.appspot.com/o/imagenes%2F182%20CHOPPED%20RED.webp?alt=media&token=1a47890c-c0fb-49a4-a242-013ce4eb168f' }] },
+        { idProducto: 633, nombre: 'Camisa bordO', precio: 1300.00, cantidad: 1, imagenes: [{ URLImagen: 'https://firebasestorage.googleapis.com/v0/b/ecommerce-images-4cfcf.appspot.com/o/imagenes%2F182%20CHOPPED%20RED.webp?alt=media&token=1a47890c-c0fb-49a4-a242-013ce4eb168f' }] },
     ]
 
     const [productosCarrito, setProductosCarrito] = useState(productosIniciales)
@@ -35,7 +35,6 @@ export const CarritoProvider = ({ children }) => {
     }
 
     const agregarAlCarrito = (pProducto) => {
-
 
         var indexProduct = productosCarrito.findIndex(prod => prod.idProducto == pProducto.idProducto)
         console.log(indexProduct);
@@ -67,11 +66,11 @@ export const CarritoProvider = ({ children }) => {
 
             // if (response.status == 204) {
             setProductosCarrito(productosCarrito.filter(prod => prod.idProducto !== idProducto))
+            
             // }
         } catch (error) {
             console.error(error)
         }
-
     }
 
 

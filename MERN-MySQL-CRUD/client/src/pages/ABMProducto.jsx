@@ -286,11 +286,9 @@ export default function ABMProducto() {
                                         }
                                         default:
                                             break;
-
                                     }
                                 }
-                            }
-                            
+                            }                            
                         }}>
                         {({ handleChange, handleSubmit, values, isSubmitting }) => (
                             <Form method='POST' encType='multipart/form-data' className='form-ABM-producto estandarForm' onSubmit={handleSubmit}>
