@@ -22,12 +22,9 @@ import InicioSesion from './pages/InicioSesion.jsx'
 import Productos from './pages/Productos.jsx'
 import ABMProducto from './pages/ABMProducto.jsx'
 import { ProductoProvider } from './contexts/productos.jsx'
-<<<<<<< Updated upstream
 import { CarritoProvider } from './contexts/carrito.jsx'
 import Carrito from './components/Carrito.jsx'
-=======
 import VerificarCuenta from './pages/VerificarCuenta.jsx'
->>>>>>> Stashed changes
 
 function App() {
   registerLocale('es', es)
@@ -39,7 +36,7 @@ function App() {
       <MarcaProvider>
         <ProductoProvider>
           <CarritoProvider>
-            <NavBar />            
+            <NavBar />
             <Carrito />
             <Routes >
               <Route path='/categorias' element={<Categorias />} />
@@ -50,24 +47,16 @@ function App() {
               <Route path='/updateMarca/:id' element={<CreateMarca />} />
               <Route path='/*' element={<NotFounds />} />
 
-<<<<<<< Updated upstream
               <Route path='/usuarios' element={<Usuarios />} />
               <Route path='/createUsuario' element={<CreateUsuario />} />
               <Route path='/inicioSesion' element={<InicioSesion />} />
               <Route path='/productos' element={<Productos />} />
               <Route path='/ABMproducto' element={<ABMProducto />} />
+
+              <Route path='/verificarCuenta' element={<VerificarCuenta />} />
+
             </Routes>
           </CarritoProvider>
-=======
-            <Route path='/usuarios' element={<Usuarios />} />
-            <Route path='/createUsuario' element={<CreateUsuario />} />
-            <Route path='/inicioSesion' element={<InicioSesion />} />
-            
-            <Route path='/productos' element={<Productos />} />
-            <Route path='/ABMproducto' element={<ABMProducto />} />
-            <Route path='/verificarCuenta' element={<VerificarCuenta />} />
-          </Routes>
->>>>>>> Stashed changes
         </ProductoProvider>
       </MarcaProvider>
     </CategoriaProvider>
