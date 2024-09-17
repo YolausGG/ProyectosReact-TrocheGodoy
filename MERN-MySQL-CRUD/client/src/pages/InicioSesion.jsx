@@ -25,6 +25,8 @@ function InicioSesion() {
     const [mensaje, setMensaje] = useState()
     const navigate = useNavigate()
 
+   
+
     return (
         <div className='createCategoriaContainer'>
             <h2>Iniciar Sesión</h2>
@@ -51,17 +53,21 @@ function InicioSesion() {
 
                         if (respuesta.data == 2) {
                             console.log(intentos);
-                            setIntentos(intentos+1)
-                            
+                            setIntentos(intentos + 1)
+
                             if (values.correo != usuario.correo) {
                                 setIntentos(0)
                                 setUsuario({ correo: values.correo, userPassword: values.userPassword })
                             } else
 
-                            if (intentos < 3)
-                                setMensaje("Contraseña Incorrecta")
-                            else
-                                setMensaje(<Link id="linkOlvidastePassword" to="/inicioSesion">¿Olvidaste la contraseña?</Link>)
+                                if (intentos < 3) {
+                                    setMensaje("Contraseña Incorrecta")
+                                } else {
+                                    alert("Deberias cambiar tu contraseña llevas 3 intentos")
+                                    setMensaje(<Link id="linkOlvidastePassword" to="/verificarCuenta">¿Olvidaste la contraseña?</Link>)
+
+                                }
+
                         }
                         else {
                             setMensaje("Correo no registrado")
@@ -95,7 +101,7 @@ function InicioSesion() {
                         </button>
 
                         <Link id="lblCrearCuenta" to="/createUsuario">Crear una Cuenta</Link>
-                        <Link id="lblCrearCuenta" to="/inicioSesion">¿Olvidaste la contraseña?</Link>
+                        <Link id="lblCrearCuenta" to="/verificarCuenta">¿Olvidaste la contraseña?</Link>
 
                     </Form>
                 )}

@@ -94,7 +94,7 @@ export const createUsuario = async (req, res) => {
 
 export const updatePassword = async (req, res) => {
 
-    const { password } = req.body
+    const {password} = req.body
 
     const [result] = await pool.promise().query("Update Usuario set userPassword = ? where idUsuario = ?", [password, req.params.id])
 
@@ -105,6 +105,8 @@ export const updatePassword = async (req, res) => {
 
 
         return res.sendStatus(204)
+        
+
     } catch (error) {
         console.log(error)
     }
