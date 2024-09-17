@@ -34,6 +34,11 @@ export const CarritoProvider = ({ children }) => {
         setPrecioTotal(total)
     }
 
+    useEffect(() => {
+        
+        calcultarPrecioTotal()
+    },[productosCarrito])
+
     const agregarAlCarrito = (pProducto) => {
 
         var indexProduct = productosCarrito.findIndex(prod => prod.idProducto == pProducto.idProducto)
