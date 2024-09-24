@@ -42,9 +42,9 @@ export const CarritoProvider = ({ children }) => {
     const agregarAlCarrito = (pProducto) => {
 
         var indexProduct = productosCarrito.findIndex(prod => prod.idProducto == pProducto.idProducto)
-        console.log(indexProduct);
+        //console.log(indexProduct);
 
-        console.log(pProducto);
+       // console.log(pProducto);
 
         var newProducto = ({
             idProducto: pProducto.idProducto,

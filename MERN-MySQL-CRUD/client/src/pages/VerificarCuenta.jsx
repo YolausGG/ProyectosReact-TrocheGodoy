@@ -1,14 +1,11 @@
 import { Form, Formik } from "formik"
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react"
-import { getSesionUsuarioRequest, updatePasswordRequest, sendEmails } from "../api/usuarios.api";
+import { getSesionUsuarioRequest, changePasswordRequest, updatePasswordRequest, getIDUsuarioCorreoRequest } from "../api/usuarios.api";
 
 import '../styles/verificarCuenta.css';
 
 import { inputsInteractivos } from "../hooks/forms.js"
-import { Resend } from 'resend';
-
-
 
 
 function VerificarCuenta() {
@@ -22,7 +19,6 @@ function VerificarCuenta() {
     })
 
     const [mensaje, setMensaje] = useState()
-
 
     function autoPassword() {
         var caracteres = "abcdefghijklmnopqrstubwsyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -42,9 +38,7 @@ function VerificarCuenta() {
                 enableReinitialize={true}
                 onSubmit={async (values, actions) => {
 
-
                     const respuesta = await getSesionUsuarioRequest(values)
-                    console.log(respuesta)
 
                     var lblError = document.getElementById('lblMensajeErrorInicioSesion')
                     lblError.style.color = 'red'
@@ -57,32 +51,26 @@ function VerificarCuenta() {
 
                     if (respuesta.data == 2) {
 
+                        const idUsuario = await getIDUsuarioCorreoRequest(values.correo)
 
                         var password = autoPassword();
-                        console.log(password);
 
-                        const updatePassword = await updatePasswordRequest(1, { password: password })
-                        console.log(updatePassword)
+                        const responseUP = await updatePasswordRequest(idUsuario, { correo: values.correo, password: password })
 
-                        if (updatePassword.status == 204) {
+                        if (responseUP.status == 204) {
+                            console.log('contraseña cambiada');
 
-                            const resend = new Resend('re_SgYDSGnu_LbuXcuUq2zzhigxXKqYTNoeL');
+                            const resultChangePassword = await changePasswordRequest(values.correo, {password})
+                            if (resultChangePassword.status == 200) {
+                                console.log('correo enviado');
 
-                            (async function () {
-                                const { data, error } = await resend.emails.send({
-                                    from: 'Acme <onboarding@resend.dev>',
-                                    to: ['delivered@resend.dev'],
-                                    subject: 'Hello World',
-                                    html: '<strong>It works!</strong>',
-                                });
+                            } else {
+                                console.log('correo no  enviado');
+                            }
 
-                                if (error) {
-                                    return console.error({ error });
-                                }
 
-                                console.log({ data });
-                            })();
-
+                        } else {
+                            console.log('no cambiada');
                         }
                     }
                     else {
