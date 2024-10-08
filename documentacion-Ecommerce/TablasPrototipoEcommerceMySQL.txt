@@ -44,6 +44,7 @@ idOferta int auto_increment primary key,
 nombre varchar(60) unique not null,
 descuento numeric(3) not null,
 activo char(1) not null,
+constraint CK_Descuento check(descuento <= 100 or descuento >= 0),
 constraint CK_Activo check(activo ='s' or activo ='n')
 );
 
@@ -147,7 +148,7 @@ idOrden int not null,
 fecha Date default(now()) not null,
 monto decimal(10,2) not null,
 tipo char(1) not null,
-constraint FK_PagoUsuario foreign key(idUsuario) references Usuario(idUsuario),
+constraint FK_Pago_Usuario foreign key(idUsuario) references Usuario(idUsuario),
 constraint FK_Pago_Orden foreign key(idOrden) references Orden(idOrden),
 constraint CK_TipoPago check(tipo = 't' or tipo = 'c' or tipo = 'd')
 );
