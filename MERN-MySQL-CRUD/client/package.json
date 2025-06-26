@@ -10,8 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.50.1",
     "axios": "^1.6.1",
-    "firebase": "^10.12.5",
+    "firebase": "^11.9.1",
     "formik": "^2.4.5",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
@@ -31,6 +32,6 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
-    "vite": "^4.4.5"
+    "vite": "^6.3.5"
   }
 }

@@ -11,7 +11,7 @@ import { createProductosTalleEstiloRequest, deleteProductosTalleEstiloRequest } 
 import { showFiles } from '../hooks/imagen.js'
 import { createCategoriasProductoRequest } from '../api/productoCategoria.api.js'
 import { createMarcasProductoRequest } from '../api/productoMarca.api.js'
-import { setImagenStorage } from '../hooks/firebaseStorage.js'
+import { uploadFile } from '../hooks/firebaseStorage.js'
 import { createImagenRequest } from '../api/imagenes.api.js'
 
 
@@ -177,16 +177,17 @@ export default function ABMProducto() {
                                         imagenes.forEach(async img => {
                                             console.log(img);
 
-                                            let URLImagen = await setImagenStorage(img)
-                                                                                    
+                                            let URLImagen = await uploadFile(img)
+                                            console.log('URLImagen:' + URLImagen);
+
                                             let imgData = { titulo: img.name, URLImagen: URLImagen }
 
                                             var respuestaI = await createImagenRequest(respuestaP.data.idProducto, imgData)
-                                           
+
                                             if (respuestaI.status == 200) {
                                                 setImagenes([])
-                                                showFiles(null)  
-                                                loadProductos()                                              
+                                                showFiles(null)
+                                                loadProductos()
                                                 console.log('Imagen dada de alta a Producto')
                                             }
                                             else {
@@ -288,7 +289,7 @@ export default function ABMProducto() {
                                             break;
                                     }
                                 }
-                            }                            
+                            }
                         }}>
                         {({ handleChange, handleSubmit, values, isSubmitting }) => (
                             <Form method='POST' encType='multipart/form-data' className='form-ABM-producto estandarForm' onSubmit={handleSubmit}>

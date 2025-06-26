@@ -15,13 +15,6 @@ idCategoria int identity(1,1) primary key,
 nombre varchar(30) unique not null
 );
 
-create table Oferta(
-idOferta int identity(1,1) primary key,
-nombre varchar(60) unique not null,
-descuento numeric(3) not null,
-activo char(1) check(activo= 's' or activo= 'n') not null
-);
-
 create table FormaDePago(
 idFormaDePago int identity(1,1) primary key,
 monto decimal(10,2) not null
@@ -89,14 +82,13 @@ idMarca int identity(1,1) primary key,
 nombre varchar(40) unique not null
 );
 
-create table Venta (
+create table Orden (
 idVenta int identity(1,1) primary key,
 idUsuario int references Usuario(idUsuario) not null,
 idProducto int references Producto(idProducto) not null,
 idFormaDePago int references FormaDePago(idFormaDePago) not null,
 fecha Date default(getDate()) not null,
-monto decimal(10,2) not null,
-descuento numeric(3) check(descuento <= 100 and descuento >= 0) not null
+monto decimal(10,2) not null
 );
 
 create table PagoPendiente (
@@ -117,12 +109,6 @@ create table ProductoCategoria (
 idProducto int references Producto(idProducto),
 idCategoria int references Categoria(idCategoria),
 primary key(idProducto,idCategoria)
-);
-
-create table ProductoOferta (
-idProducto int references Producto(idProducto),
-idOferta int references Oferta(idOferta),
-primary key(idProducto,idOferta)
 );
 
 create table ProductoMarca(
