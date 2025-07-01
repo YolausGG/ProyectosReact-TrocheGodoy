@@ -25,6 +25,7 @@ import { ProductoProvider } from './contexts/productos.jsx'
 import { CarritoProvider } from './contexts/carrito.jsx'
 import Carrito from './components/Carrito.jsx'
 import VerificarCuenta from './pages/VerificarCuenta.jsx'
+import ConfirmarCompra from './pages/ConfirmarCompra.jsx'
 
 function App() {
   registerLocale('es', es)
@@ -52,6 +53,7 @@ function App() {
               <Route path='/inicioSesion' element={<InicioSesion />} />
               <Route path='/productos' element={<Productos />} />
               <Route path='/ABMproducto' element={<ABMProducto />} />
+              <Route path='/ConfirmarCompra' element={<ConfirmarCompra />} />
 
               <Route path='/verificarCuenta' element={<VerificarCuenta />} />
 

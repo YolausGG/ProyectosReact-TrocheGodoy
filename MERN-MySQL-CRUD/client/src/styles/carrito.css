@@ -11,7 +11,7 @@
     gap: 5px;
     box-shadow: 0px 0px 5px black;
     transition: 0.2s;
-    
+
 }
 
 .container-carrito.open {
@@ -25,6 +25,7 @@
     gap: 10px;
     overflow: auto;
 }
+
 .container-producto-carrito {
     display: flex;
     gap: 10px;
@@ -78,7 +79,7 @@
     cursor: pointer;
 }
 
-.container-calculo-y-btn-compra{
+.container-calculo-y-btn-compra {
     align-self: self-end;
     display: flex;
     align-items: center;
@@ -96,6 +97,57 @@
 .icon-quitar-producto-carrito:hover {
     filter: drop-shadow(0px 0px 2px white);
 }
+
+.container-confirmar-compra {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    
+}
+
+.container-productos-confirmar{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    border: 2px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    gap: 10px;
+    overflow: auto;
+}
+
+.container-producto-carrito-final {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.btn-confirmar-compra{
+    width: 150px;
+    height: 40px;
+    padding: 0.2rem 1rem;
+    cursor: pointer;
+}
+
+.btn-confirmar-compra:hover {
+    box-shadow: 0px 0px 4px;
+}
+
+.btn-confirmar-compra {
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.lbl-producto-cantidad-total{
+    font-weight: bold;
+    color: black;   
+    justify-self: end;
+}
+
 
 @media (max-width: 830px) {
 

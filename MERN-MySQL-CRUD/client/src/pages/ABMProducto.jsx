@@ -11,7 +11,7 @@ import { createProductosTalleEstiloRequest, deleteProductosTalleEstiloRequest } 
 import { showFiles } from '../hooks/imagen.js'
 import { createCategoriasProductoRequest } from '../api/productoCategoria.api.js'
 import { createMarcasProductoRequest } from '../api/productoMarca.api.js'
-import { uploadFile } from '../hooks/firebaseStorage.js'
+import { uploadFile } from '../hooks/supaBaseStorage.js'
 import { createImagenRequest } from '../api/imagenes.api.js'
 
 
