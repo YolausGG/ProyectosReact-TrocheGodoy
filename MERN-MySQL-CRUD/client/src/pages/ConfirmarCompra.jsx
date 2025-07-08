@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useCarrito } from '../contexts/carrito';
 import ProductoCompraFinal from '../components/ProductoCompraFinal';
 import { Form, Formik } from 'formik';
+import { createFormaDePagoDeposito, createFormaDePagoTarjeta } from '../../../server/controllers/tipoFormaDePago.controllers';
 
 function ConfirmarCompra() {
 
@@ -36,11 +37,95 @@ function ConfirmarCompra() {
                 onSubmit={async (values, actions) => {
                     console.log(productosCarrito);
                     console.log('values:');
+                    const idUsuarioPrueba = 7
 
-                    const orden = { nombre: values.nombre, precio: values.precio, descripcion: values.descripcion }
-                    console.log(product);
+                    const orden = { idUsuario: idUsuarioPrueba, idFormaDePago: 4, fecha: new Date(), monto: precioTotal }
+                    console.log(orden);
 
-                    const respuestaP = await createProductoRequest(product)
+                    
+
+
+                    const respuestaFDP = await createFormaDePagoDeposito({formaDePago: pago.formaDePago, monto: precioTotal})
+
+
+                    switch (pago.formaDePago) {
+                        case 'Tarjeta': {
+                            const respuestaT = await createFormaDePagoTarjeta(respuestaFDP.data.idFormaDePago, pago.CantidadCuotas)
+                            console.log(respuestaT);
+                            if (respuestaT.status == 200) {
+                                console.log(pago);
+                                actions.resetForm({
+                                    values: {
+                                        nombre: "",
+                                        precio: "",
+                                        talle: "",
+                                        estilo: "",
+                                        stock: "",
+                                        descripcion: "",
+                                        tipoProducto: "",
+                                        tipo: ""
+                                    },
+                                })
+                                console.log('Calzado ingresado con Éxito');
+
+                            }
+                            else
+                                console.log('Calzado no ingresado');
+                            break;
+                        }
+                        case 'Contado': {
+                            const respuestaV = await createVestimentaRequest(respuestaP.data.idProducto)
+                            console.log(respuestaV);
+                            if (respuestaV.status == 200) {
+                                console.log(pago);
+                                actions.resetForm({
+                                    values: {
+                                        nombre: "",
+                                        precio: "",
+                                        talle: "",
+                                        estilo: "",
+                                        stock: "",
+                                        descripcion: "",
+                                        tipoProducto: "",
+                                        tipo: ""
+                                    },
+                                })
+                                console.log('Vestimenta ingresada con Éxito');
+                            }
+                            else
+                                console.log('Vestimenta no ingresada');
+                            break;
+                        }
+                        case 'Desposito': {
+                            const respuestaA = await createFormaDePagoDeposito(respuestaP.data.idProducto)
+                            console.log(respuestaA);
+                            if (respuestaA.status == 200) {
+                                console.log('Accesorio ingresado con Éxito');
+                                console.log(pago);
+
+                                actions.resetForm({
+                                    values: {
+                                        nombre: "",
+                                        precio: "",
+                                        talle: "",
+                                        estilo: "",
+                                        stock: "",
+                                        descripcion: "",
+                                        tipoProducto: "",
+                                        tipo: ""
+                                    },
+                                })
+                            }
+                            else
+                                console.log('Accesorio no ingresado');
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+
+
+
 
                     console.log(values);
                     console.log(respuestaP);
@@ -95,81 +180,7 @@ function ConfirmarCompra() {
                                 setMarcasP([])
                             }
 
-                            switch (pago.formaDePago) {
-                                case 'Tarjeta': {
-                                    const respuestaC = await createCalzadoRequest(respuestaP.data.idProducto)
-                                    console.log(respuestaC);
-                                    if (respuestaC.status == 200) {
-                                        console.log(pago);
-                                        actions.resetForm({
-                                            values: {
-                                                nombre: "",
-                                                precio: "",
-                                                talle: "",
-                                                estilo: "",
-                                                stock: "",
-                                                descripcion: "",
-                                                tipoProducto: "",
-                                                tipo: ""
-                                            },
-                                        })
-                                        console.log('Calzado ingresado con Éxito');
 
-                                    }
-                                    else
-                                        console.log('Calzado no ingresado');
-                                    break;
-                                }
-                                case 'Contado': {
-                                    const respuestaV = await createVestimentaRequest(respuestaP.data.idProducto)
-                                    console.log(respuestaV);
-                                    if (respuestaV.status == 200) {
-                                        console.log(pago);
-                                        actions.resetForm({
-                                            values: {
-                                                nombre: "",
-                                                precio: "",
-                                                talle: "",
-                                                estilo: "",
-                                                stock: "",
-                                                descripcion: "",
-                                                tipoProducto: "",
-                                                tipo: ""
-                                            },
-                                        })
-                                        console.log('Vestimenta ingresada con Éxito');
-                                    }
-                                    else
-                                        console.log('Vestimenta no ingresada');
-                                    break;
-                                }
-                                case 'Desposito': {
-                                    const respuestaA = await createAccesorioRequest(respuestaP.data.idProducto)
-                                    console.log(respuestaA);
-                                    if (respuestaA.status == 200) {
-                                        console.log('Accesorio ingresado con Éxito');
-                                        console.log(pago);
-
-                                        actions.resetForm({
-                                            values: {
-                                                nombre: "",
-                                                precio: "",
-                                                talle: "",
-                                                estilo: "",
-                                                stock: "",
-                                                descripcion: "",
-                                                tipoProducto: "",
-                                                tipo: ""
-                                            },
-                                        })
-                                    }
-                                    else
-                                        console.log('Accesorio no ingresado');
-                                    break;
-                                }
-                                default:
-                                    break;
-                            }
                         }
                     }
                 }}>

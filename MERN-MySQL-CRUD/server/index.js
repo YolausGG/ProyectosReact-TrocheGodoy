@@ -14,6 +14,7 @@ import productoMarcaRoutes from './routes/productoMarca.routes.js'
 import tipoFormaDePagoRoutes from './routes/tipoFormaDePago.routes.js'        
 import formaDePagoRoutes from './routes/formaDePago.routes.js'
 import pagoRoutes from './routes/pago.routes.js'
+import carritoRoutes from './routes/carrito.routes.js'
 
 const app = express();
 
@@ -33,7 +34,7 @@ app.use(productoMarcaRoutes)
 app.use(tipoFormaDePagoRoutes)
 app.use(formaDePagoRoutes)
 app.use(pagoRoutes)
-
+app.use(carritoRoutes)
 
 
 //app.use(express.static('./client/src/imagenesDB/'))
