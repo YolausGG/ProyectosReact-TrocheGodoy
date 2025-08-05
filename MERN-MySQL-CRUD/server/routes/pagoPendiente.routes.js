@@ -10,3 +10,5 @@ router.get('/pagoPendiente/:idUsuario', getPagoPendienteIdUsuario)
 router.post('/pagoPendiente', createPagoPendiente)
 router.delete('/pagoPendiente/:id', deletePagoPendiente)    
 router.put('/pagoPendiente/:id', updatePagoPendiente)
+
+export default router

@@ -65,6 +65,9 @@ create table Producto (
 idProducto int auto_increment primary key,
 nombre varchar(50) not null,
 precio decimal(10,2) not null,
+talle varchar(10) not null,
+stock numeric(4) not null,
+estilo varchar(30) not null,
 descripcion text
 );
 

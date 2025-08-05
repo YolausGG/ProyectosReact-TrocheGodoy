@@ -15,7 +15,7 @@ export const getCarrito = async (req, res) => {
 
 export const addToCarrito = async (req, res) => {
     try {
-        const [result] = await pool.promise().query(`Insert into Carrito (idUsuario, idProducto, cantidad) values(?,?,?)`, [req.body.idUsuario, req.body.idProducto, req.body.cantidad])
+        const [result] = await pool.promise().query(`Insert into Carrito (idUsuario, idProducto, cantidad) values(?,?,?)`, [req.params.idUsuario, req.body.idProducto, req.body.cantidad])
         res.json({
             result
         })

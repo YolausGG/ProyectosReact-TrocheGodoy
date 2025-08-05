@@ -4,7 +4,6 @@ import { getProductosRequest, getProductoRequest, } from '../api/productos.api.j
 import { getImagenesIdProductoRequest } from "../api/imagenes.api.js";
 import { getCategoriasIdProductoRequest } from '../api/productoCategoria.api.js'
 import { getMarcasIdProductoRequest } from '../api/productoMarca.api.js'
-import { getProductosTalleEstiloIdProductoRequest } from "../api/prodcutosTalleEstilo.api.js";
 
 
 export const ProductoContext = createContext()
@@ -40,9 +39,9 @@ export const ProductoProvider = ({ children }) => {
                             idProducto: prod.idProducto,
                             nombre: prod.nombre,
                             precio: prod.precio,
-                            talle: "",
-                            estilo: "",
-                            stock: "",
+                            talle: prod.talle,                            
+                            stock: prod.stock,
+                            estilo: prod.estilo,
                             descripcion: prod.descripcion,
                             categorias: [],
                             ofertas: [],
@@ -73,17 +72,7 @@ export const ProductoProvider = ({ children }) => {
                         } catch (error) {
                             console.error(error);
                         }
-                        try {
-                            const responsePTC = await getProductosTalleEstiloIdProductoRequest(prod.idProducto)
-                            if (responsePTC.status === 200) {
-                                producto.talle = responsePTC.data.talle
-                                producto.estilo = responsePTC.data.estilo
-                                producto.stock = responsePTC.data.stock
-                            }
-
-                        } catch (error) {
-                            console.error(error);
-                        }
+                        
                         return producto
                     })
                 )

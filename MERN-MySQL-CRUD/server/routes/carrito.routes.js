@@ -6,7 +6,7 @@ const router = Router();
 
 // Rutas para el carrito
 router.get('/carrito/:idUsuario', getCarrito);
-router.post('/carrito', addToCarrito);
+router.post('/carrito/:idUsuario', addToCarrito);
 router.delete('/carrito/:idUsuario/:idProducto', deleteFromCarrito);
 router.delete('/carrito/:idUsuario', vaciarCarrito);
 router.put('/carrito/:idUsuario', updateCarrito);

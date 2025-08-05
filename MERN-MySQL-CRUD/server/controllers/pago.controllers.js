@@ -10,7 +10,7 @@ export const getPagos = async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
-}   
+}
 
 export const getPago = async (req, res) => {
     try {
@@ -27,12 +27,14 @@ export const getPago = async (req, res) => {
 
 export const createPago = async (req, res) => {
     try {
-        const { idOrden, idFormaDePago, monto } = req.body;
-        const [result] = await pool.promise().query(`INSERT INTO Pago (idOrden, idFormaDePago, monto) VALUES (?, ?, ?)`, [idOrden, idFormaDePago, monto]);
+        const { idOrden, idUsuario, fecha, tipo, monto } = req.body;
+        const [result] = await pool.promise().query(`INSERT INTO Pago (idOrden, idUsuario, fecha, tipo, monto) VALUES (?, ?, ?)`, [idOrden, idUsuario, fecha, tipo, monto]);
         res.json({
             idPago: result.insertId,
             idOrden,
-            idFormaDePago,
+            idUsuario, 
+            fecha, 
+            tipo,
             monto
         });
     } catch (error) {
@@ -56,15 +58,17 @@ export const deletePago = async (req, res) => {
 }
 export const updatePago = async (req, res) => {
     try {
-        const { idOrden, idFormaDePago, monto } = req.body;
-        const [result] = await pool.promise().query(`UPDATE Pago SET idOrden = ?, idFormaDePago = ?, monto = ? WHERE idPago = ?`, [idOrden, idFormaDePago, monto, req.params.idPago]);
+        const { idOrden, idUsuario, fecha, tipo, monto } = req.body;
+        const [result] = await pool.promise().query(`UPDATE Pago SET idOrden = ?, idUsuario = ?, fecha = ?, tipo = ?, monto = ? WHERE idPago = ?`, [idOrden, idUsuario, fecha, tipo, monto, req.params.idPago]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Pago no encontrado' });
         }
         res.json({
             idPago: req.params.idPago,
             idOrden,
-            idFormaDePago,
+            idUsuario, 
+            fecha, 
+            tipo,
             monto
         });
     } catch (error) {

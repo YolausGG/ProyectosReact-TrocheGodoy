@@ -57,8 +57,8 @@ export const deleteFormaDePagoTarjeta = async (req, res) => {
 
 export const updateFormaDePagoTarjeta = async (req, res) => {
     try {
-        const { cantidadCuotas } = req.body;
-        const [result] = await pool.promise().query(`UPDATE Tarjeta SET cantidadCuotas = ? WHERE idTarjeta = ?`, [cantidadCuotas, req.params.id]);
+        const { cantidadCuotas, newId } = req.body;
+        const [result] = await pool.promise().query(`UPDATE Tarjeta SET cantidadCuotas = ?, idTarjeta = ? WHERE idTarjeta = ?`, [cantidadCuotas, newId, req.params.id]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "No existe el Pago de Tarjeta por ese ID" });
         }
@@ -74,7 +74,7 @@ export const updateFormaDePagoTarjeta = async (req, res) => {
 
 //CONTADO
 
-export const getFormaDePagoContado = async (req, res) => {  
+export const getFormaDePagoContado = async (req, res) => {
     try {
         const [result] = await pool.promise().query(`SELECT * FROM Contado`);
         res.json({ result });
@@ -97,7 +97,7 @@ export const getFormaDePagoContadoId = async (req, res) => {
     }
 }
 
-export const createFormaDePagoContado = async (req, res) => {  
+export const createFormaDePagoContado = async (req, res) => {
     try {
         const [result] = await pool.promise().query(`INSERT INTO Contado (idContado) VALUES (?)`, [req.params.id]);
         res.json({
@@ -109,7 +109,7 @@ export const createFormaDePagoContado = async (req, res) => {
     }
 }
 
-export const deleteFormaDePagoContado = async (req, res) => {   
+export const deleteFormaDePagoContado = async (req, res) => {
     try {
         const [result] = await pool.promise().query(`DELETE FROM Contado WHERE idContado = ?`, [req.params.id]);
         if (result.affectedRows > 0) {
@@ -125,7 +125,7 @@ export const deleteFormaDePagoContado = async (req, res) => {
 
 export const updateFormaDePagoContado = async (req, res) => {
     try {
-        const [result] = await pool.promise().query(`UPDATE Contado SET idContado = ? WHERE idContado = ?`, [req.params.id, req.params.id]);
+        const [result] = await pool.promise().query(`UPDATE Contado SET idContado = ? WHERE idContado = ?`, [req.body.newId, req.params.id]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "No existe el Pago al Contado por ese ID" });
         }
@@ -148,7 +148,7 @@ export const getFormaDePagoDeposito = async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
-}   
+}
 
 export const getFormaDePagoDepositoId = async (req, res) => {
     try {
@@ -161,7 +161,7 @@ export const getFormaDePagoDepositoId = async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
-}   
+}
 
 export const createFormaDePagoDeposito = async (req, res) => {
     try {
@@ -191,7 +191,7 @@ export const deleteFormaDePagoDeposito = async (req, res) => {
 
 export const updateFormaDePagoDeposito = async (req, res) => {
     try {
-        const [result] = await pool.promise().query(`UPDATE Deposito SET idDeposito = ? WHERE idDeposito = ?`, [req.params.id, req.params.id]);
+        const [result] = await pool.promise().query(`UPDATE Deposito SET idDeposito = ? WHERE idDeposito = ?`, [req.body.newId, req.body.id]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "No existe el Pago por Deposito por ese ID" });
         }

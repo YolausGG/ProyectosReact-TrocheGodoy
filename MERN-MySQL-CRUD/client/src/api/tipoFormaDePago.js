@@ -6,8 +6,8 @@ export const getFormaDePagoTarjetasRequest = async () =>
 export const getFormaDePagoTarjetaRequest = async (id) =>
     await axios.get(`http://localhost:4000/tarjeta/${id}`)
 
-export const createFormaDePagoTarjetaRequest = async (id) =>
-    await axios.post(`http://localhost:4000/tarjeta/${id}`)
+export const createFormaDePagoTarjetaRequest = async (id, data) =>
+    await axios.post(`http://localhost:4000/tarjeta/${id}`, data)
 
 export const deleteFormaDePagoTarjetaRequest = async (id) =>
     await axios.delete(`http://localhost:4000/tarjeta/${id}`)
@@ -39,8 +39,8 @@ export const getFormaDePagoContadosRequest = async () =>
 export const getFormaDePagoContadoRequest = async (id) =>
     await axios.get(`http://localhost:4000/contado/${id}`)
 
-export const createFormaDePagoContadoRequest = async (id) =>
-    await axios.post(`http://localhost:4000/contado/${id}`)
+export const createFormaDePagoContadoRequest = async (id, data) =>
+    await axios.post(`http://localhost:4000/contado/${id}`, data)
 
 export const deleteFormaDePagoContadoRequest = async (id) =>
     await axios.delete(`http://localhost:4000/contado/${id}`)

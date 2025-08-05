@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useCarrito } from '../contexts/carrito';
 import ProductoCompraFinal from '../components/ProductoCompraFinal';
 import { Form, Formik } from 'formik';
-import { createFormaDePagoDeposito, createFormaDePagoTarjeta } from '../../../server/controllers/tipoFormaDePago.controllers';
+import { createFormaDePagoRequest } from '../api/formaDePago.api';
+import { createFormaDePagoContadoRequest, createFormaDePagoDepositoRequest, createFormaDePagoTarjetaRequest } from '../api/tipoFormaDePago';
 
 function ConfirmarCompra() {
 
@@ -42,147 +43,71 @@ function ConfirmarCompra() {
                     const orden = { idUsuario: idUsuarioPrueba, idFormaDePago: 4, fecha: new Date(), monto: precioTotal }
                     console.log(orden);
 
-                    
 
-
-                    const respuestaFDP = await createFormaDePagoDeposito({formaDePago: pago.formaDePago, monto: precioTotal})
+                    const respuestaFDP = await createFormaDePagoRequest({formaDePago: pago.formaDePago, monto: precioTotal})
 
 
                     switch (pago.formaDePago) {
                         case 'Tarjeta': {
-                            const respuestaT = await createFormaDePagoTarjeta(respuestaFDP.data.idFormaDePago, pago.CantidadCuotas)
+                            const respuestaT = await createFormaDePagoTarjetaRequest(respuestaFDP.data.idFormaDePago, pago.CantidadCuotas)
                             console.log(respuestaT);
                             if (respuestaT.status == 200) {
                                 console.log(pago);
                                 actions.resetForm({
-                                    values: {
-                                        nombre: "",
+                                    values: {                                       
                                         precio: "",
-                                        talle: "",
-                                        estilo: "",
-                                        stock: "",
-                                        descripcion: "",
-                                        tipoProducto: "",
                                         tipo: ""
                                     },
                                 })
-                                console.log('Calzado ingresado con Éxito');
+                                console.log('Compra con Tarjeta ingresada con Éxito');
 
                             }
                             else
-                                console.log('Calzado no ingresado');
+                                console.log('Compra con Tarjeta no ingresado');
                             break;
                         }
                         case 'Contado': {
-                            const respuestaV = await createVestimentaRequest(respuestaP.data.idProducto)
-                            console.log(respuestaV);
-                            if (respuestaV.status == 200) {
+                            const respuestaC = await createFormaDePagoContadoRequest(respuestaFDP.data.idFormaDePago)
+                            console.log(respuestaC);
+                            if (respuestaC.status == 200) {
                                 console.log(pago);
                                 actions.resetForm({
                                     values: {
-                                        nombre: "",
                                         precio: "",
-                                        talle: "",
-                                        estilo: "",
-                                        stock: "",
-                                        descripcion: "",
-                                        tipoProducto: "",
                                         tipo: ""
                                     },
                                 })
-                                console.log('Vestimenta ingresada con Éxito');
+                                console.log('Compra en Contado ingresada con Éxito');
                             }
                             else
-                                console.log('Vestimenta no ingresada');
+                                console.log('Compra en Contado no ingresada');
                             break;
                         }
                         case 'Desposito': {
-                            const respuestaA = await createFormaDePagoDeposito(respuestaP.data.idProducto)
+                            const respuestaA = await createFormaDePagoDepositoRequest(respuestaFDP.data.idFormaDePago)
                             console.log(respuestaA);
                             if (respuestaA.status == 200) {
-                                console.log('Accesorio ingresado con Éxito');
                                 console.log(pago);
 
                                 actions.resetForm({
                                     values: {
-                                        nombre: "",
                                         precio: "",
-                                        talle: "",
-                                        estilo: "",
-                                        stock: "",
-                                        descripcion: "",
-                                        tipoProducto: "",
                                         tipo: ""
                                     },
                                 })
+                                
+                                console.log('Compra con Deposito ingresada con Éxito');
                             }
                             else
-                                console.log('Accesorio no ingresado');
+                                console.log('Compra con Deposito no ingresado');
                             break;
                         }
                         default:
                             break;
                     }
 
-
-
-
                     console.log(values);
-                    console.log(respuestaP);
-
-                    if (respuestaP.status == 200) {
-
-                        const productoTalleEstilo = { idProducto: respuestaP.data.idProducto, talle: values.talle, estilo: values.estilo, stock: values.stock }
-
-                        const respuestaPTC = await createProductosTalleEstiloRequest(productoTalleEstilo)
-
-                        if (respuestaPTC.status == 200) {
-                            if (!imagenes) {
-                                alert('Ninguna imagen seleccionada')
-                            }
-                            else {
-                                imagenes.forEach(async img => {
-                                    console.log(img);
-
-                                    let URLImagen = await uploadFile(img)
-                                    console.log('URLImagen:' + URLImagen);
-
-                                    let imgData = { titulo: img.name, URLImagen: URLImagen }
-
-                                    var respuestaI = await createImagenRequest(respuestaP.data.idProducto, imgData)
-
-                                    if (respuestaI.status == 200) {
-                                        setImagenes([])
-                                        showFiles(null)
-                                        loadProductos()
-                                        console.log('Imagen dada de alta a Producto')
-                                    }
-                                    else {
-                                        console.log('Imagen NO dada de alta a Producto')
-                                    }
-
-                                });
-                            }
-                            if (categoriasP.length > 0) {
-                                categoriasP.forEach(async catP => {
-                                    var respuestaCCP = await createCategoriasProductoRequest({ idProducto: respuestaP.data.idProducto, idCategoria: catP.idCategoria })
-
-                                    respuestaCCP.status == 200 ? console.log('Categoria dada de alta a Producto') : console.log('Categoria NO dada de alta a Producto');
-                                })
-                                setCategoriasP([])
-                            }
-                            if (marcasP.length > 0) {
-                                marcasP.forEach(async marcaP => {
-                                    var respuestaCMP = await createMarcasProductoRequest({ idProducto: respuestaP.data.idProducto, idMarca: marcaP.idMarca })
-
-                                    respuestaCMP.status == 200 ? console.log('Marca dada de alta a Producto') : console.log('Marca NO dada de alta a Producto');
-                                })
-                                setMarcasP([])
-                            }
-
-
-                        }
-                    }
+                    
                 }}>
                 {({ handleChange, handleSubmit, values, isSubmitting }) => (
                     <Form method='POST' encType='multipart/form-data' className='form-confirmar-compra estandarForm' onSubmit={handleSubmit}>
