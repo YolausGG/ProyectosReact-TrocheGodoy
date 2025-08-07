@@ -28,6 +28,37 @@ function ConfirmarCompra() {
         }))
     }
 
+    const changeFormFromaDePago = (e) => {
+
+        switch (pago.formaDePago) {
+            case 'Tarjeta': {
+                return (
+                    <div  className='divCantidadCuotas'>
+                        <label htmlFor='cantidadCuotas'>Cantidad de Cuotas</label>
+                        <input type='number' id='cantidadCuotas' name='cantidadCuotas' min="1" max="12"  />
+                    </div>
+                );
+            }
+            case 'Contado': {
+                return (
+                    <div  className='divCantidadCuotas'>
+                    </div>
+                );
+            }
+            case 'Deposito': {
+                return (
+                    <div className='divCantidadCuotas'>
+                    </div>
+                );
+            }
+            default:
+                return null;
+
+
+        }
+
+    }
+
     return (
         <div className='container-confirmar-compra'>
             <h2>Confirmar Compra</h2>
@@ -44,7 +75,7 @@ function ConfirmarCompra() {
                     console.log(orden);
 
 
-                    const respuestaFDP = await createFormaDePagoRequest({formaDePago: pago.formaDePago, monto: precioTotal})
+                    const respuestaFDP = await createFormaDePagoRequest({ formaDePago: pago.formaDePago, monto: precioTotal })
 
 
                     switch (pago.formaDePago) {
@@ -54,7 +85,7 @@ function ConfirmarCompra() {
                             if (respuestaT.status == 200) {
                                 console.log(pago);
                                 actions.resetForm({
-                                    values: {                                       
+                                    values: {
                                         precio: "",
                                         tipo: ""
                                     },
@@ -95,7 +126,7 @@ function ConfirmarCompra() {
                                         tipo: ""
                                     },
                                 })
-                                
+
                                 console.log('Compra con Deposito ingresada con Éxito');
                             }
                             else
@@ -107,38 +138,47 @@ function ConfirmarCompra() {
                     }
 
                     console.log(values);
-                    
+
                 }}>
                 {({ handleChange, handleSubmit, values, isSubmitting }) => (
-                    <Form method='POST' encType='multipart/form-data' className='form-confirmar-compra estandarForm' onSubmit={handleSubmit}>
-                        <div className='container-productos-confirmar'>
+
+                    <Form method='POST' encType='multipart/form-data' className='container-form-confirmar-compra' onSubmit={handleSubmit}>
+
+                        <div className='container-productos-confirmar estandarForm'>
                             {
                                 productosCarrito?.map(producto => (
                                     <ProductoCompraFinal key={producto.idProducto} producto={producto} />
                                 ))
                             }
                         </div>
+                        <div className='form-confirmar-compra estandarForm'>
 
-                        <div className='divConainerChBoxFormaDePago'>
-                            {chkbs.map((formaDePago) => {
-                                return (
-                                    <label key={formaDePago.id}>
-                                        <input type='checkbox' id={formaDePago.id} checked={formaDePago.isChecked} onChange={() => onChangeCheckBoxs(formaDePago.id)} value={formaDePago.name} />
-                                        <h4>{formaDePago.name}</h4>
-                                    </label>
-                                );
-                            })}
+                            <h3>Forma de Pago</h3>
+                            <label className='lblFormaDePago'>Seleccione forma:</label>
+                            <div className='divConainerChBoxFormaDePago'>
+                                {chkbs.map((formaDePago) => {
+                                    return (
+                                        <label key={formaDePago.id}>
+                                            <input type='checkbox' id={formaDePago.id} checked={formaDePago.isChecked} onChange={() => onChangeCheckBoxs(formaDePago.id)} value={formaDePago.name} />
+                                            <h4>{formaDePago.name}</h4>
+                                        </label>
+                                    );
+                                })}
+                            </div>
+                            {pago.formaDePago == '' ? '' : changeFormFromaDePago(pago.formaDePago)}
+                            
+
+                            < label className='lblPrecioTotal'>Precio total: {precioTotal}</label>
+
+                            <button className='btn-confirmar-compra btnCreate' type="submit" disabled={isSubmitting}>
+                                {isSubmitting ? "Confirmando..." : "Confirmado"}
+                            </button>
                         </div>
-                        <label className='lblPrecioTotal'>Precio total: {precioTotal}</label>
-
-                        <button className='btn-confirmar-compra btnCreate' type="submit" disabled={isSubmitting}>
-                            {isSubmitting ? "Confirmando..." : "Confirmado"}
-                        </button>
                     </Form>
                 )}
             </Formik>
 
-        </div>
+        </div >
     );
 }
 

@@ -118,15 +118,35 @@
     text-align: start;
     display: grid;
     padding: 1rem;
-}
-
-.form-confirmar-compra{
-    display: grid;
-    padding: 1rem;
+    
+    background-color: rgba(0, 0, 0, .1);
+    
     border: 3px solid black;
     border-radius: 6px;
-    box-shadow: 2px 2px 5px black;
+    box-shadow: 2px 2px 5px black
+}
+
+.container-form-confirmar-compra{
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 10px;
+    width: 90%;    
+}
+.form-confirmar-compra{
+    display: grid;
+    padding: 1rem;;
+    gap: 10px;
+    
+    border: 3px solid black;
+    border-radius: 6px;
+    box-shadow: 2px 2px 5px black
+}
+.form-confirmar-compra h3 {
+    text-align: center;
+    color: black;
 }
 
 .container-producto-carrito-final {
