@@ -45,20 +45,20 @@ formaDePago varchar(50) not null,
 monto decimal(10,2) not null
 );
 
-create table Tarjeta(
-idTarjeta int primary key,
+create table PagoOnline(
+idPagoOnline int primary key,
 cantidadDeCuotas numeric(2) not null,
-constraint FK_Tarjeta_FormaDePago foreign key(idTarjeta) references FormaDePago(idFormaDePago) on delete cascade
+constraint FK_PagoOnline_FormaDePago foreign key(idPagoOnline) references FormaDePago(idFormaDePago) on delete cascade
 );
 
-create table Contado(
-idContado int primary key,
-constraint FK_Contado_FormaDePago foreign key(idContado) references FormaDePago(idFormaDePago) on delete cascade
+create table Efectivo(
+idEfectivo int primary key,
+constraint FK_Efectivo_FormaDePago foreign key(idContado) references FormaDePago(idFormaDePago) on delete cascade
 );
 
-create table Deposito(
-idDeposito int primary key,
-constraint FK_Deposito_FormaDePago foreign key(idDeposito) references FormaDePago(idFormaDePago) on delete cascade
+create table Transferencia(
+idTransferencia int primary key,
+constraint FK_Transferencia_FormaDePago foreign key(idDeposito) references FormaDePago(idFormaDePago) on delete cascade
 );
 
 create table Producto (
@@ -157,6 +157,18 @@ constraint FK_ProductoMarca_Producto foreign key(idProducto) references Producto
 constraint FK_ProductoMarca_Marca foreign key(idMarca) references Marca(idMarca)on delete cascade,
 primary key(idProducto, idMarca)
 );
+
+create table Envio(
+idEnvio int auto_increment primary key,
+idOrden int,
+idDireccion int,
+fecha Date not null,
+tipo varchar(30) not null,
+monto decimal(10,2) not null,
+constraint FK_Envio_Orden foreign key(idOrden) references Orden(idOrden) on delete cascade,
+constraint FK_Envio_Direccion foreign key(idDireccion) references Direccion(idDireccion)on delete cascade
+);
+
 
 DELIMITER $$
 CREATE TRIGGER evaluaFechaNacimiento BEFORE INSERT ON Usuario

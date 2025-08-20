@@ -183,7 +183,13 @@
     color: black;   
 }
 
-.divConainerChBoxFormaDePago {
+.divContainerFormaDePagoOnline {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.divContainerChBoxFormaDePago {
     display: flex;
     justify-content: space-evenly;
     align-items: center;  
@@ -191,15 +197,37 @@
     gap: 10px;
 }
 
-.divConainerChBoxFormaDePago label {
+.divContainerChBoxFormaDePago label {
     display: flex;
     gap: 5px;
 }
 
-.divConainerChBoxFormaDePago input {
+.divContainerChBoxFormaDePago input {
     scale: 1.4;
 }
 
+
+.divContainerChBoxFormaDePagoOnline{
+    display: flex;
+    justify-content:start;
+    align-items: center;  
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.divContainerChBoxFormaDePagoOnline label {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.divContainerChBoxFormaDePagoOnline input {
+    scale: 1.4;
+}
+
+.divContainerFormaPagoCredito{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
 
 
 @media (max-width: 830px) {

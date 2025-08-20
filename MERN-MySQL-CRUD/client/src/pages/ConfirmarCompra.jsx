@@ -9,45 +9,78 @@ function ConfirmarCompra() {
 
     const { productosCarrito, precioTotal } = useCarrito();
 
-    const [chkbs, setChks] = useState([
-        { id: 1, isChecked: true, name: 'Tarjeta' },
-        { id: 2, isChecked: false, name: 'Contado' },
-        { id: 3, isChecked: false, name: 'Deposito' },
+    const [chkbsFormaDePago, setChkbsFormaDePago] = useState([
+        { id: 1, isChecked: true, name: 'Pago Online' },
+        { id: 2, isChecked: false, name: 'Efectivo' },
+        { id: 3, isChecked: false, name: 'Transferencia' },
     ]);
+
+    const [chkbsFormaDePagoOnline, setChkbsFormaDePagoOnline] = useState([
+        { id: 1, isChecked: true, name: 'Debito' },
+        { id: 2, isChecked: false, name: 'Credito' },
+        { id: 3, isChecked: false, name: 'MercadoPago' },
+    ]);
+
 
     const [pago, setPago] = useState({
         formaDePago: '',
+        formaDePagoOnline: '',
+        cantidadCuotas: 0,
         productosCarrito: productosCarrito,
         precio: 0
     });
 
-    const onChangeCheckBoxs = (id) => {
-        setChks(chkbs.map(chkb => {
+    // Maneja el cambio de los checkbox de las formas de pago
+    const onChangeCheckBoxsFormaDePago = (id) => {
+        setChkbsFormaDePago(chkbsFormaDePago.map(chkb => {
             if (chkb.id === id) { pago.formaDePago = chkb.name; return { ...chkb, isChecked: true } }
             else return { ...chkb, isChecked: false };
         }))
     }
+    // Maneja el cambio de los checkbox de las formas de pago Online
+    const onChangeCheckBoxsFormaDePagoOnline = (id) => {
+        setChkbsFormaDePagoOnline(chkbsFormaDePagoOnline.map(chkb => {
+            if (chkb.id === id) { pago.formaDePagoOnline = chkb.name; return { ...chkb, isChecked: true } }
+            else return { ...chkb, isChecked: false };
+        }))
+    }
+
+
+    // Cambia el formulario según la forma de pago seleccionada
 
     const changeFormFromaDePago = (e) => {
 
         switch (pago.formaDePago) {
-            case 'Tarjeta': {
+            case 'Pago Online': {
                 return (
-                    <div  className='divCantidadCuotas'>
-                        <label htmlFor='cantidadCuotas'>Cantidad de Cuotas</label>
-                        <input type='number' id='cantidadCuotas' name='cantidadCuotas' min="1" max="12"  />
+                    <div className='divContainerFormaDePagoOnline'>
+                        <h4 className='lblFormaDePagoOnline'>Seleccione forma de pago online: </h4>
+                        <div className='divContainerChBoxFormaDePagoOnline'>
+                            {chkbsFormaDePagoOnline.map((tipoformaDePagoOnline) => {
+                                return (
+                                    <label key={tipoformaDePagoOnline.id}>
+                                        <input type='checkbox' id={tipoformaDePagoOnline.id} checked={tipoformaDePagoOnline.isChecked} onChange={() => onChangeCheckBoxsFormaDePagoOnline(tipoformaDePagoOnline.id)} value={tipoformaDePagoOnline.name} />
+                                        <h4>{tipoformaDePagoOnline.name}</h4>
+                                    </label>
+                                );
+                            })}
+                        </div>
+                        {pago.formaDePagoOnline == '' ? '' : changeFormFromaDePagoOnline(pago.formaDePagoOnline)}
+
                     </div>
                 );
             }
-            case 'Contado': {
-                return (
-                    <div  className='divCantidadCuotas'>
-                    </div>
-                );
-            }
-            case 'Deposito': {
+            case 'Efectivo': {
                 return (
                     <div className='divCantidadCuotas'>
+                        <h4 htmlFor="">Efectivo</h4>
+                    </div>
+                );
+            }
+            case 'Transferencia': {
+                return (
+                    <div className='divCantidadCuotas'>
+                        <h4 htmlFor="">Transferencia</h4>
                     </div>
                 );
             }
@@ -57,6 +90,42 @@ function ConfirmarCompra() {
 
         }
 
+    }
+
+    // Cambiar formulario según la forma de pago con tarjeta seleccionada
+    const changeFormFromaDePagoOnline = (formaDePagoOnline) => {
+        switch (formaDePagoOnline) {
+            case 'Debito': {
+                return (
+                    <div className='divCantidadCuotas'>
+                        <h4 htmlFor="">Debito</h4>
+                        <label htmlFor="numeroTarjeta">Número de Tarjeta: </label>
+                        <input type="number" id="numeroTarjeta" name="numeroTarjeta" required />
+                    </div>
+                );
+            }
+            case 'Credito': {
+                return (
+                    <div className='divContainerFormaPagoCredito'>
+                        <h4 htmlFor="">Credito</h4>
+
+                        <label htmlFor="numeroTarjeta">Número de Tarjeta: </label>
+                        <input type="number" id="numeroTarjeta" name="numeroTarjeta" required />
+                        <label htmlFor='cantidadCuotas'>Cantidad de Cuotas: </label>
+                        <input type='number' id='cantidadCuotas' name='cantidadCuotas' min="2" max="12" required />
+                    </div>
+                );
+            }
+            case 'MercadoPago': {
+                return (
+                    <div className='divCantidadCuotas'>
+                        <h4 htmlFor="">Mercado Pago</h4>
+                    </div>
+                );
+            }
+            default:
+                return null;
+        }
     }
 
     return (
@@ -155,18 +224,18 @@ function ConfirmarCompra() {
 
                             <h3>Forma de Pago</h3>
                             <label className='lblFormaDePago'>Seleccione forma:</label>
-                            <div className='divConainerChBoxFormaDePago'>
-                                {chkbs.map((formaDePago) => {
+                            <div className='divContainerChBoxFormaDePago'>
+                                {chkbsFormaDePago.map((formaDePago) => {
                                     return (
                                         <label key={formaDePago.id}>
-                                            <input type='checkbox' id={formaDePago.id} checked={formaDePago.isChecked} onChange={() => onChangeCheckBoxs(formaDePago.id)} value={formaDePago.name} />
+                                            <input type='checkbox' id={formaDePago.id} checked={formaDePago.isChecked} onChange={() => onChangeCheckBoxsFormaDePago(formaDePago.id)} value={formaDePago.name} />
                                             <h4>{formaDePago.name}</h4>
                                         </label>
                                     );
                                 })}
                             </div>
                             {pago.formaDePago == '' ? '' : changeFormFromaDePago(pago.formaDePago)}
-                            
+
 
                             < label className='lblPrecioTotal'>Precio total: {precioTotal}</label>
 
