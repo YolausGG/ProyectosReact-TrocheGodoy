@@ -1,33 +1,33 @@
 import { Router } from "express";
 import {
-    getFormaDePagoContado, getFormaDePagoContadoId, createFormaDePagoContado,updateFormaDePagoContado, deleteFormaDePagoContado,
-    getFormaDePagoDeposito, getFormaDePagoDepositoId, createFormaDePagoDeposito, updateFormaDePagoDeposito, deleteFormaDePagoDeposito,
-    getFormaDePagoTarjeta, getFormaDePagoTarjetaId, createFormaDePagoTarjeta, updateFormaDePagoTarjeta, deleteFormaDePagoTarjeta
+    getFormaDePagoPagoOnline, getFormaDePagoPagoOnlineId, createFormaDePagoPagoOnline,updateFormaDePagoPagoOnline, deleteFormaDePagoPagoOnline,
+    getFormaDePagoEfectivo, getFormaDePagoEfectivoId, createFormaDePagoEfectivo, updateFormaDePagoEfectivo, deleteFormaDePagoEfectivo,
+    getFormaDePagoTransferencia, getFormaDePagoTransferenciaId, createFormaDePagoTransferencia, updateFormaDePagoTransferencia, deleteFormaDePagoTransferencia
 } from "../controllers/tipoFormaDePago.controllers.js";
 
 const router = Router()
 
-// Tarjeta
-router.get('/tarjetas', getFormaDePagoTarjeta);
-router.get('/tarjeta/:id', getFormaDePagoTarjetaId);
-router.post('/tarjeta/:id', createFormaDePagoTarjeta);
-router.put('/tarjeta/:id', updateFormaDePagoTarjeta);
-router.delete('/tarjeta/:id', deleteFormaDePagoTarjeta);    
+// Pago Online
+router.get('/pagosOnline', getFormaDePagoPagoOnline);
+router.get('/pagoOnline/:id', getFormaDePagoPagoOnlineId);
+router.post('/pagoOnline/:id', createFormaDePagoPagoOnline);
+router.put('/pagoOnline/:id', updateFormaDePagoPagoOnline);
+router.delete('/pagoOnline/:id', deleteFormaDePagoPagoOnline);    
 
-// Contado
+// Efectivo
 
-router.get('/contados', getFormaDePagoContado);
-router.get('/contado/:id', getFormaDePagoContadoId);
-router.post('/contado/:id', createFormaDePagoContado);
-router.put('/contado/:id', updateFormaDePagoContado);
-router.delete('/contado/:id', deleteFormaDePagoContado);
+router.get('/efectivo', getFormaDePagoEfectivo);
+router.get('/efectivo/:id', getFormaDePagoEfectivoId);
+router.post('/efectivo/:id', createFormaDePagoEfectivo);
+router.put('/efectivo/:id', updateFormaDePagoEfectivo);
+router.delete('/efectivo/:id', deleteFormaDePagoEfectivo);
 
-// Deposito
+// Transferencia
 
-router.get('/depositos', getFormaDePagoDeposito);
-router.get('/deposito/:id', getFormaDePagoDepositoId);  
-router.post('/deposito/:id', createFormaDePagoDeposito);
-router.put('/deposito/:id', updateFormaDePagoDeposito);
-router.delete('/deposito/:id', deleteFormaDePagoDeposito);
+router.get('/transferencias', getFormaDePagoTransferencia);
+router.get('/transferencia/:id', getFormaDePagoTransferenciaId);  
+router.post('/transferencia/:id', createFormaDePagoTransferencia);
+router.put('/transferencia/:id', updateFormaDePagoTransferencia);
+router.delete('/transferencia/:id', deleteFormaDePagoTransferencia);
 
 export default router;

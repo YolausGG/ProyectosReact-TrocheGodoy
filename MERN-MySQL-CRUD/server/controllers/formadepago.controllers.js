@@ -11,7 +11,7 @@ export const getFormasDePago = async (req, res) => {
     }
 }
 
-export const getFormaDePago = async (req, res) => { 
+export const getFormaDePago = async (req, res) => {
     try {
         const [result] = await pool.promise().query(`SELECT * FROM FormaDePago WHERE idFormaDePago = ?`, [req.params.idFormaDePago]);
         if (result.length === 0) {
@@ -22,7 +22,20 @@ export const getFormaDePago = async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
-} 
+}
+
+export const getFormaDePagoPorTipo = async (req, res) => {
+    try {
+        const [result] = await pool.promise().query(`SELECT * FROM FormaDePago WHERE formaDePago = ?`, [req.params.formaDePago]);
+        if (result.length === 0) {
+            return res.status(404).json({ message: "No existe la Forma de Pago" });
+        }
+        res.json(result[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+}
 
 export const createFormaDePago = async (req, res) => {
     try {
@@ -51,7 +64,7 @@ export const deleteFormaDePago = async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
-}   
+}
 
 export const updateFormaDePago = async (req, res) => {
     try {

@@ -53,12 +53,12 @@ constraint FK_PagoOnline_FormaDePago foreign key(idPagoOnline) references FormaD
 
 create table Efectivo(
 idEfectivo int primary key,
-constraint FK_Efectivo_FormaDePago foreign key(idContado) references FormaDePago(idFormaDePago) on delete cascade
+constraint FK_Efectivo_FormaDePago foreign key(idEfectivo) references FormaDePago(idFormaDePago) on delete cascade
 );
 
 create table Transferencia(
 idTransferencia int primary key,
-constraint FK_Transferencia_FormaDePago foreign key(idDeposito) references FormaDePago(idFormaDePago) on delete cascade
+constraint FK_Transferencia_FormaDePago foreign key(idTransferencia) references FormaDePago(idFormaDePago) on delete cascade
 );
 
 create table Producto (
@@ -164,6 +164,7 @@ idOrden int,
 idDireccion int,
 fecha Date not null,
 tipo varchar(30) not null,
+estado varchar(30) not null,
 monto decimal(10,2) not null,
 constraint FK_Envio_Orden foreign key(idOrden) references Orden(idOrden) on delete cascade,
 constraint FK_Envio_Direccion foreign key(idDireccion) references Direccion(idDireccion)on delete cascade

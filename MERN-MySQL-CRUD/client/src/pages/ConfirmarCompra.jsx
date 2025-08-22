@@ -3,7 +3,7 @@ import { useCarrito } from '../contexts/carrito';
 import ProductoCompraFinal from '../components/ProductoCompraFinal';
 import { Form, Formik } from 'formik';
 import { createFormaDePagoRequest } from '../api/formaDePago.api';
-import { createFormaDePagoContadoRequest, createFormaDePagoDepositoRequest, createFormaDePagoTarjetaRequest } from '../api/tipoFormaDePago';
+import { createFormaDePagoPagoOnlineRequest, createFormaDePagoEfectivoRequest, createFormaDePagoTransferenciaRequest } from '../api/tipoFormaDePago';
 
 function ConfirmarCompra() {
 
@@ -16,15 +16,15 @@ function ConfirmarCompra() {
     ]);
 
     const [chkbsFormaDePagoOnline, setChkbsFormaDePagoOnline] = useState([
-        { id: 1, isChecked: true, name: 'Debito' },
+        { id: 1, isChecked: false, name: 'Debito' },
         { id: 2, isChecked: false, name: 'Credito' },
-        { id: 3, isChecked: false, name: 'MercadoPago' },
+        { id: 3, isChecked: true, name: 'MercadoPago' },
     ]);
 
 
     const [pago, setPago] = useState({
-        formaDePago: '',
-        formaDePagoOnline: '',
+        formaDePago: 'Pago Online',
+        formaDePagoOnline: 'MercadoPago',
         cantidadCuotas: 0,
         productosCarrito: productosCarrito,
         precio: 0
@@ -149,7 +149,7 @@ function ConfirmarCompra() {
 
                     switch (pago.formaDePago) {
                         case 'Tarjeta': {
-                            const respuestaT = await createFormaDePagoTarjetaRequest(respuestaFDP.data.idFormaDePago, pago.CantidadCuotas)
+                            const respuestaT = await createFormaDePagoPagoOnlineRequest(respuestaFDP.data.idFormaDePago, pago.CantidadCuotas)
                             console.log(respuestaT);
                             if (respuestaT.status == 200) {
                                 console.log(pago);
@@ -167,7 +167,7 @@ function ConfirmarCompra() {
                             break;
                         }
                         case 'Contado': {
-                            const respuestaC = await createFormaDePagoContadoRequest(respuestaFDP.data.idFormaDePago)
+                            const respuestaC = await createFormaDePagoEfectivoRequest(respuestaFDP.data.idFormaDePago)
                             console.log(respuestaC);
                             if (respuestaC.status == 200) {
                                 console.log(pago);
@@ -184,7 +184,7 @@ function ConfirmarCompra() {
                             break;
                         }
                         case 'Desposito': {
-                            const respuestaA = await createFormaDePagoDepositoRequest(respuestaFDP.data.idFormaDePago)
+                            const respuestaA = await createFormaDePagoTransferenciaRequest(respuestaFDP.data.idFormaDePago)
                             console.log(respuestaA);
                             if (respuestaA.status == 200) {
                                 console.log(pago);
