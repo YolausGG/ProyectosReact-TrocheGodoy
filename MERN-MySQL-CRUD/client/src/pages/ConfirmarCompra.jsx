@@ -16,9 +16,9 @@ function ConfirmarCompra() {
     ]);
 
     const [chkbsFormaDePagoOnline, setChkbsFormaDePagoOnline] = useState([
-        { id: 1, isChecked: false, name: 'Debito' },
-        { id: 2, isChecked: false, name: 'Credito' },
-        { id: 3, isChecked: true, name: 'MercadoPago' },
+        { id: 1, isChecked: true, name: 'MercadoPago' },
+        { id: 2, isChecked: false, name: 'Debito' },
+        { id: 3, isChecked: false, name: 'Credito' },        
     ]);
 
 

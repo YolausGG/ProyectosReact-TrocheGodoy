@@ -92,3 +92,20 @@ export const updateEnvio = async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 }
+
+export const updateEstadoEnvio = async (req, res) => {
+    try {
+        const { estado} = req.body;
+        const [result] = await pool.promise().query(`UPDATE Envio SET estado = ? WHERE idEnvio = ?`, [estado, req.params.id]);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Envio no encontrado' });
+        }
+        res.json({
+            idEnvio: req.params.id,
+            estado
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+}

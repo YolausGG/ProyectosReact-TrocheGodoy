@@ -19,12 +19,12 @@ create table Direccion (
 idDireccion int auto_increment,
 idUsuario int,
 calle varchar(100) not null,
-estado varchar(100) not null,
+departamento varchar(100) not null,
 ciudad varchar(100) not null,
-numeroExterior varchar(20),
-numeroInterior varchar(20),
+numeroDeCasa varchar(20),
+numeroDeApartamento varchar(20),
 referencia text,
-codigoPostal varchar(20),
+codigoPostal varchar(20) not null,
 constraint FK_Direccion_Usuario foreign key(idUsuario) references Usuario(idUsuario) on delete cascade,
 primary key(idDireccion, idUsuario)
 );
