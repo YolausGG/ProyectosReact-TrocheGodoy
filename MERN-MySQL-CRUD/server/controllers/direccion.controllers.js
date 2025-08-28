@@ -2,7 +2,7 @@ import { pool } from "../db.js";
 
 // DIRECCION
 
-export const getDireccion = async (req, res) => {
+export const getDirecciones = async (req, res) => {
     try {
         const [result] = await pool.promise().query(`SELECT * FROM Direccion`);
         res.json({ result });
@@ -67,6 +67,30 @@ export const deleteDireccion = async (req, res) => {
         } else {
             res.status(404).json({ error: 'Direccion no encontrada' });
         }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+}
+
+export const updateDireccion = async (req, res) => {
+    try {
+        const { idUsuario, calle, departamento, ciudad, numeroDeCasa, numeroDeApartamento, referencia, codigoPostal } = req.body;
+        const [result] = await pool.promise().query(`UPDATE Direccion SET idUsuario = ?, calle = ?, departamento = ?, numeroDeCasa = ?, numeroDeApartamento = ?, referencia = ?, codigoPostal = ? WHERE idDireccion = ?`, [idUsuario, calle, departamento, ciudad, numeroDeCasa, numeroDeApartamento, referencia, codigoPostal, req.params.id]);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Direccion no encontrada' });
+        }
+        res.json({
+            idDireccion: req.params.id,
+            idUsuario,
+            calle,
+            departamento,
+            ciudad,
+            numeroDeCasa,
+            numeroDeApartamento,
+            referencia,
+            codigoPostal
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error interno del servidor' });
