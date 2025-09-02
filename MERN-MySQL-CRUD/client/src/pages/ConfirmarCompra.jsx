@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCarrito } from '../contexts/carrito';
 import ProductoCompraFinal from '../components/ProductoCompraFinal';
 import { Form, Formik } from 'formik';
 import { createFormaDePagoRequest } from '../api/formaDePago.api';
 import { createFormaDePagoPagoOnlineRequest, createFormaDePagoEfectivoRequest, createFormaDePagoTransferenciaRequest } from '../api/tipoFormaDePago';
+import { getDireccionIdUsuarioRequest } from '../api/direccion.api';
 
 function ConfirmarCompra() {
 
@@ -18,17 +19,47 @@ function ConfirmarCompra() {
     const [chkbsFormaDePagoOnline, setChkbsFormaDePagoOnline] = useState([
         { id: 1, isChecked: true, name: 'MercadoPago' },
         { id: 2, isChecked: false, name: 'Debito' },
-        { id: 3, isChecked: false, name: 'Credito' },        
+        { id: 3, isChecked: false, name: 'Credito' },
     ]);
 
+
+    const [direcciones, setDirecciones] = useState([
+        /*{
+        idDireccion: 1,
+        idUsuario: 1,
+        calle: "",
+        departamento: "",
+        ciudad: "",
+        referencia: "",
+        codigoPostal: "",
+        isChecked: false
+        }*/
+    ])
 
     const [pago, setPago] = useState({
         formaDePago: 'Pago Online',
         formaDePagoOnline: 'MercadoPago',
+        idDireccion: 1,
         cantidadCuotas: 0,
         productosCarrito: productosCarrito,
         precio: 0
     });
+
+    useEffect(() => {
+
+        const fetchDirecciones = async () => {
+            try {
+                const response = await getDireccionIdUsuarioRequest(1); // Reemplaza '1' con el ID del usuario correspondiente  
+                console.log(response.data);
+                setDirecciones(response.data.map(dir => ({ ...dir, isChecked: false })));
+                
+            } catch (error) {
+                console.error('Error al obtener las direcciones:', error);
+            }
+        };
+        fetchDirecciones();
+
+    }, []);
 
     // Maneja el cambio de los checkbox de las formas de pago
     const onChangeCheckBoxsFormaDePago = (id) => {
@@ -42,6 +73,14 @@ function ConfirmarCompra() {
         setChkbsFormaDePagoOnline(chkbsFormaDePagoOnline.map(chkb => {
             if (chkb.id === id) { pago.formaDePagoOnline = chkb.name; return { ...chkb, isChecked: true } }
             else return { ...chkb, isChecked: false };
+        }))
+    }
+
+    // Maneja el cambio de los checkbox de las Direcciones
+    const onChangeDireccion = (id) => {
+        setDirecciones(direcciones.map(dir => {
+            if (dir.idDireccion === id) { pago.idDireccion = dir.idDireccion; return { ...dir, isChecked: true } }
+            else return { ...dir, isChecked: false };
         }))
     }
 
@@ -242,6 +281,22 @@ function ConfirmarCompra() {
                             <button className='btn-confirmar-compra btnCreate' type="submit" disabled={isSubmitting}>
                                 {isSubmitting ? "Confirmando..." : "Confirmado"}
                             </button>
+                        </div>
+
+                        <div className='estandar form'>
+                            {
+                                direcciones?.map((dir) => {
+                                    return (
+                                        <label key={dir.idDireccion}>
+                                            <input type='radio' id={dir.idDireccion} name='direccion' checked={dir.isChecked} onChange={() => onChangeDireccion(dir.idDireccion)} value={dir.idDireccion} /> 
+                                            <label>{dir.calle}</label>
+                                            <label>{dir.departamento}</label>
+                                            <label>{dir.ciudad}</label>
+                                        </label>
+                                    )
+                                })
+                            }
+
                         </div>
                     </Form>
                 )}

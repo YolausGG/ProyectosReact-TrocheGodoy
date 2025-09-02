@@ -58,6 +58,21 @@ export function mostarContra() {
         eye.src = ojo
     }
 
+
+}
+export function mostarContra2() {
+
+    var inpR = document.getElementById('inpIdRepetirContra')
+    var eyeR = document.getElementById('repetirEye')
+
+    if (inpR.type == "password") {
+        inpR.type = "text"
+        eyeR.src = invisible
+    } else {
+        inpR.type = "password"
+        //inp.value = "hidden"
+        eyeR.src = ojo
+    }
 }
 export function marcaYCategoriaInteractivas() {
 

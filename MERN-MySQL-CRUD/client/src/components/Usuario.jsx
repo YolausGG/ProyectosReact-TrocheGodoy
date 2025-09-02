@@ -24,7 +24,6 @@ function Usuario({ usuario }) {
             <p>{usuario.userPassword}</p>
             <p>{fechaFinal}</p>
             <p>{usuario.telefono}</p>
-            <p>{usuario.direccion}</p>
         </li>
     )
 }
@@ -35,6 +34,5 @@ Usuario.propTypes = {
     usuario: PropTypes.object.isRequired,
     fechaNacimiento: PropTypes.string,
     nombre: PropTypes.string,
-    telefono: PropTypes.string,
-    direccion: PropTypes.string
+    telefono: PropTypes.string
 }

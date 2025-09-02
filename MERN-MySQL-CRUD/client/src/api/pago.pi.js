@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const getPagosRequest = async () =>
     await axios.get('http://localhost:4000/pagos');
-export const getPagoRequest = async (id) =>
+export const getPagoIdRequest = async (id) =>
     await axios.get(`http://localhost:4000/pago/${id}`);
 export const createPagoRequest = async (pago) =>
     await axios.post('http://localhost:4000/pago', pago);   

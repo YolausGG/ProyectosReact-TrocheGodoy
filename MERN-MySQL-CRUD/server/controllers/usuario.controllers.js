@@ -92,8 +92,7 @@ export const createUsuario = async (req, res) => {
         nombre,
         apellido,
         fechaNacimiento,
-        telefono,
-        direccion,
+        telefono
     } = req.body;
 
     var txtFechaSeleccionada =
@@ -106,8 +105,8 @@ export const createUsuario = async (req, res) => {
     const [result] = await pool
         .promise()
         .query(
-            "Insert into Usuario (correo, userPassword, nombre, apellido, fechaNacimiento, telefono, direccion) " +
-            "values (?,?,?,?,?,?,?)",
+            "Insert into Usuario (correo, userPassword, nombre, apellido, fechaNacimiento, telefono) " +
+            "values (?,?,?,?,?,?)",
             [
                 correo,
                 userPassword,
@@ -115,7 +114,6 @@ export const createUsuario = async (req, res) => {
                 apellido,
                 txtFechaSeleccionada,
                 telefono,
-                direccion,
             ]
         );
 
@@ -128,8 +126,7 @@ export const createUsuario = async (req, res) => {
             nombre,
             apellido,
             fechaNacimiento,
-            telefono,
-            direccion,
+            telefono
         });
     } catch (error) {
         console.error(error);

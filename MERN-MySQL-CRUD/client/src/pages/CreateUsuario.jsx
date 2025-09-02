@@ -9,7 +9,7 @@ import '../styles/createUsuario.css'
 import '../styles/forms.css'
 
 
-import { inputsInteractivos, mostarContra, fechasInteractivos } from "../hooks/forms.js"
+import { inputsInteractivos, mostarContra, fechasInteractivos, mostarContra2 } from "../hooks/forms.js"
 
 function CreateUsuario() {
     useEffect(() => {
@@ -23,10 +23,10 @@ function CreateUsuario() {
         correo: "",
         nombre: "",
         userPassword: "",
+        userRepetirPassword: "",
         apellido: "",
         fechaNacimiento: { dia: "", mes: "", year: "" },
         telefono: "",
-        direccion: ""
     })
 
     const months = [
@@ -60,7 +60,7 @@ function CreateUsuario() {
 
                     if (values.fechaNacimiento.mes == '' || values.fechaNacimiento.mes == '-1') {
                         alert("Seleccione un Mes")
-                    } 
+                    }
                     else if (values.fechaNacimiento.year > fechaHoy.getFullYear()
                         || values.fechaNacimiento.dia > 31
                         || values.fechaNacimiento.dia == fechaHoy.getDate() && values.fechaNacimiento.mes == fechaHoy.getMonth() && values.fechaNacimiento.year == fechaHoy.getFullYear()) {
@@ -77,7 +77,7 @@ function CreateUsuario() {
 
                         if (fechaSeleccionada > fechaHoy) {
                             alert("La fecha es ingresada es mayor a la de hoy")
-                        } else {
+                        } else if (values.userRepetirPassword == values.userPassword) {
 
                             const respuesta = await createUsuarioRequest(values)
                             console.log(respuesta);
@@ -89,6 +89,9 @@ function CreateUsuario() {
                                     nombre: ""
                                 },
                             })
+                        }
+                        else {
+                            alert("Las Contraseñas no coinciden")
                         }
                     }
                 }}>
@@ -108,6 +111,14 @@ function CreateUsuario() {
                                 <input required pattern="[A-Za-z0-9]{6,15}" id='inpIdContra' type="text" name='userPassword'
                                     onChange={handleChange} value={values.userPassword} autoComplete='new-password' />
                                 <img alt="mostrar u ocultar contraseña" className='icon' id='eye' onClick={mostarContra} />
+                            </label>
+                        </div>
+                        <div className='contrainerContra divSimpleInp'>
+                            <label>
+                                <span>Repetir Contraseña</span>
+                                <input required pattern="[A-Za-z0-9]{6,15}" id='inpIdRepetirContra' type="text" name='userRepetirPassword'
+                                    onChange={handleChange} value={values.userRepetirPassword} autoComplete='new-password' />
+                                <img alt="mostrar u ocultar contraseña" className='icon' id='repetirEye' onClick={mostarContra2} />
                             </label>
                         </div>
 
@@ -162,13 +173,6 @@ function CreateUsuario() {
                                 <span>Teléfono</span>
                                 <input required pattern="[0-9+]{1,30}" type="tel" name='telefono'
                                     onChange={handleChange} value={values.telefono} />
-                            </label>
-                        </div>
-                        <div className='divSimpleInp'>
-                            <label>
-                                <span>Dirección</span>
-                                <input required pattern="[A-Za-z0-9 ]{1,50}" type="text" name='direccion'
-                                    onChange={handleChange} value={values.direccion} />
                             </label>
                         </div>
 

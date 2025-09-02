@@ -7,7 +7,7 @@ export const getDireccionIdRequest = async (idDireccion) =>
     await axios.get(`http://localhost:4000/direccion/${idDireccion}`);
 
 export const getDireccionIdUsuarioRequest = async (idUsuario) =>
-    await axios.get(`http://localhost:4000/direcciones/${idUsuario}`);
+    await axios.get(`http://localhost:4000/direccionesUsuario/${idUsuario}`);
 
 export const createDireccionRequest = async (direccion) =>
     await axios.post('http://localhost:4000/direccion', direccion);

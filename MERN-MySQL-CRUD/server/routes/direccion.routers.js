@@ -1,6 +1,6 @@
 import { Router } from "express"
 
-import {getDirecciones,getDireccionId,getDireccionesIdUsuario,createDireccion,deleteDireccion,updateDireccion } from "../controllers/direccion.controllers.js"
+import { getDirecciones, getDireccionId, getDireccionesIdUsuario, createDireccion, deleteDireccion, updateDireccion } from "../controllers/direccion.controllers.js"
 
 const router = Router()
 
@@ -8,7 +8,7 @@ const router = Router()
 
 router.get('/direcciones', getDirecciones)
 router.get('/direccion/:idDireccion', getDireccionId)
-router.get('/direcciones/:idUsuario', getDireccionesIdUsuario)
+router.get('/direccionesUsuario/:idUsuario', getDireccionesIdUsuario)     
 router.post('/direccion', createDireccion)
 router.put('/direccion/:idDireccion', updateDireccion)
 router.delete('/direccion/:idDireccion', deleteDireccion)
