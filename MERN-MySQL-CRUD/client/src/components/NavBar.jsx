@@ -64,7 +64,7 @@ function NavBar() {
                 </li>
             </ul>
             <a className='container-abrir-carrito' >
-                <img className='icon-shoppin-cart' src={shoppinCart} onClick={(e) => { abrirCerrarCarrito(e) }} alt="Abrir Carrito" />
+                <img className='icon-shoppin-cart open' src={shoppinCart} onClick={(e) => { abrirCerrarCarrito(e) }} alt="Abrir Carrito" />
                 <strong className='cantidad-productos-carrito'>{productosCarrito.length}</strong>
             </a>
         </nav>

@@ -46,20 +46,18 @@ function ConfirmarCompra() {
     });
 
     useEffect(() => {
-
-        const fetchDirecciones = async () => {
-            try {
-                const response = await getDireccionIdUsuarioRequest(1); // Reemplaza '1' con el ID del usuario correspondiente  
-                console.log(response.data);
-                setDirecciones(response.data.map(dir => ({ ...dir, isChecked: false })));
-                
-            } catch (error) {
-                console.error('Error al obtener las direcciones:', error);
-            }
-        };
         fetchDirecciones();
-
     }, []);
+
+    const fetchDirecciones = async () => {
+        try {
+            const response = await getDireccionIdUsuarioRequest(1); // Reemplaza '1' con el ID del usuario correspondiente  
+            setDirecciones(response.data.map(dir => ({ ...dir, isChecked: false })));
+
+        } catch (error) {
+            console.error('Error al obtener las direcciones:', error);
+        }
+    };
 
     // Maneja el cambio de los checkbox de las formas de pago
     const onChangeCheckBoxsFormaDePago = (id) => {
@@ -79,15 +77,26 @@ function ConfirmarCompra() {
     // Maneja el cambio de los checkbox de las Direcciones
     const onChangeDireccion = (id) => {
         setDirecciones(direcciones.map(dir => {
-            if (dir.idDireccion === id) { pago.idDireccion = dir.idDireccion; return { ...dir, isChecked: true } }
+            if (dir.idDireccion === id) { setPago((pago) => ({ ...pago, idDireccion: dir.idDireccion })), seleccionarDireccion(id); return { ...dir, isChecked: true }; }
             else return { ...dir, isChecked: false };
         }))
     }
 
+    // Selecciona la dirección en el radio button
+    const seleccionarDireccion = (idDireccion) => {
+        
+        const radio = document.getElementsByName('direccion');  
+        radio.forEach(rdo => {  
+            if (parseInt(rdo.value) === idDireccion) {
+                rdo.checked = true;
+            }
+        });
+        
+    }
+
 
     // Cambia el formulario según la forma de pago seleccionada
-
-    const changeFormFromaDePago = (e) => {
+    const changeFormFromaDePago = () => {
 
         switch (pago.formaDePago) {
             case 'Pago Online': {
@@ -283,16 +292,24 @@ function ConfirmarCompra() {
                             </button>
                         </div>
 
-                        <div className='estandar form'>
+                        <div className='estandarForm container-direcciones'>
                             {
                                 direcciones?.map((dir) => {
                                     return (
-                                        <label key={dir.idDireccion}>
-                                            <input type='radio' id={dir.idDireccion} name='direccion' checked={dir.isChecked} onChange={() => onChangeDireccion(dir.idDireccion)} value={dir.idDireccion} /> 
-                                            <label>{dir.calle}</label>
-                                            <label>{dir.departamento}</label>
-                                            <label>{dir.ciudad}</label>
-                                        </label>
+
+                                        <a htmlFor="direccion" className='chkDireccion' onClick={() => onChangeDireccion(dir.idDireccion)} key={dir.idDireccion} >
+                                            <input className='rdoDireccion' type='radio' id={dir.idDireccion} name='direccion' value={dir.idDireccion} />
+                                            <div className='divDatosDireccion'>
+                                                <label>Direccion: </label>
+                                                <label>{dir.calle} </label>
+                                                <label>{dir.departamento} </label>
+                                                <label>{dir.ciudad} </label>
+                                                <br />
+                                                {dir.referencia ? <div><label>Referencia: </label><label>{dir.referencia}</label><br /></div> : null}
+                                                <label>Código postal: </label>
+                                                <label>{dir.codigoPostal}</label>
+                                            </div>
+                                        </a>
                                     )
                                 })
                             }

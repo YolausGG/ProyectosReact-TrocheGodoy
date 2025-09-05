@@ -8,7 +8,7 @@ function Carrito() {
 
 
   return (
-    <aside id='container-carrito' className='container-carrito'>
+    <aside id='container-carrito' className='container-carrito open'>
       <section className='container-productos-carrito'>
         {
           productosCarrito?.map(producto => (
