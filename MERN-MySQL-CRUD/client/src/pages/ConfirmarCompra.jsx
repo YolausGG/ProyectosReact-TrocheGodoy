@@ -5,6 +5,8 @@ import { Form, Formik } from 'formik';
 import { createFormaDePagoRequest } from '../api/formaDePago.api';
 import { createFormaDePagoPagoOnlineRequest, createFormaDePagoEfectivoRequest, createFormaDePagoTransferenciaRequest } from '../api/tipoFormaDePago';
 import { getDireccionIdUsuarioRequest } from '../api/direccion.api';
+import { Link, useNavigate } from "react-router-dom";
+import '../styles/confirmarCompra.css';
 
 function ConfirmarCompra() {
 
@@ -314,11 +316,14 @@ function ConfirmarCompra() {
                                 })
                             }
 
+                        <Link className='nuevaDireccion' id="lblNuevaDireccion" to="/NuevaDireccion">+ Agregar Nueva Dirección</Link>
                         </div>
+                        
                     </Form>
                 )}
+                
             </Formik>
-
+                
         </div >
     );
 }

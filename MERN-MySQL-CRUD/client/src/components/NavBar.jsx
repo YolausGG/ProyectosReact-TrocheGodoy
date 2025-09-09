@@ -62,6 +62,7 @@ function NavBar() {
                 <li>
                     <Link className='navItem' to="/ConfirmarCompra">Conf. Compra</Link>
                 </li>
+                
             </ul>
             <a className='container-abrir-carrito' >
                 <img className='icon-shoppin-cart open' src={shoppinCart} onClick={(e) => { abrirCerrarCarrito(e) }} alt="Abrir Carrito" />
