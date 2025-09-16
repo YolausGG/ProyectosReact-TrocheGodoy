@@ -26,7 +26,7 @@ import { CarritoProvider } from './contexts/carrito.jsx'
 import Carrito from './components/Carrito.jsx'
 import VerificarCuenta from './pages/VerificarCuenta.jsx'
 import ConfirmarCompra from './pages/ConfirmarCompra.jsx'
-import NuevaDireccion from './pages/nuevaDireccion.jsx'
+import NuevaDireccion from './components/NuevaDireccion.jsx'
 
 function App() {
   registerLocale('es', es)

@@ -61,7 +61,7 @@ export const getSesionUsuario = async (req, res) => {
         );
     //console.log(result);
     try {
-        if (result.length > 0) res.json(1);
+        if (result.length > 0) res.json({ data: 1, idUsuario: result[0].idUsuario });
         else res.json(await getCorreoUsuario(correo));
     } catch (error) {
         console.error(error);

@@ -7,9 +7,12 @@ import { getSesionUsuarioRequest } from "../api/usuarios.api";
 import '../styles/inicioSesion.css';
 
 import { inputsInteractivos, mostarContra } from "../hooks/forms.js"
+import { useProductos } from "../contexts/productos.jsx";
 
 
 function InicioSesion() {
+
+    const { setIdUsuarioLogeado } = useProductos()
 
     useEffect(() => {
         inputsInteractivos()
@@ -25,7 +28,7 @@ function InicioSesion() {
     const [mensaje, setMensaje] = useState()
     const navigate = useNavigate()
 
-   
+
 
     return (
         <div className='createCategoriaContainer'>
@@ -38,9 +41,11 @@ function InicioSesion() {
                     const respuesta = await getSesionUsuarioRequest(values)
                     console.log('respuesta');
                     console.log(respuesta);
-                    if (respuesta.data == 1) {
+                    if (respuesta.data.data == 1) {
                         navigate('/usuarios')
 
+                        setIdUsuarioLogeado(respuesta.data.idUsuario)
+                                                
                         actions.resetForm({
                             values: {
                                 correo: "",

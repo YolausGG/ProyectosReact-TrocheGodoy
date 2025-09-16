@@ -1,16 +1,18 @@
 import { Form, Formik } from 'formik'
 import { useEffect, useState } from 'react'
-import { createDireccionRequest } from '../api/direccion.api'
+import { createDireccionRequest } from '../api/direccion.api.js'
 
 import '../styles/createUsuario.css'
 import '../styles/forms.css'
 
 import { inputsInteractivos, marcaYCategoriaInteractivas } from "../hooks/forms.js"
-
-
+import { useProductos } from '../contexts/productos.jsx'
 
 
 function NuevaDireccion() {
+
+    const { idUsuarioLogeado } = useProductos()
+
     useEffect(() => {
         inputsInteractivos()
         marcaYCategoriaInteractivas()
@@ -18,7 +20,7 @@ function NuevaDireccion() {
     }, [])
 
     const [direccion] = useState({
-        idUsuario: 1,
+        idUsuario: idUsuarioLogeado,
         calle: "",
         departamento: "",
         ciudad: "",
@@ -51,7 +53,7 @@ function NuevaDireccion() {
     ];
 
     return (
-        <div className='createUsuarioContainer'>
+        <div className='createDireccionContainer'>
             <h2>Nueva Dirección Usuario</h2>
             <Formik
                 initialValues={direccion}
@@ -64,7 +66,7 @@ function NuevaDireccion() {
                         console.log(direccion);
                         actions.resetForm({
                             values: {
-                                idUsuario:"",
+                                idUsuario: "",
                                 calle: "",
                                 departamento: "",
                                 ciudad: "",
@@ -119,7 +121,7 @@ function NuevaDireccion() {
                         <div className='divSimpleInp'>
                             <label>
                                 <span>Número de Casa</span>
-                                <input pattern="[0-9]{5}" type="number" name='numeroDeCasa'
+                                <input pattern="[0-9]{5}" min={1} type="number" name='numeroDeCasa'
                                     onChange={handleChange} value={values.numeroDeCasa} />
                             </label>
                         </div>
@@ -127,7 +129,7 @@ function NuevaDireccion() {
                         <div className='divSimpleInp'>
                             <label>
                                 <span>Número de Apartamento</span>
-                                <input pattern="[0-9]{5}" type="number" name='numeroDeApartamento'
+                                <input pattern="[0-9]{5}" min={1} type="number" name='numeroDeApartamento'
                                     onChange={handleChange} value={values.numeroDeApartamento} />
                             </label>
                         </div>
@@ -144,7 +146,7 @@ function NuevaDireccion() {
                         <div className='divSimpleInp'>
                             <label>
                                 <span>Codigo Postal</span>
-                                <input required maxLength={5} pattern="[0-9]{1,5}"  type="text" name='codigoPostal'
+                                <input required maxLength={5} pattern="[0-9]" type="text" name='codigoPostal'
                                     onChange={handleChange} value={values.codigoPostal} />
                             </label>
                         </div>

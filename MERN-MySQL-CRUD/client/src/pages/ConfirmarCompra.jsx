@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useCarrito } from '../contexts/carrito';
 import ProductoCompraFinal from '../components/ProductoCompraFinal';
+import NuevaDireccion from '../components/NuevaDireccion';
+
 import { Form, Formik } from 'formik';
 import { createFormaDePagoRequest } from '../api/formaDePago.api';
 import { createFormaDePagoPagoOnlineRequest, createFormaDePagoEfectivoRequest, createFormaDePagoTransferenciaRequest } from '../api/tipoFormaDePago';
 import { getDireccionIdUsuarioRequest } from '../api/direccion.api';
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/confirmarCompra.css';
+import { useProductos } from '../contexts/productos';
+
+
 
 function ConfirmarCompra() {
 
     const { productosCarrito, precioTotal } = useCarrito();
+    const { idUsuarioLogeado } = useProductos();
 
     const [chkbsFormaDePago, setChkbsFormaDePago] = useState([
         { id: 1, isChecked: true, name: 'Pago Online' },
@@ -53,9 +59,11 @@ function ConfirmarCompra() {
 
     const fetchDirecciones = async () => {
         try {
-            const response = await getDireccionIdUsuarioRequest(1); // Reemplaza '1' con el ID del usuario correspondiente  
-            setDirecciones(response.data.map(dir => ({ ...dir, isChecked: false })));
-
+            if (idUsuarioLogeado != null) {
+                const response = await getDireccionIdUsuarioRequest(idUsuarioLogeado); // Reemplaza '1' con el ID del usuario correspondiente  
+                setDirecciones(response.data.map(dir => ({ ...dir, isChecked: false })));
+                return
+            }
         } catch (error) {
             console.error('Error al obtener las direcciones:', error);
         }
@@ -86,14 +94,14 @@ function ConfirmarCompra() {
 
     // Selecciona la dirección en el radio button
     const seleccionarDireccion = (idDireccion) => {
-        
-        const radio = document.getElementsByName('direccion');  
-        radio.forEach(rdo => {  
+
+        const radio = document.getElementsByName('direccion');
+        radio.forEach(rdo => {
             if (parseInt(rdo.value) === idDireccion) {
                 rdo.checked = true;
             }
         });
-        
+
     }
 
 
@@ -176,6 +184,11 @@ function ConfirmarCompra() {
             default:
                 return null;
         }
+    }
+
+    const desplegarFormularioAgregarDireccion = () => {
+        const formulario = document.getElementById('formularioNuevaDireccion');
+        formulario.style.display = 'block';
     }
 
     return (
@@ -316,14 +329,15 @@ function ConfirmarCompra() {
                                 })
                             }
 
-                        <Link className='nuevaDireccion' id="lblNuevaDireccion" to="/NuevaDireccion">+ Agregar Nueva Dirección</Link>
+                            <Link onClick={desplegarFormularioAgregarDireccion} className='nuevaDireccion' id="lblNuevaDireccion" to="/NuevaDireccion">+ Agregar Nueva Dirección</Link>
+                            <NuevaDireccion />
                         </div>
-                        
+
                     </Form>
                 )}
-                
+
             </Formik>
-                
+
         </div >
     );
 }

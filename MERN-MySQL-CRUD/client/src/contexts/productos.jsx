@@ -20,9 +20,9 @@ export function useProductos() {
 
 export const ProductoProvider = ({ children }) => {
 
-    const [productos, setProductos] = useState([
-        
-    ])
+    const [productos, setProductos] = useState([])
+
+    const [idUsuarioLogeado, setIdUsuarioLogeado] = useState(null)
 
     useEffect(() => {
         loadProductos()
@@ -39,7 +39,7 @@ export const ProductoProvider = ({ children }) => {
                             idProducto: prod.idProducto,
                             nombre: prod.nombre,
                             precio: prod.precio,
-                            talle: prod.talle,                            
+                            talle: prod.talle,
                             stock: prod.stock,
                             estilo: prod.estilo,
                             descripcion: prod.descripcion,
@@ -72,7 +72,7 @@ export const ProductoProvider = ({ children }) => {
                         } catch (error) {
                             console.error(error);
                         }
-                        
+
                         return producto
                     })
                 )
@@ -106,11 +106,8 @@ export const ProductoProvider = ({ children }) => {
         }
     }
 
-   
-
-
     return (
-        <ProductoContext.Provider value={{ productos, getProducto, loadProductos }}>
+        <ProductoContext.Provider value={{ productos, idUsuarioLogeado, getProducto, loadProductos, setIdUsuarioLogeado }}>
             {children}
         </ProductoContext.Provider>
     )
