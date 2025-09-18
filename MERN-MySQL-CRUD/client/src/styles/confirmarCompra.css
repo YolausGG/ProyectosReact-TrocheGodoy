@@ -1,5 +1,160 @@
-.nuevaDireccion {
+.container-form-confirmar-compra {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 90%;
+}
+
+.form-confirmar-compra {
+    display: grid;
+    padding: 1rem;
+
+    gap: 10px;
+
+    border: 3px solid black;
+    border-radius: 6px;
+    box-shadow: 2px 2px 5px black
+}
+
+.form-confirmar-compra h3 {
     text-align: center;
+    color: black;
+}
+
+.container-producto-carrito-final {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.lblPrecioTotal {
+    font-weight: bold;
+    color: black;
+    font-size: 1.2rem;
+    justify-self: center;
+}
+
+.btn-confirmar-compra {
+
+    border: 1px solid black;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 1rem;
+    transition: 0.2s;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.btn-confirmar-compra:hover {
+    box-shadow: 0px 0px 4px;
+}
+
+.lbl-producto-cantidad-total {
+    font-weight: bold;
+    color: black;
+}
+
+.divContainerFormaDePagoOnline {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.divContainerChBoxFormaDePago {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.divContainerChBoxFormaDePago label {
+    display: flex;
+    gap: 5px;
+}
+
+.divContainerChBoxFormaDePago input {
+    scale: 1.4;
+}
+
+
+.divContainerChBoxFormaDePagoOnline {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.divContainerChBoxFormaDePagoOnline label {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.divContainerChBoxFormaDePagoOnline input {
+    scale: 1.4;
+}
+
+.divContainerFormaPagoCredito {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.container-direcciones {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 3px solid black;
+    border-radius: 6px;
+    box-shadow: 2px 2px 5px black;
+    padding: 1rem;
+    interpolate-size: allow-keywords;
+}
+
+.chkDireccion {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0px 0px 3px black;
+    cursor: pointer;
+}
+
+.chkDireccion:has(input[class='rdoDireccion']:checked) {
+    scale: 1.001;
+    box-shadow: 0px 0px 6px black;
+}
+
+.rdoDireccion {
+    scale: 1.4;
+    cursor: pointer;
+    margin: 5px;
+    padding: 5px;
+    background-color: aliceblue;
+    border-radius: 10px;
+}
+
+.btnNuevaDireccion {
+    border: 2px solid green;
+    border-radius: 6px;
+    padding: 6px 12px;
+    align-self: center;
+    cursor: pointer;
+    font-weight: bold;
     color: green
-   
+}
+
+.btnNuevaDireccion.open {
+    color: red;
+    border: 2px solid red;
 }

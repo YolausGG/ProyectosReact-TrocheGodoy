@@ -186,10 +186,20 @@ function ConfirmarCompra() {
         }
     }
 
-    const desplegarFormularioAgregarDireccion = () => {
-        const formulario = document.getElementById('formularioNuevaDireccion');
-        formulario.style.display = 'block';
+    const desplegarFormularioAgregarDireccion = (e) => {
+        const formulario = document.querySelector('.createDireccionContainer');
+        formulario.classList.toggle('open');
+
+        const btnNuevaDireccion = document.getElementById('btnNuevaDireccion');
+        btnNuevaDireccion.classList.toggle('open')
+
+        const isOpen = btnNuevaDireccion.classList.contains('open');
+
+        e.target.src = isOpen ? btnNuevaDireccion.textContent = "Cerrar formulario" : btnNuevaDireccion.textContent = "Agregar nueva dirección";
+
     }
+
+
 
     return (
         <div className='container-confirmar-compra'>
@@ -329,7 +339,7 @@ function ConfirmarCompra() {
                                 })
                             }
 
-                            <Link onClick={desplegarFormularioAgregarDireccion} className='nuevaDireccion' id="lblNuevaDireccion" to="/NuevaDireccion">+ Agregar Nueva Dirección</Link>
+                            <button onClick={(e) => { desplegarFormularioAgregarDireccion(e) }} className='btnNuevaDireccion' id="btnNuevaDireccion">Agregar Nueva Dirección</button>
                             <NuevaDireccion />
                         </div>
 
