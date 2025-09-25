@@ -1,6 +1,7 @@
 import { Form, Formik } from 'formik'
 import { useEffect, useState } from 'react'
 import { createDireccionRequest } from '../api/direccion.api.js'
+import { Link, useNavigate } from "react-router-dom";
 
 import '../styles/createUsuario.css'
 import '../styles/forms.css'
@@ -12,6 +13,8 @@ import { useProductos } from '../contexts/productos.jsx'
 function NuevaDireccion() {
 
     const { idUsuarioLogeado } = useProductos()
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         inputsInteractivos()
@@ -75,9 +78,11 @@ function NuevaDireccion() {
                                 referencia: "",
                                 codigoPostal: ""
                             },
+                            
                         })
                         console.log('Dirección ingresada con Éxito');
 
+                        navigate('/ConfirmarCompra')
                     }
                     else
                         console.log('La Dirección no se pudo ingresar');
@@ -91,7 +96,7 @@ function NuevaDireccion() {
                         <div className='divSimpleInp'>
                             <label>
                                 <span>Calle</span>
-                                <input required pattern="[A-Za-z]{1,30}" type="text" name='calle'
+                                <input required pattern="[a-zA-Z ]+" type="text" name='calle'
                                     onChange={handleChange} value={values.calle} />
                             </label>
                         </div>
@@ -146,7 +151,7 @@ function NuevaDireccion() {
                         <div className='divSimpleInp'>
                             <label>
                                 <span>Codigo Postal</span>
-                                <input required maxLength={5} pattern="[0-9]" type="text" name='codigoPostal'
+                                <input required maxLength={5} pattern="[0-9]{1,5}" type="text" name='codigoPostal'
                                     onChange={handleChange} value={values.codigoPostal} />
                             </label>
                         </div>

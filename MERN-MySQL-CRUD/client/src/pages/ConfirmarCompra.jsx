@@ -55,7 +55,7 @@ function ConfirmarCompra() {
 
     useEffect(() => {
         fetchDirecciones();
-    }, []);
+    }, [idUsuarioLogeado]);
 
     const fetchDirecciones = async () => {
         try {
@@ -340,8 +340,8 @@ function ConfirmarCompra() {
                                         })
                                     }
 
-                                    <button onClick={(e) => { desplegarFormularioAgregarDireccion(e) }} className='btnNuevaDireccion' id="btnNuevaDireccion">Agregar Nueva Dirección</button>
-                                    <NuevaDireccion />
+                                    <Link to={'/NuevaDireccion'} className='btnNuevaDireccion' id="btnNuevaDireccion" >Agregar Direccion</Link>
+
                                 </div>
                                 : <div className='estandarForm container-direcciones'>
                                     <h3>Direcciones</h3>

@@ -64,14 +64,7 @@ input {
     display: flex;
     align-items: center;
     flex-direction: column;
-    height: 0;
-    right: 0;
-    transition: 0.5s height;
-    opacity: 1;
-    overflow: hidden;
+    gap: 10px;
 }
 
-.createDireccionContainer.open {
-    height: auto;
-    overflow: hidden;
-}
+
