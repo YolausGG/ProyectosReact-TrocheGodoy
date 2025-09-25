@@ -316,33 +316,39 @@ function ConfirmarCompra() {
                                 {isSubmitting ? "Confirmando..." : "Confirmado"}
                             </button>
                         </div>
+                        {
+                            direcciones.length ?
+                                <div className='estandarForm container-direcciones'>
+                                    {
+                                        direcciones?.map((dir) => {
+                                            return (
 
-                        <div className='estandarForm container-direcciones'>
-                            {
-                                direcciones?.map((dir) => {
-                                    return (
+                                                <a htmlFor="direccion" className='chkDireccion' onClick={() => onChangeDireccion(dir.idDireccion)} key={dir.idDireccion} >
+                                                    <input className='rdoDireccion' type='radio' id={dir.idDireccion} name='direccion' value={dir.idDireccion} />
+                                                    <div className='divDatosDireccion'>
+                                                        <label>Direccion: </label>
+                                                        <label>{dir.calle} </label>
+                                                        <label>{dir.departamento} </label>
+                                                        <label>{dir.ciudad} </label>
+                                                        <br />
+                                                        {dir.referencia ? <div><label>Referencia: </label><label>{dir.referencia}</label><br /></div> : null}
+                                                        <label>Código postal: </label>
+                                                        <label>{dir.codigoPostal}</label>
+                                                    </div>
+                                                </a>
+                                            )
+                                        })
+                                    }
 
-                                        <a htmlFor="direccion" className='chkDireccion' onClick={() => onChangeDireccion(dir.idDireccion)} key={dir.idDireccion} >
-                                            <input className='rdoDireccion' type='radio' id={dir.idDireccion} name='direccion' value={dir.idDireccion} />
-                                            <div className='divDatosDireccion'>
-                                                <label>Direccion: </label>
-                                                <label>{dir.calle} </label>
-                                                <label>{dir.departamento} </label>
-                                                <label>{dir.ciudad} </label>
-                                                <br />
-                                                {dir.referencia ? <div><label>Referencia: </label><label>{dir.referencia}</label><br /></div> : null}
-                                                <label>Código postal: </label>
-                                                <label>{dir.codigoPostal}</label>
-                                            </div>
-                                        </a>
-                                    )
-                                })
-                            }
+                                    <button onClick={(e) => { desplegarFormularioAgregarDireccion(e) }} className='btnNuevaDireccion' id="btnNuevaDireccion">Agregar Nueva Dirección</button>
+                                    <NuevaDireccion />
+                                </div>
+                                : <div className='estandarForm container-direcciones'>
+                                    <h3>Direcciones</h3>
+                                    <Link to='/inicioSesion' className='btnRedireccionInicioSesion'><h4>Iniciar sesion para agregar direccion</h4></Link>
+                                </div>
 
-                            <button onClick={(e) => { desplegarFormularioAgregarDireccion(e) }} className='btnNuevaDireccion' id="btnNuevaDireccion">Agregar Nueva Dirección</button>
-                            <NuevaDireccion />
-                        </div>
-
+                        }
                     </Form>
                 )}
 

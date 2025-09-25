@@ -76,10 +76,12 @@
 .divContainerChBoxFormaDePago label {
     display: flex;
     gap: 5px;
+    cursor: pointer;
 }
 
 .divContainerChBoxFormaDePago input {
     scale: 1.4;
+    cursor: pointer;
 }
 
 
@@ -95,10 +97,12 @@
     display: flex;
     flex-direction: row;
     gap: 5px;
+    cursor: pointer;
 }
 
 .divContainerChBoxFormaDePagoOnline input {
     scale: 1.4;
+    cursor: pointer;
 }
 
 .divContainerFormaPagoCredito {
@@ -151,10 +155,36 @@
     align-self: center;
     cursor: pointer;
     font-weight: bold;
-    color: green
+    color: green;
+    transition: 0.3s all;
+
 }
 
 .btnNuevaDireccion.open {
     color: red;
     border: 2px solid red;
+}
+
+.container-direcciones h3 {
+    text-align: center;
+    color: black;
+}
+.container-direcciones h4 {
+    text-align: center;
+}
+
+.btnRedireccionInicioSesion {
+    border: 2px solid blue;
+    border-radius: 6px;
+    padding: 6px 12px;
+    align-self: center;
+    cursor: pointer;
+    font-weight: bold;
+    color: blue;
+    transition: 0.3s all;
+    text-decoration: none;
+}
+.btnRedireccionInicioSesion:hover {
+    background-color: blue;
+    color: white;
 }
