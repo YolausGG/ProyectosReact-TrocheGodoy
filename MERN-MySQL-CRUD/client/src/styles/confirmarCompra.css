@@ -62,6 +62,8 @@
 .divContainerFormaDePagoOnline {
     display: flex;
     flex-direction: column;
+
+    flex-wrap: wrap;
     gap: 10px;
 }
 
@@ -110,6 +112,32 @@
     flex-direction: column;
     gap: 2px;
 }
+
+.container-forma-pago-online {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 5px;
+    padding: 1rem;
+}
+
+.container-info-tarjeta {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.container-info-tarjeta label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.container-info-tarjeta input {
+    width: 100px;
+    margin-left: 5px;
+}
+
 
 .container-direcciones {
     display: flex;
@@ -169,6 +197,7 @@
     text-align: center;
     color: black;
 }
+
 .container-direcciones h4 {
     text-align: center;
 }
@@ -184,6 +213,7 @@
     transition: 0.3s all;
     text-decoration: none;
 }
+
 .btnRedireccionInicioSesion:hover {
     background-color: blue;
     color: white;

@@ -26,8 +26,8 @@ export function inputsInteractivos() {
 }
 export function fechasInteractivos() {
 
-    const selectMes = document.getElementById('selectMes')
-    const spanMesFN = document.getElementById('idSpanMesFN')
+    const selectMes = document.getElementsByClassName('selectMes')
+    const spanMesFN = document.getElementsByClassName('idSpanMesFN')
 
     selectMes.onfocus = () => {
         selectMes.classList.add('focus')

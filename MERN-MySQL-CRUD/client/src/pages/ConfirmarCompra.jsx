@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 import '../styles/confirmarCompra.css';
 import { useProductos } from '../contexts/productos';
 
+import { inputsInteractivos, fechasInteractivos } from "../hooks/forms.js"
 
 
 function ConfirmarCompra() {
@@ -48,14 +49,34 @@ function ConfirmarCompra() {
         formaDePago: 'Pago Online',
         formaDePagoOnline: 'MercadoPago',
         idDireccion: 1,
+        fechaVencimiento: { mes: "", year: "" },
+        numeroTarjeta: "",
+        codigoSeguridad: "",
         cantidadCuotas: 0,
         productosCarrito: productosCarrito,
         precio: 0
     });
 
-    useEffect(() => {
+    const months = [
+        { mes: "Enero", value: "01" },
+        { mes: "Febrero", value: "02" },
+        { mes: "Marzo", value: "03" },
+        { mes: "Abril", value: "04" },
+        { mes: "Mayo", value: "05" },
+        { mes: "Junio", value: "06" },
+        { mes: "Julio", value: "07" },
+        { mes: "Agosto", value: "08" },
+        { mes: "Setiembre", value: "09" },
+        { mes: "Octubre", value: "10" },
+        { mes: "Noviembre", value: "11" },
+        { mes: "Diciembre", value: "12" }
+    ];
+
+    useEffect(() => {        
+        inputsInteractivos()
+        fechasInteractivos()
         fetchDirecciones();
-    }, [idUsuarioLogeado]);
+    }, [idUsuarioLogeado, chkbsFormaDePagoOnline,]);
 
     const fetchDirecciones = async () => {
         try {
@@ -145,7 +166,6 @@ function ConfirmarCompra() {
             default:
                 return null;
 
-
         }
 
     }
@@ -155,29 +175,78 @@ function ConfirmarCompra() {
         switch (formaDePagoOnline) {
             case 'Debito': {
                 return (
-                    <div className='divCantidadCuotas'>
+                    <div className='container-forma-pago-online'>
                         <h4 htmlFor="">Debito</h4>
-                        <label htmlFor="numeroTarjeta">Número de Tarjeta: </label>
-                        <input type="number" id="numeroTarjeta" name="numeroTarjeta" required />
+
+                        <div className="divSimpleInp">
+                            <label htmlFor="numeroTarjeta">
+                                <span>Número de Tarjeta:</span>
+                                <input type="number" id="numeroTarjeta" name="numeroTarjeta" required />
+                            </label>
+                        </div>
+
+                        <div className='container-info-tarjeta'>
+                            <label htmlFor="codigoSeguridad">Código de seguridad:
+                                <input type="number" id="codigoSeguridad" name="codigoSeguridad" required />
+                            </label>
+
+                            <div className='containerFN'>
+                                <div className='containerMesFN'>
+                                    <label className='labelMesFN'>
+                                        <span id='idSpanMesFN' className='spanMesFN'>Mes</span>
+                                        <select id='selectMes' className='divSimpleInp selectMes' name='fechaNacimiento.mes'
+                                           onChange={() =>{}} value={pago.fechaVencimiento.mes}
+                                        >
+                                            <option className='optionVacio' key={"-1"} value={"-1"}></option>
+                                            {months.map((option) => (
+                                                <option key={option.value} value={option.value}>
+                                                    {option.mes}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </label>
+                                </div>
+                                <div className='divSimpleInp'>
+                                    <label>
+                                        <span>Año</span>
+                                        <input required maxLength={4} type="text" name='fechaNacimiento.year'
+                                          onChange={() =>{}}  value={pago.fechaVencimiento.year} />
+                                    </label>
+                                </div>
+
+                            </div>
+                            <label htmlFor="fechaVencimiento">Fecha Vencimiento:
+                                <input type="number" id="fechaVencimiento" name="fechaVencimiento" required />
+                            </label>
+                        </div>
                     </div>
                 );
             }
             case 'Credito': {
                 return (
-                    <div className='divContainerFormaPagoCredito'>
+                    <div className='container-forma-pago-online'>
                         <h4 htmlFor="">Credito</h4>
-
                         <label htmlFor="numeroTarjeta">Número de Tarjeta: </label>
                         <input type="number" id="numeroTarjeta" name="numeroTarjeta" required />
-                        <label htmlFor='cantidadCuotas'>Cantidad de Cuotas: </label>
-                        <input type='number' id='cantidadCuotas' name='cantidadCuotas' min="2" max="12" required />
+                        <div className='container-info-tarjeta'>
+                            <label htmlFor="codigoSeguridad">Código de seguridad:
+                                <input type="number" id="codigoSeguridad" name="codigoSeguridad" required />
+                            </label>
+                            <label htmlFor="fechaVencimiento">Fecha Vencimiento:
+                                <input type="number" id="fechaVencimiento" name="fechaVencimiento" required />
+                            </label>
+                            <label htmlFor='cantidadCuotas'>Cantidad de Cuotas:
+                                <input type='number' id='cantidadCuotas' name='cantidadCuotas' min="2" max="12" required />
+                            </label>
+                        </div>
                     </div>
                 );
             }
             case 'MercadoPago': {
                 return (
-                    <div className='divCantidadCuotas'>
+                    <div className='container-forma-pago-online'>
                         <h4 htmlFor="">Mercado Pago</h4>
+                        <Link></Link>
                     </div>
                 );
             }
@@ -185,21 +254,6 @@ function ConfirmarCompra() {
                 return null;
         }
     }
-
-    const desplegarFormularioAgregarDireccion = (e) => {
-        const formulario = document.querySelector('.createDireccionContainer');
-        formulario.classList.toggle('open');
-
-        const btnNuevaDireccion = document.getElementById('btnNuevaDireccion');
-        btnNuevaDireccion.classList.toggle('open')
-
-        const isOpen = btnNuevaDireccion.classList.contains('open');
-
-        e.target.src = isOpen ? btnNuevaDireccion.textContent = "Cerrar formulario" : btnNuevaDireccion.textContent = "Agregar nueva dirección";
-
-    }
-
-
 
     return (
         <div className='container-confirmar-compra'>
@@ -239,7 +293,7 @@ function ConfirmarCompra() {
                                 console.log('Compra con Tarjeta no ingresado');
                             break;
                         }
-                        case 'Contado': {
+                        case 'Efectivo': {
                             const respuestaC = await createFormaDePagoEfectivoRequest(respuestaFDP.data.idFormaDePago)
                             console.log(respuestaC);
                             if (respuestaC.status == 200) {
