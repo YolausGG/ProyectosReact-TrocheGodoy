@@ -218,3 +218,7 @@
     background-color: blue;
     color: white;
 }
+
+#select-mes-tarjeta {
+    width: 60px;
+}

@@ -58,21 +58,21 @@ function ConfirmarCompra() {
     });
 
     const months = [
-        { mes: "Enero", value: "01" },
-        { mes: "Febrero", value: "02" },
-        { mes: "Marzo", value: "03" },
-        { mes: "Abril", value: "04" },
-        { mes: "Mayo", value: "05" },
-        { mes: "Junio", value: "06" },
-        { mes: "Julio", value: "07" },
-        { mes: "Agosto", value: "08" },
-        { mes: "Setiembre", value: "09" },
-        { mes: "Octubre", value: "10" },
-        { mes: "Noviembre", value: "11" },
-        { mes: "Diciembre", value: "12" }
+        { value: "01" },
+        { value: "02" },
+        { value: "03" },
+        { value: "04" },
+        { value: "05" },
+        { value: "06" },
+        { value: "07" },
+        { value: "08" },
+        { value: "09" },
+        { value: "10" },
+        { value: "11" },
+        { value: "12" }
     ];
 
-    useEffect(() => {        
+    useEffect(() => {
         inputsInteractivos()
         fechasInteractivos()
         fetchDirecciones();
@@ -112,6 +112,32 @@ function ConfirmarCompra() {
             else return { ...dir, isChecked: false };
         }))
     }
+
+    const handleMonthChange = (nuevoMonths) => {
+        setPago((prevPago) => ({
+            ...prevPago,
+            fechaVencimiento: {
+                ...prevPago.fechaVencimiento,
+                mes: nuevoMonths,
+                // Actualiza el mes con el valor seleccionado
+            },
+        }));
+
+        console.log('Valor seleccionado:', nuevoMonths);
+    };
+
+    const handleYearChange = (nuevoYear) => {
+        setPago((prevPago) => ({
+            ...prevPago,
+            fechaVencimiento: {
+                ...prevPago.fechaVencimiento,
+                year: nuevoYear,
+                // Actualiza el mes con el valor seleccionado
+            },
+        }));
+
+        console.log('Valor seleccionado:', nuevoYear);
+    };
 
     // Selecciona la dirección en el radio button
     const seleccionarDireccion = (idDireccion) => {
@@ -180,27 +206,29 @@ function ConfirmarCompra() {
 
                         <div className="divSimpleInp">
                             <label htmlFor="numeroTarjeta">
-                                <span>Número de Tarjeta:</span>
+                                <span>Número de Tarjeta</span>
                                 <input type="number" id="numeroTarjeta" name="numeroTarjeta" required />
                             </label>
                         </div>
 
                         <div className='container-info-tarjeta'>
-                            <label htmlFor="codigoSeguridad">Código de seguridad:
+                            <label htmlFor="codigoSeguridad">Código de seguridad
                                 <input type="number" id="codigoSeguridad" name="codigoSeguridad" required />
                             </label>
 
-                            <div className='containerFN'>
+
+                            <label htmlFor="fechaVencimiento">Fecha Vencimiento:</label>
+                            <div className='containerFechas'>
                                 <div className='containerMesFN'>
                                     <label className='labelMesFN'>
                                         <span id='idSpanMesFN' className='spanMesFN'>Mes</span>
-                                        <select id='selectMes' className='divSimpleInp selectMes' name='fechaNacimiento.mes'
-                                           onChange={() =>{}} value={pago.fechaVencimiento.mes}
+                                        <select id='select-mes-tarjeta' className='divSimpleInp selectMes' name='fechaVencimiento.mes'
+                                            onChange={(e) => handleMonthChange(e.target.value)} value={pago.fechaVencimiento.mes}
                                         >
                                             <option className='optionVacio' key={"-1"} value={"-1"}></option>
                                             {months.map((option) => (
                                                 <option key={option.value} value={option.value}>
-                                                    {option.mes}
+                                                    {option.value}
                                                 </option>
                                             ))}
                                         </select>
@@ -209,17 +237,14 @@ function ConfirmarCompra() {
                                 <div className='divSimpleInp'>
                                     <label>
                                         <span>Año</span>
-                                        <input required maxLength={4} type="text" name='fechaNacimiento.year'
-                                          onChange={() =>{}}  value={pago.fechaVencimiento.year} />
+                                        <input required maxLength={4} type="text" name='fechaVencimiento.year'
+                                            onChange={(e) => handleYearChange(e.target.value)} value={pago.fechaVencimiento.year} />
                                     </label>
                                 </div>
-
                             </div>
-                            <label htmlFor="fechaVencimiento">Fecha Vencimiento:
-                                <input type="number" id="fechaVencimiento" name="fechaVencimiento" required />
-                            </label>
+
                         </div>
-                    </div>
+                    </div >
                 );
             }
             case 'Credito': {

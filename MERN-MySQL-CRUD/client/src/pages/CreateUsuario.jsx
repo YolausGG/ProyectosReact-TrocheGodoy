@@ -15,6 +15,7 @@ function CreateUsuario() {
     useEffect(() => {
         inputsInteractivos()
         mostarContra()
+        mostarContra2()
         fechasInteractivos()
     }, [])
     const navigate = useNavigate()
@@ -136,7 +137,7 @@ function CreateUsuario() {
                                     onChange={handleChange} value={values.apellido} />
                             </label>
                         </div>
-                        <div className='containerFN'>
+                        <div className='containerFechas'>
                             <div className='divSimpleInp'>
                                 <label>
                                     <span>Día</span>
@@ -147,7 +148,7 @@ function CreateUsuario() {
                             <div className='containerMesFN'>
                                 <label className='labelMesFN'>
                                     <span id='idSpanMesFN' className='spanMesFN'>Mes</span>
-                                    <select id='selectMes' className='divSimpleInp selectMes' name='fechaNacimiento.mes'
+                                    <select className='divSimpleInp selectMes' name='fechaNacimiento.mes'
                                         onChange={handleChange} value={values.fechaNacimiento.mes}
                                     >
                                         <option className='optionVacio' key={"-1"} value={"-1"}></option>

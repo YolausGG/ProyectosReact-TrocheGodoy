@@ -26,23 +26,30 @@ export function inputsInteractivos() {
 }
 export function fechasInteractivos() {
 
-    const selectMes = document.getElementsByClassName('selectMes')
-    const spanMesFN = document.getElementsByClassName('idSpanMesFN')
+    const selectMes = document.querySelectorAll('select')
 
-    selectMes.onfocus = () => {
-        selectMes.classList.add('focus')
-        spanMesFN.classList.add('top')
-        spanMesFN.classList.add('focus')
-    }
-    selectMes.onblur = () => {
-        console.log(selectMes.value);
+    console.log(selectMes);
 
-        if (selectMes.value == "-1") {
-            spanMesFN.classList.remove('top')
+
+    selectMes.forEach(select => {
+        select.onfocus = () => {
+            select.classList.add('focus')
+            select.previousElementSibling.classList.add('focus')
+            select.previousElementSibling.classList.add('top')
         }
-        selectMes.classList.remove('focus')
-        spanMesFN.classList.remove('focus')
-    }
+    })
+    selectMes.forEach(select => {
+        select.onblur = () => {
+            console.log(select.value);
+            console.log(select.previousElementSibling);
+
+            if (select.value == "-1") {
+                select.previousElementSibling.classList.remove('top')
+            }
+            select.classList.remove('focus')
+            select.previousElementSibling.classList.remove('focus')
+        }
+    })
 }
 export function mostarContra() {
 

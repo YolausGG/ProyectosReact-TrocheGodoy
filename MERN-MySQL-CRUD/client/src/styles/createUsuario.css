@@ -25,8 +25,10 @@
     opacity: 1;
 }
 
-.containerFN {
+.containerFechas {
     display: flex;
+    justify-content: space-between;
+    justify-items: auto;
 }
 
 .selectMes {
