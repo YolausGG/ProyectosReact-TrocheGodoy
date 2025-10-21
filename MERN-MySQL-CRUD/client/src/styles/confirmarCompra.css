@@ -120,6 +120,10 @@
     gap: 5px;
     padding: 1rem;
 }
+.container-forma-pago-online h4 {
+    text-align: center;
+    color: black;
+}
 
 .container-info-tarjeta {
     display: flex;
@@ -220,5 +224,15 @@
 }
 
 #select-mes-tarjeta {
-    width: 60px;
+    width: 3.5rem;
+}
+
+.container-fechas-confirmar-compra {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 10px;
+}
+
+.datos-tarjeta-container{
+    border: 1px solid black;
 }

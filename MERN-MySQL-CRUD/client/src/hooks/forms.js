@@ -32,9 +32,14 @@ export function fechasInteractivos() {
 
 
     selectMes.forEach(select => {
+       
         select.onfocus = () => {
             select.classList.add('focus')
             select.previousElementSibling.classList.add('focus')
+            select.previousElementSibling.classList.add('top')
+        }
+
+        if (select.value != "-1") {
             select.previousElementSibling.classList.add('top')
         }
     })

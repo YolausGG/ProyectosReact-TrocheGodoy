@@ -151,7 +151,7 @@ function NuevaDireccion() {
                         <div className='divSimpleInp'>
                             <label>
                                 <span>Codigo Postal</span>
-                                <input required maxLength={5} pattern="[0-9]{1,5}" type="text" name='codigoPostal'
+                                <input required maxLength={5} pattern="[0-9]*{1,5}" type="text" name='codigoPostal'
                                     onChange={handleChange} value={values.codigoPostal} />
                             </label>
                         </div>
