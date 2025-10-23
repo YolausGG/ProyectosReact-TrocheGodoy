@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types'
 import addCartIcon from '../utils/icons/add-shopping-cart.png'
 import { useCarrito } from '../contexts/carrito';
+import { Link, useNavigate } from 'react-router-dom';
 
 function CartaProducto({ producto }) {
 
     const { agregarAlCarrito } = useCarrito()
 
+    const navigate = useNavigate()
 
     return (
         <div className='cardProducto'>
@@ -16,7 +18,7 @@ function CartaProducto({ producto }) {
             </div>
             <div className='container-btns-compra'>
 
-                <button className='btn-comprar'>
+                <button className='btn-comprar' onClick={() => { agregarAlCarrito(producto),  navigate('/ConfirmarCompra')}}>
                     Comprar
                 </button>
                 <a className='btn-agregar-al-carrito' onClick={() => agregarAlCarrito(producto)} >

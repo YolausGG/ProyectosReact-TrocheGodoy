@@ -6,10 +6,20 @@ export function inputsInteractivos() {
 
     inputs.forEach(input => {
         if (input.type != 'checkbox' && input.type != 'file') {
+
+
+            
+            if (input.value != "") {
+                console.log(input.value);
+                input.previousElementSibling.classList.add('top')
+            }
+
             input.onfocus = () => {
+
                 input.previousElementSibling.classList.add('top')
                 input.previousElementSibling.classList.add('focus')
                 input.parentNode.classList.add('focus')
+
             }
             input.onblur = () => {
 
@@ -32,7 +42,7 @@ export function fechasInteractivos() {
 
 
     selectMes.forEach(select => {
-       
+
         select.onfocus = () => {
             select.classList.add('focus')
             select.previousElementSibling.classList.add('focus')

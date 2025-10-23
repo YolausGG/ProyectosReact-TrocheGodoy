@@ -315,7 +315,7 @@ function ConfirmarCompra() {
                 return (
                     <div className='container-forma-pago-online'>
                         <h4 htmlFor="">Mercado Pago</h4>
-                        <Link></Link>
+                        <Link className='btn-redireccionar-mercadopago' to={'/productos'}>Redireccionar</Link>
                     </div>
                 );
             }

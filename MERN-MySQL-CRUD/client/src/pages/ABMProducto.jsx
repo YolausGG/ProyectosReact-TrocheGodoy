@@ -37,9 +37,11 @@ export default function ABMProducto() {
     const [categoriasP, setCategoriasP] = useState([])
 
     useEffect(() => {
+        console.log('paso');
+        
         inputsInteractivos()
         marcaYCategoriaInteractivas()
-    }, [])
+    }, [producto])
 
     const [chkbs, setChks] = useState([
         { id: 1, isChecked: true, name: 'Calzado' },
@@ -122,9 +124,26 @@ export default function ABMProducto() {
             const responseDP = await deleteProductoRequest(pProducto.idProducto)
 
             responseDP.status == 22 ? console.log('Producto eliminado por Completo') : console.log('Producto No eliminado por Completo');
+            loadProductos()
         } catch (error) {
             console.error(error);
         }
+
+    }
+
+    const cargarProducto = async (pProducto) => {
+        console.log('Cargar Producto para Modificar');
+
+        setProducto({
+            nombre: pProducto.nombre,
+            precio: pProducto.precio,
+            talle: pProducto.talle,
+            estilo: pProducto.estilo,
+            stock: pProducto.stock,
+            descripcion: pProducto.descripcion,
+            tipoProducto: producto.tipoProducto
+        })
+    
 
     }
 
@@ -419,7 +438,7 @@ export default function ABMProducto() {
                 </div>
             </div>
             <section className='listaProductosABM'>
-                <ul>
+                <ul className='lista-productos'>
                     {
                         productos.map(product => (
                             <li key={product.idProducto} className='itemProductABM'>
@@ -428,8 +447,8 @@ export default function ABMProducto() {
                                 <p>Stock: {product.stock}</p>
                                 <p>Talle: {product.talle}</p>
                                 <p>Desc: {product.descripcion}</p>
-                                <button >Modificar</button>
-                                <button onClick={() => { eliminarProducto(product) }}>Eliminar</button>
+                                <button onClick={() => cargarProducto(product)}>Modificar</button>
+                                <button onClick={() => eliminarProducto(product)}>Eliminar</button>
                             </li>
                         ))
                     }
