@@ -5,13 +5,14 @@ import { useProductos } from '../contexts/productos.jsx'
 import { useMarcas } from '../contexts/marcas.jsx'
 import { useCategorias } from '../contexts/categorias.jsx'
 
-import { inputsInteractivos, marcaYCategoriaInteractivas } from "../hooks/forms.js"
+import { inputsInteractivos, marcaYCategoriaInteractivas, inputsInteractivosModificarProducto } from "../hooks/forms.js"
 import { createAccesorioRequest, createCalzadoRequest, createVestimentaRequest } from '../api/tipoProducto.api.js'
 import { showFiles } from '../hooks/imagen.js'
 import { createCategoriasProductoRequest } from '../api/productoCategoria.api.js'
 import { createMarcasProductoRequest } from '../api/productoMarca.api.js'
 import { uploadFile } from '../hooks/supaBaseStorage.js'
 import { createImagenRequest } from '../api/imagenes.api.js'
+import { element } from 'prop-types'
 
 
 //import { cargarImagen } from '../hooks/imagen.jsx'
@@ -24,21 +25,26 @@ export default function ABMProducto() {
 
     const [producto, setProducto] = useState({
         nombre: "",
+        tipoProducto: "",
         precio: "",
         talle: "",
-        estilo: "",
+        marcas: [],
+        categorias: [],
         stock: "",
         descripcion: "",
-        tipoProducto: ""
+        estilo: "",
+        imagenes: []
+
     })
+
     const [imagenes, setImagenes] = useState([])
+
     const [marcasP, setMarcasP] = useState([])
 
     const [categoriasP, setCategoriasP] = useState([])
 
     useEffect(() => {
-        console.log('paso');
-        
+
         inputsInteractivos()
         marcaYCategoriaInteractivas()
     }, [producto])
@@ -133,22 +139,63 @@ export default function ABMProducto() {
 
     const cargarProducto = async (pProducto) => {
         console.log('Cargar Producto para Modificar');
+        console.log(pProducto);
 
         setProducto({
             nombre: pProducto.nombre,
+            tipoProducto: pProducto.tipoProducto,
             precio: pProducto.precio,
             talle: pProducto.talle,
-            estilo: pProducto.estilo,
+            marcas: pProducto.marcas,
+            categorias: pProducto.categorias,
             stock: pProducto.stock,
             descripcion: pProducto.descripcion,
-            tipoProducto: producto.tipoProducto
+            estilo: pProducto.estilo,
+            imagenes: pProducto.imagenes
         })
-    
+
+        setCategoriasP(pProducto.categorias)
+        setMarcasP(pProducto.marcas)
+        setImagenes(pProducto.imagenes)
+
+        marcarCategoriaYMarcaSeleccionadas(pProducto.categorias, pProducto.marcas)
+
+
+        inputsInteractivosModificarProducto()
 
     }
 
+    const marcarCategoriaYMarcaSeleccionadas = (pCategorias, pMarcas) => {
+
+        const selectMarca = document.getElementById('selectMarca')
+        const selectCategoria = document.getElementById('selectCategoria')
+
+        console.log(selectMarca);
+
+        console.log(pMarcas);
 
 
+        pMarcas?.forEach(element => {
+            console.log(element);
+
+            for (let i = 0; i < selectMarca.options.length; i++) {
+                console.log(selectMarca.options[i]);
+                
+                if (selectMarca.options[i].textContent == element.nombre) {
+                    selectMarca.selectedIndex = i
+                }
+            }
+        });
+
+
+        for (let j = 0; j < selectCategoria.options.length; j++) {
+            if (selectCategoria.options[j].value == pCategorias) {
+                selectCategoria.selectedIndex = j
+            }
+
+
+        }
+    }
 
     return (
         <>

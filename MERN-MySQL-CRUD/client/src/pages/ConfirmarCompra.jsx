@@ -76,7 +76,7 @@ function ConfirmarCompra() {
         inputsInteractivos()
         fechasInteractivos()
         fetchDirecciones();
-    }, [idUsuarioLogeado, chkbsFormaDePagoOnline,]);
+    }, [idUsuarioLogeado, chkbsFormaDePagoOnline]);
 
     const fetchDirecciones = async () => {
         try {

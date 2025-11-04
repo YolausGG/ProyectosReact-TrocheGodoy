@@ -8,7 +8,7 @@ export function inputsInteractivos() {
         if (input.type != 'checkbox' && input.type != 'file') {
 
 
-            
+
             if (input.value != "") {
                 console.log(input.value);
                 input.previousElementSibling.classList.add('top')
@@ -120,3 +120,22 @@ export function marcaYCategoriaInteractivas() {
     })
 }
 
+//Midificar Producto
+
+export function inputsInteractivosModificarProducto() {
+
+    const inputs = document.querySelectorAll('input');
+
+    inputs.forEach(input => {
+        if (input.type != 'checkbox' && input.type != 'file') {
+
+            console.log("Pasa por aqui");
+
+            if (input.value != "-1") {
+                console.log(input.value);
+                input.previousElementSibling.classList.add('top')
+            }
+
+        }
+    })
+}
