@@ -44,9 +44,9 @@ export const ProductoProvider = ({ children }) => {
                             estilo: prod.estilo,
                             descripcion: prod.descripcion,
                             categorias: [],
-                            ofertas: [],
                             imagenes: [],
-                            marcas: []
+                            marcas: [],
+                            tipoProducto: prod.tipoProducto
                         }
 
                         try {

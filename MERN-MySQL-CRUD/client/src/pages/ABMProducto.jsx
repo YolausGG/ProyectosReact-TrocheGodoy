@@ -160,6 +160,7 @@ export default function ABMProducto() {
 
         marcarCategoriaYMarcaSeleccionadas(pProducto.categorias, pProducto.marcas)
 
+        cargarTipoProductoSeleccionado(pProducto.tipoProducto)
 
         inputsInteractivosModificarProducto()
 
@@ -170,31 +171,43 @@ export default function ABMProducto() {
         const selectMarca = document.getElementById('selectMarca')
         const selectCategoria = document.getElementById('selectCategoria')
 
-        console.log(selectMarca);
-
-        console.log(pMarcas);
-
-
-        pMarcas?.forEach(element => {
-            console.log(element);
+        //aqui
+        pMarcas?.forEach(pMarca => {
 
             for (let i = 0; i < selectMarca.options.length; i++) {
-                console.log(selectMarca.options[i]);
-                
-                if (selectMarca.options[i].textContent == element.nombre) {
+
+                if (selectMarca.options[i].textContent == pMarca.nombre) {
                     selectMarca.selectedIndex = i
+                    selectMarca.previousElementSibling.classList.add('top')
+                    break;
                 }
             }
         });
 
+        pCategorias?.forEach(pCategoria => {
 
-        for (let j = 0; j < selectCategoria.options.length; j++) {
-            if (selectCategoria.options[j].value == pCategorias) {
-                selectCategoria.selectedIndex = j
+            for (let j = 0; j < selectCategoria.options.length; j++) {
+
+                if (selectCategoria.options[j].textContent == pCategoria.nombre) {
+                    selectCategoria.selectedIndex = j
+                    selectCategoria.previousElementSibling.classList.add('top')
+                    break;
+                }
+
             }
+        });
+    }
 
-
-        }
+    const cargarTipoProductoSeleccionado = (tipoProducto) => {
+        
+        const updatedChks = chkbs.map(chkb => {
+            if (chkb.name === tipoProducto) {
+                return { ...chkb, isChecked: true };
+            } else {
+                return { ...chkb, isChecked: false };
+            }   
+        });
+        setChks(updatedChks);
     }
 
     return (
@@ -211,17 +224,11 @@ export default function ABMProducto() {
 
                             console.log(values);
 
-                            console.log(imagenes);
-                            values.tipoProducto = producto.tipoProducto
-
-                            const product = { nombre: values.nombre, precio: values.precio, talle: values.talle, stock: values.stock, estilo: values.estilo, descripcion: values.descripcion }
+                            const product = { nombre: values.nombre, precio: values.precio, talle: values.talle, stock: values.stock, estilo: values.estilo, descripcion: values.descripcion, tipoProducto: values.tipoProducto }
                             console.log(product);
 
                             const respuestaP = await createProductoRequest(product)
-
-                            console.log(values);
-                            console.log(respuestaP);
-
+                                                       
 
                             if (respuestaP.status == 200) {
 

@@ -10,19 +10,15 @@ export function inputsInteractivos() {
 
 
             if (input.value != "") {
-                console.log(input.value);
                 input.previousElementSibling.classList.add('top')
             }
 
             input.onfocus = () => {
-
                 input.previousElementSibling.classList.add('top')
                 input.previousElementSibling.classList.add('focus')
                 input.parentNode.classList.add('focus')
-
             }
             input.onblur = () => {
-
                 input.value = input.value.trim();
 
                 if (input.value.trim().length == 0) {
@@ -38,9 +34,6 @@ export function fechasInteractivos() {
 
     const selectMes = document.querySelectorAll('select')
 
-    console.log(selectMes);
-
-
     selectMes.forEach(select => {
 
         select.onfocus = () => {
@@ -55,8 +48,6 @@ export function fechasInteractivos() {
     })
     selectMes.forEach(select => {
         select.onblur = () => {
-            console.log(select.value);
-            console.log(select.previousElementSibling);
 
             if (select.value == "-1") {
                 select.previousElementSibling.classList.remove('top')
@@ -109,7 +100,6 @@ export function marcaYCategoriaInteractivas() {
     })
     selectsMC.forEach(select => {
         select.onblur = () => {
-            console.log(select.value);
 
             if (select.value == "-1") {
                 select.previousElementSibling.classList.remove('top')
@@ -128,8 +118,6 @@ export function inputsInteractivosModificarProducto() {
 
     inputs.forEach(input => {
         if (input.type != 'checkbox' && input.type != 'file') {
-
-            console.log("Pasa por aqui");
 
             if (input.value != "-1") {
                 console.log(input.value);

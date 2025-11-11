@@ -97,10 +97,10 @@ export const getProductoNombre = async (req, res) => {
 
 export const createProducto = async (req, res) => {
 
-    const { nombre, precio, talle, stock, estilo, descripcion } = req.body
+    const { nombre, precio, talle, stock, estilo, descripcion, tipoProducto } = req.body
 
-    const [result] = await pool.promise().query(`Insert into Producto (nombre, precio, talle, stock, estilo, descripcion)
-        values(?,?,?,?,?,?)`, [nombre, precio, talle, stock, estilo, descripcion])
+    const [result] = await pool.promise().query(`Insert into Producto (nombre, precio, talle, stock, estilo, descripcion, tipoProducto)
+        values(?,?,?,?,?,?)`, [nombre, precio, talle, stock, estilo, descripcion, tipoProducto])
 
     try {
         console.log(result)
@@ -111,7 +111,8 @@ export const createProducto = async (req, res) => {
             talle,
             stock,
             estilo,
-            descripcion
+            descripcion,
+            tipoProducto
         })
     } catch (error) {
         console.error(error)
@@ -134,10 +135,10 @@ export const deleteProducto = async (req, res) => {
 
 export const updateProducto = async (req, res) => {
 
-    const { nombre, precio, talle, stock, estilo, descripcion, idProducto } = req.body
+    const { nombre, precio, talle, stock, estilo, descripcion, tipoProducto , idProducto  } = req.body
 
     const [result] = await pool.promise().query(`Update Producto set nombre = ?, precio = ?, talle = ?, stock = ?, estilo = ?, descripcion = ? 
-        where idProducto = ?`, [nombre, precio, talle, stock, estilo, descripcion, idProducto])
+        where idProducto = ?`, [nombre, precio, talle, stock, estilo, descripcion, tipoProducto, idProducto])
 
     try {
         res.json({
