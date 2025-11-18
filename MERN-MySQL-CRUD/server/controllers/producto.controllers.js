@@ -100,7 +100,7 @@ export const createProducto = async (req, res) => {
     const { nombre, precio, talle, stock, estilo, descripcion, tipoProducto } = req.body
 
     const [result] = await pool.promise().query(`Insert into Producto (nombre, precio, talle, stock, estilo, descripcion, tipoProducto)
-        values(?,?,?,?,?,?)`, [nombre, precio, talle, stock, estilo, descripcion, tipoProducto])
+        values(?,?,?,?,?,?,?)`, [nombre, precio, talle, stock, estilo, descripcion, tipoProducto])
 
     try {
         console.log(result)

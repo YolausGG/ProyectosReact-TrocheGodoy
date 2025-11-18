@@ -188,7 +188,12 @@ input {
 
 .containers-list-selecteds {
     display: flex;
+    height: auto;
     flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-evenly;
+
 }
 
 .lista-agergados-productos {
@@ -230,7 +235,7 @@ input {
     min-height: 48px;
     width: 120px;
     font-size: medium;
-   
+
     background-color: rgb(209, 209, 209);
     font-weight: 600;
     cursor: pointer;
@@ -243,8 +248,9 @@ input {
     line-height: 48px;
 
 }
+
 .btn-comprar:hover {
-    box-shadow: 0px 0px 10px;   
+    box-shadow: 0px 0px 10px;
 
 }
 
@@ -273,4 +279,10 @@ input {
     border: 1px solid gray;
     padding: 10px;
     border-radius: 5px;
+}
+
+.btn-limpiar-campos {
+    cursor: pointer;
+    transition: 0.2s;
+    justify-self: end auto;
 }

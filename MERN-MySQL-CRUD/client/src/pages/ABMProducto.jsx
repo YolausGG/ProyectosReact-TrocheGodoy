@@ -1,6 +1,8 @@
 import { Form, Formik } from 'formik'
 import { useEffect, useState } from 'react'
-import { createProductoRequest, deleteProductoRequest } from '../api/productos.api.js'
+import escoba from '../utils/icons/escoba.png'
+
+import { createProductoRequest, deleteProductoRequest, updateProductoRequest } from '../api/productos.api.js'
 import { useProductos } from '../contexts/productos.jsx'
 import { useMarcas } from '../contexts/marcas.jsx'
 import { useCategorias } from '../contexts/categorias.jsx'
@@ -12,7 +14,6 @@ import { createCategoriasProductoRequest } from '../api/productoCategoria.api.js
 import { createMarcasProductoRequest } from '../api/productoMarca.api.js'
 import { uploadFile } from '../hooks/supaBaseStorage.js'
 import { createImagenRequest } from '../api/imagenes.api.js'
-import { element } from 'prop-types'
 
 
 //import { cargarImagen } from '../hooks/imagen.jsx'
@@ -24,6 +25,7 @@ export default function ABMProducto() {
     const { categorias } = useCategorias()
 
     const [producto, setProducto] = useState({
+        idProducto: "",
         nombre: "",
         tipoProducto: "",
         precio: "",
@@ -43,17 +45,20 @@ export default function ABMProducto() {
 
     const [categoriasP, setCategoriasP] = useState([])
 
-    useEffect(() => {
-
-        inputsInteractivos()
-        marcaYCategoriaInteractivas()
-    }, [producto])
 
     const [chkbs, setChks] = useState([
         { id: 1, isChecked: true, name: 'Calzado' },
         { id: 2, isChecked: false, name: 'Vestimenta' },
         { id: 3, isChecked: false, name: 'Accesorio' },
     ]);
+
+    const [modificarCheck, setmodificarCheck] = useState(false)
+
+    useEffect(() => {
+
+        inputsInteractivos()
+        marcaYCategoriaInteractivas()
+    }, [producto])
 
     function onChangeCheckBoxs(id) {
         setChks(chkbs.map(chkb => {
@@ -67,10 +72,8 @@ export default function ABMProducto() {
 
         console.log(e.target.files);
         if (e.target.files.length == 1) {
-            console.log('uno');
             setImagenes([...imagenes, e.target.files[0]])
         } else {
-            console.log('dos');
             let lista = [...imagenes, ...e.target.files]
             setImagenes(lista);
         }
@@ -142,6 +145,7 @@ export default function ABMProducto() {
         console.log(pProducto);
 
         setProducto({
+            idProducto: pProducto.idProducto,
             nombre: pProducto.nombre,
             tipoProducto: pProducto.tipoProducto,
             precio: pProducto.precio,
@@ -199,15 +203,37 @@ export default function ABMProducto() {
     }
 
     const cargarTipoProductoSeleccionado = (tipoProducto) => {
-        
+
         const updatedChks = chkbs.map(chkb => {
             if (chkb.name === tipoProducto) {
                 return { ...chkb, isChecked: true };
             } else {
                 return { ...chkb, isChecked: false };
-            }   
+            }
         });
         setChks(updatedChks);
+    }
+
+    const limpiarCampos = () => {
+        setProducto({
+            idProducto: "",
+            nombre: "",
+            tipoProducto: "",
+            precio: "",
+            talle: "",
+            marcas: [],
+            categorias: [],
+            stock: "",
+            descripcion: "",
+            estilo: "",
+            imagenes: []
+        })
+        setCategoriasP([])
+        setMarcasP([])
+        setImagenes([])
+        showFiles(null)
+        marcarCategoriaYMarcaSeleccionadas(null, null)
+        setmodificarCheck(false)
     }
 
     return (
@@ -227,8 +253,8 @@ export default function ABMProducto() {
                             const product = { nombre: values.nombre, precio: values.precio, talle: values.talle, stock: values.stock, estilo: values.estilo, descripcion: values.descripcion, tipoProducto: values.tipoProducto }
                             console.log(product);
 
-                            const respuestaP = await createProductoRequest(product)
-                                                       
+                            const respuestaP = modificarCheck ? await updateProductoRequest(producto.idProducto, product) : await createProductoRequest(product)
+
 
                             if (respuestaP.status == 200) {
 
@@ -259,13 +285,15 @@ export default function ABMProducto() {
 
                                     });
                                 }
-                                if (categoriasP.length > 0) {
-                                    categoriasP.forEach(async catP => {
-                                        var respuestaCCP = await createCategoriasProductoRequest({ idProducto: respuestaP.data.idProducto, idCategoria: catP.idCategoria })
+                                { 
+                                    if (categoriasP.length > 0) {
+                                        categoriasP.forEach(async catP => {
+                                            var respuestaCCP = createCategoriasProductoRequest({ idProducto: respuestaP.data.idProducto, idCategoria: catP.idCategoria })
 
-                                        respuestaCCP.status == 200 ? console.log('Categoria dada de alta a Producto') : console.log('Categoria NO dada de alta a Producto');
-                                    })
-                                    setCategoriasP([])
+                                            respuestaCCP.status == 200 ? console.log('Categoria dada de alta a Producto') : console.log('Categoria NO dada de alta a Producto');
+                                        })
+                                        setCategoriasP([])
+                                    }
                                 }
                                 if (marcasP.length > 0) {
                                     marcasP.forEach(async marcaP => {
@@ -447,9 +475,13 @@ export default function ABMProducto() {
                                     </label>
 
                                 </div>
-                                <button className='bontonCategoria btnCreate' type="submit" disabled={isSubmitting}>
-                                    {isSubmitting ? "Creando..." : "Crear"}
+
+                                <button className={`bontonCategoria ${producto.idProducto ? 'btnUpdate' : 'btnCreate'}`} type="submit" disabled={isSubmitting}>
+                                    {modificarCheck ? isSubmitting ? "Modificando..." : "Modificar" : isSubmitting ? "Creando..." : "Crear"}
                                 </button>
+
+
+
                             </Form>
                         )}
                     </Formik>
@@ -489,6 +521,9 @@ export default function ABMProducto() {
                             }
                         </div>
                     </div>
+                    <a className='btn-limpiar-campos' onClick={() => limpiarCampos()} >
+                        <img className='icon-add-carrito' src={escoba} alt={`Limpiar campos`} />
+                    </a>
                 </div>
             </div>
             <section className='listaProductosABM'>
@@ -501,7 +536,7 @@ export default function ABMProducto() {
                                 <p>Stock: {product.stock}</p>
                                 <p>Talle: {product.talle}</p>
                                 <p>Desc: {product.descripcion}</p>
-                                <button onClick={() => cargarProducto(product)}>Modificar</button>
+                                <button onClick={() => { cargarProducto(product), setmodificarCheck(true) }}>Modificar</button>
                                 <button onClick={() => eliminarProducto(product)}>Eliminar</button>
                             </li>
                         ))
