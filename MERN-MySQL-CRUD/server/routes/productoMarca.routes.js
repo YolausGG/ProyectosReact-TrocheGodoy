@@ -1,7 +1,8 @@
 import { Router } from "express";
 import {
     getMarcasIdProducto,
-    createMarcasProducto
+    createMarcasProducto,
+    deleteMarcasProducto
 } from '../controllers/productoMarca.controllers.js'
 
 const router = Router()
@@ -9,5 +10,7 @@ const router = Router()
 router.get('/marcasProducto/:id', getMarcasIdProducto)
 
 router.post('/marcasProducto', createMarcasProducto)
+
+router.delete('/marcasProducto/producto/:idProducto', deleteMarcasProducto)
 
 export default router

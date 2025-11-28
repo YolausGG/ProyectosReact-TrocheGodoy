@@ -135,14 +135,22 @@ export const deleteProducto = async (req, res) => {
 
 export const updateProducto = async (req, res) => {
 
-    const { nombre, precio, talle, stock, estilo, descripcion, tipoProducto , idProducto  } = req.body
+    const { nombre, precio, talle, stock, estilo, descripcion, tipoProducto, idProducto } = req.body
 
-    const [result] = await pool.promise().query(`Update Producto set nombre = ?, precio = ?, talle = ?, stock = ?, estilo = ?, descripcion = ? 
+    const [result] = await pool.promise().query(`Update Producto set nombre = ?, precio = ?, talle = ?, stock = ?, estilo = ?, descripcion = ?, tipoProducto = ? 
         where idProducto = ?`, [nombre, precio, talle, stock, estilo, descripcion, tipoProducto, idProducto])
 
     try {
+        console.log(result)
         res.json({
-            result
+            idProducto: idProducto,
+            nombre,
+            precio,
+            talle,
+            stock,
+            estilo,
+            descripcion,
+            tipoProducto
         })
     } catch (error) {
         console.error(error)

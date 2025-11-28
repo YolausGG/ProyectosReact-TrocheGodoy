@@ -38,3 +38,19 @@ export const createMarcasProducto = async (req, res) => {
         console.error(error)
     }
 };
+
+export const deleteMarcasProducto = async (req, res) => {
+
+    const { idMarca } = req.body
+
+    const [result] = await pool.promise().query(`Delete from ProductoMarca where idProducto = ? and idMarca = ?`, [req.params.idProducto, idMarca]);
+    console.log(result);
+    try {
+        res.json(
+            { result }
+        )
+    } catch (error) {
+
+        console.error(error)
+    }
+};
