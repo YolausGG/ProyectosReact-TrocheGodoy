@@ -11,6 +11,6 @@ router.get('/marcasProducto/:id', getMarcasIdProducto)
 
 router.post('/marcasProducto', createMarcasProducto)
 
-router.delete('/marcasProducto/producto/:idProducto', deleteMarcasProducto)
+router.delete('/marcasProducto/producto/:idProducto/:idMarca', deleteMarcasProducto)
 
 export default router

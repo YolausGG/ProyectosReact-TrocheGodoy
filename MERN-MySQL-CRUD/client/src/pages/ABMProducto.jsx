@@ -71,7 +71,6 @@ export default function ABMProducto() {
     const [modificarCheck, setmodificarCheck] = useState(false)
 
     useEffect(() => {
-
         inputsInteractivos()
         marcaYCategoriaInteractivas()
     }, [producto])
@@ -281,7 +280,7 @@ export default function ABMProducto() {
 
                             console.log(values);
 
-                            const product = { nombre: values.nombre, precio: values.precio, talle: values.talle, stock: values.stock, estilo: values.estilo, descripcion: values.descripcion, tipoProducto: values.tipoProducto }
+                            const product = { nombre: values.nombre, precio: values.precio, talle: values.talle, stock: values.stock, estilo: values.estilo, descripcion: values.descripcion, tipoProducto: producto.tipoProducto }
                             console.log(product);
 
                             const respuestaP = modificarCheck ? await updateProductoRequest(producto.idProducto, product) : await createProductoRequest(product)
@@ -337,18 +336,16 @@ export default function ABMProducto() {
                                             }
                                             )
                                             if (!encontrada) {
-                                                var respuestaDCP = await deleteCategoriaProductoRequest(producto.idProducto, { idCategoria: oldCat.idCategoria })
+                                                console.log('mod categorias');
+                                                console.log(producto.idProducto, oldCat.idCategoria);
+
+
+                                                var respuestaDCP = await deleteCategoriaProductoRequest(producto.idProducto, oldCat.idCategoria)
 
                                                 respuestaDCP.status == 200 ? console.log('Categoria eliminada del Producto') : console.log('Categoria NO eliminada del Producto');
                                             }
                                         })
                                         //Agregar las nuevas categorias
-
-                                        console.log('NewCategorais');
-                                        console.log(categoriasP);
-                                        console.log('OldCategorais');
-                                        console.log(oldProducto.categorias);
-
 
                                         categoriasP.forEach(async newCat => {
                                             var encontrada = false
@@ -359,8 +356,7 @@ export default function ABMProducto() {
                                             }
                                             )
                                             if (!encontrada) {
-                                                console.log('Pasa por alta');
-
+                                                
                                                 var respuestaCCP = await createCategoriasProductoRequest({ idProducto: producto.idProducto, idCategoria: newCat.idCategoria })
                                                 respuestaCCP.status == 200 ? console.log('Categoria dada de alta a Producto') : console.log('Categoria NO dada de alta a Producto');
                                             }
@@ -390,7 +386,7 @@ export default function ABMProducto() {
                                             }
                                             )
                                             if (!encontrada) {
-                                                var respuestaDMP = await deleteMarcasProductoRequest(producto.idProducto, { idMarca: oldMar.idMarca })
+                                                var respuestaDMP = await deleteMarcasProductoRequest(producto.idProducto, oldMar.idMarca)
                                                 respuestaDMP.status == 200 ? console.log('Marca eliminada del Producto') : console.log('Marca NO eliminada del Producto');
                                             }
                                         })
@@ -516,18 +512,6 @@ export default function ABMProducto() {
                                                     console.log('Accesorio ingresado con Éxito');
                                                     console.log(producto);
 
-                                                    actions.resetForm({
-                                                        values: {
-                                                            nombre: "",
-                                                            precio: "",
-                                                            talle: "",
-                                                            estilo: "",
-                                                            stock: "",
-                                                            descripcion: "",
-                                                            tipoProducto: "",
-                                                            tipo: ""
-                                                        },
-                                                    })
                                                 }
                                                 else
                                                     console.log('Accesorio no ingresado');
@@ -542,6 +526,7 @@ export default function ABMProducto() {
                             }
 
                             limpiarCampos()
+                            loadProductos()
 
                         }}>
                         {({ handleChange, handleSubmit, values, isSubmitting }) => (

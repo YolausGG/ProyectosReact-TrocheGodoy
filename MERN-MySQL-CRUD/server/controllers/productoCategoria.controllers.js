@@ -45,9 +45,11 @@ export const createCategoriasProducto = async (req, res) => {
 
 export const deleteCategoriaProducto = async (req, res) => {
 
-    const { idCategoria } = req.body
+    
+    console.log('datos DCP: '+ req.params.idProducto, req.params.idCategoria);
+    
 
-    const [result] = await pool.promise().query(`Delete from ProductoCategoria where idProducto = ? and idCategoria = ?`, [req.params.idProducto, idCategoria]);
+    const [result] = await pool.promise().query(`Delete from ProductoCategoria where idProducto = ? and idCategoria = ?`, [req.params.idProducto, req.params.idCategoria]);
     console.log(result);
     try {
         res.json(

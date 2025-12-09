@@ -41,9 +41,7 @@ export const createMarcasProducto = async (req, res) => {
 
 export const deleteMarcasProducto = async (req, res) => {
 
-    const { idMarca } = req.body
-
-    const [result] = await pool.promise().query(`Delete from ProductoMarca where idProducto = ? and idMarca = ?`, [req.params.idProducto, idMarca]);
+    const [result] = await pool.promise().query(`Delete from ProductoMarca where idProducto = ? and idMarca = ?`, [req.params.idProducto, req.params.idMarca]);
     console.log(result);
     try {
         res.json(
