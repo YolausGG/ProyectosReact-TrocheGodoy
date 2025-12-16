@@ -29,7 +29,7 @@ export default function ABMProducto() {
     const [producto, setProducto] = useState({
         idProducto: "",
         nombre: "",
-        tipoProducto: "",
+        tipoProducto: "Calzado",
         precio: "",
         talle: "",
         marcas: [],
@@ -71,13 +71,14 @@ export default function ABMProducto() {
     const [modificarCheck, setmodificarCheck] = useState(false)
 
     useEffect(() => {
+        loadProductos()
         inputsInteractivos()
         marcaYCategoriaInteractivas()
     }, [producto])
 
     function onChangeCheckBoxs(id) {
         setChks(chkbs.map(chkb => {
-            if (chkb.id === id) { producto.tipoProducto = chkb.name; return { ...chkb, isChecked: true } }
+            if (chkb.id === id) { setProducto(...producto, producto.tipoProducto = chkb.name); return { ...chkb, isChecked: true } }
             else return { ...chkb, isChecked: false };
         }))
     }
@@ -280,7 +281,7 @@ export default function ABMProducto() {
 
                             console.log(values);
 
-                            const product = { nombre: values.nombre, precio: values.precio, talle: values.talle, stock: values.stock, estilo: values.estilo, descripcion: values.descripcion, tipoProducto: producto.tipoProducto }
+                            const product = { nombre: values.nombre, precio: values.precio, talle: values.talle, stock: values.stock, estilo: values.estilo, descripcion: values.descripcion, tipoProducto: values.tipoProducto }
                             console.log(product);
 
                             const respuestaP = modificarCheck ? await updateProductoRequest(producto.idProducto, product) : await createProductoRequest(product)
@@ -313,7 +314,6 @@ export default function ABMProducto() {
                                         if (respuestaI.status == 200) {
                                             setImagenes([])
                                             showFiles(null)
-                                            loadProductos()
                                             console.log('Imagen dada de alta a Producto')
                                         }
                                         else {
@@ -336,13 +336,12 @@ export default function ABMProducto() {
                                             }
                                             )
                                             if (!encontrada) {
-                                                console.log('mod categorias');
-                                                console.log(producto.idProducto, oldCat.idCategoria);
-
 
                                                 var respuestaDCP = await deleteCategoriaProductoRequest(producto.idProducto, oldCat.idCategoria)
-
                                                 respuestaDCP.status == 200 ? console.log('Categoria eliminada del Producto') : console.log('Categoria NO eliminada del Producto');
+
+                                                loadProductos()
+
                                             }
                                         })
                                         //Agregar las nuevas categorias
@@ -356,9 +355,11 @@ export default function ABMProducto() {
                                             }
                                             )
                                             if (!encontrada) {
-                                                
+
                                                 var respuestaCCP = await createCategoriasProductoRequest({ idProducto: producto.idProducto, idCategoria: newCat.idCategoria })
                                                 respuestaCCP.status == 200 ? console.log('Categoria dada de alta a Producto') : console.log('Categoria NO dada de alta a Producto');
+
+                                                loadProductos()
                                             }
                                         })
 
@@ -388,6 +389,8 @@ export default function ABMProducto() {
                                             if (!encontrada) {
                                                 var respuestaDMP = await deleteMarcasProductoRequest(producto.idProducto, oldMar.idMarca)
                                                 respuestaDMP.status == 200 ? console.log('Marca eliminada del Producto') : console.log('Marca NO eliminada del Producto');
+
+                                                
                                             }
                                         })
                                         //Agregar las nuevas marcas
@@ -402,6 +405,8 @@ export default function ABMProducto() {
                                             if (!encontrada) {
                                                 var respuestaCMP = await createMarcasProductoRequest({ idProducto: producto.idProducto, idMarca: newMar.idMarca })
                                                 respuestaCMP.status == 200 ? console.log('Marca dada de alta a Producto') : console.log('Marca NO dada de alta a Producto');
+
+                                                
                                             }
                                         })
                                     } else if (marcasP.length > 0) {
@@ -523,11 +528,8 @@ export default function ABMProducto() {
 
                                     }
                                 }
+                                limpiarCampos()
                             }
-
-                            limpiarCampos()
-                            loadProductos()
-
                         }}>
                         {({ handleChange, handleSubmit, values, isSubmitting }) => (
                             <Form method='POST' encType='multipart/form-data' className='form-ABM-producto estandarForm' onSubmit={handleSubmit}>

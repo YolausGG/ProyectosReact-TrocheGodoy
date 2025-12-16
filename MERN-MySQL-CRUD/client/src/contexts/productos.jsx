@@ -25,6 +25,8 @@ export const ProductoProvider = ({ children }) => {
     const [idUsuarioLogeado, setIdUsuarioLogeado] = useState(null)
 
     useEffect(() => {
+        console.log('pasa por contexto');
+        
         loadProductos()
         //loadImagenes()
     }, [])

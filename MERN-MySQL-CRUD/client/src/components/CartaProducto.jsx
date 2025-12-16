@@ -15,10 +15,11 @@ function CartaProducto({ producto }) {
             <div className='datosProducto'>
                 <h4>{producto.nombre}</h4>
                 <strong>${producto.precio}</strong>
+                {producto.marcas.map(marca => (<span key={marca.idMarca} className='marca'>{marca.nombre}</span>))}
             </div>
             <div className='container-btns-compra'>
 
-                <button className='btn-comprar' onClick={() => { agregarAlCarrito(producto),  navigate('/ConfirmarCompra')}}>
+                <button className='btn-comprar' onClick={() => { agregarAlCarrito(producto), navigate('/ConfirmarCompra') }}>
                     Comprar
                 </button>
                 <a className='btn-agregar-al-carrito' onClick={() => agregarAlCarrito(producto)} >
