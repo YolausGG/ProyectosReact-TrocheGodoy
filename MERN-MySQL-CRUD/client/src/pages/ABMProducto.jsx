@@ -71,14 +71,13 @@ export default function ABMProducto() {
     const [modificarCheck, setmodificarCheck] = useState(false)
 
     useEffect(() => {
-        loadProductos()
         inputsInteractivos()
         marcaYCategoriaInteractivas()
     }, [producto])
 
     function onChangeCheckBoxs(id) {
         setChks(chkbs.map(chkb => {
-            if (chkb.id === id) { setProducto(...producto, producto.tipoProducto = chkb.name); return { ...chkb, isChecked: true } }
+            if (chkb.id === id) { producto.tipoProducto = chkb.name; return { ...chkb, isChecked: true } }
             else return { ...chkb, isChecked: false };
         }))
     }
@@ -249,7 +248,7 @@ export default function ABMProducto() {
         setProducto({
             idProducto: "",
             nombre: "",
-            tipoProducto: "",
+            tipoProducto: "Calzado",
             precio: "",
             talle: "",
             marcas: [],
@@ -265,6 +264,7 @@ export default function ABMProducto() {
         showFiles(null)
         marcarCategoriaYMarcaSeleccionadas(null, null)
         setmodificarCheck(false)
+        cargarTipoProductoSeleccionado('Calzado')
     }
 
     return (
@@ -281,7 +281,7 @@ export default function ABMProducto() {
 
                             console.log(values);
 
-                            const product = { nombre: values.nombre, precio: values.precio, talle: values.talle, stock: values.stock, estilo: values.estilo, descripcion: values.descripcion, tipoProducto: values.tipoProducto }
+                            const product = { nombre: values.nombre, precio: values.precio, talle: values.talle, stock: values.stock, estilo: values.estilo, descripcion: values.descripcion, tipoProducto: producto.tipoProducto }
                             console.log(product);
 
                             const respuestaP = modificarCheck ? await updateProductoRequest(producto.idProducto, product) : await createProductoRequest(product)
@@ -340,7 +340,7 @@ export default function ABMProducto() {
                                                 var respuestaDCP = await deleteCategoriaProductoRequest(producto.idProducto, oldCat.idCategoria)
                                                 respuestaDCP.status == 200 ? console.log('Categoria eliminada del Producto') : console.log('Categoria NO eliminada del Producto');
 
-                                                loadProductos()
+
 
                                             }
                                         })
@@ -359,10 +359,10 @@ export default function ABMProducto() {
                                                 var respuestaCCP = await createCategoriasProductoRequest({ idProducto: producto.idProducto, idCategoria: newCat.idCategoria })
                                                 respuestaCCP.status == 200 ? console.log('Categoria dada de alta a Producto') : console.log('Categoria NO dada de alta a Producto');
 
-                                                loadProductos()
                                             }
                                         })
 
+                                        loadProductos()
 
                                     } else if (categoriasP.length > 0) {
                                         categoriasP.forEach(async catP => {
@@ -390,7 +390,7 @@ export default function ABMProducto() {
                                                 var respuestaDMP = await deleteMarcasProductoRequest(producto.idProducto, oldMar.idMarca)
                                                 respuestaDMP.status == 200 ? console.log('Marca eliminada del Producto') : console.log('Marca NO eliminada del Producto');
 
-                                                
+
                                             }
                                         })
                                         //Agregar las nuevas marcas
@@ -406,9 +406,12 @@ export default function ABMProducto() {
                                                 var respuestaCMP = await createMarcasProductoRequest({ idProducto: producto.idProducto, idMarca: newMar.idMarca })
                                                 respuestaCMP.status == 200 ? console.log('Marca dada de alta a Producto') : console.log('Marca NO dada de alta a Producto');
 
-                                                
+
                                             }
                                         })
+
+                                        loadProductos()
+
                                     } else if (marcasP.length > 0) {
                                         marcasP.forEach(async marcaP => {
                                             var respuestaCMP = await createMarcasProductoRequest({ idProducto: respuestaP.data.idProducto, idMarca: marcaP.idMarca })
@@ -420,11 +423,10 @@ export default function ABMProducto() {
                                 }
                                 {
 
-                                    const tipoProducto = producto.tipoProducto
 
                                     if (modificarCheck) {
 
-                                        if (tipoProducto == oldProducto.tipoProducto) {
+                                        if (producto.tipoProducto == oldProducto.tipoProducto) {
                                             console.log('Mismo Tipo de Producto, no se modifica nada en TipoProducto');
                                         }
                                         else {
@@ -454,32 +456,38 @@ export default function ABMProducto() {
                                                 default:
                                                     break;
                                             }
+
+                                            switch (producto.tipoProducto) {
+                                                case 'Calzado': {
+                                                    //Cambió a Calzado
+                                                    var respuestaCC = await createCalzadoRequest(respuestaP.data.idProducto)
+                                                    respuestaCC.status == 200 ? console.log('Producto cambiado a Calzado') : console.log('Producto NO cambiado a Calzado');
+                                                    break;
+                                                }
+                                                case 'Vestimenta': {
+                                                    //Cambió a Vestimenta
+                                                    var respuestaCV = await createVestimentaRequest(respuestaP.data.idProducto)
+                                                    respuestaCV.status == 200 ? console.log('Producto cambiado a Vestimenta') : console.log('Producto NO cambiado a Vestimenta');
+                                                    break;
+                                                }
+                                                case 'Accesorio': {
+                                                    //Cambió a Accesorio    
+                                                    var respuestaCA = await createAccesorioRequest(respuestaP.data.idProducto)
+                                                    respuestaCA.status == 200 ? console.log('Producto cambiado a Accesorio') : console.log('Producto NO cambiado a Accesorio');
+                                                    break;
+                                                }
+                                                default:
+                                                    break;
+                                            }
                                         }
 
-                                    } else if (tipoProducto == oldProducto.tipoProducto) {
-                                        console.log('Mismo Tipo de Producto, no se modifica nada en TipoProducto');
-                                        return
-                                    }
-                                    else {
-
-                                        switch (tipoProducto) {
+                                    } else {
+                                        switch (producto.tipoProducto) {
                                             case 'Calzado': {
                                                 const respuestaC = await createCalzadoRequest(respuestaP.data.idProducto)
                                                 console.log(respuestaC);
                                                 if (respuestaC.status == 200) {
                                                     console.log(producto);
-                                                    actions.resetForm({
-                                                        values: {
-                                                            nombre: "",
-                                                            precio: "",
-                                                            talle: "",
-                                                            estilo: "",
-                                                            stock: "",
-                                                            descripcion: "",
-                                                            tipoProducto: "",
-                                                            tipo: ""
-                                                        },
-                                                    })
                                                     console.log('Calzado ingresado con Éxito');
 
                                                 }
@@ -492,18 +500,6 @@ export default function ABMProducto() {
                                                 console.log(respuestaV);
                                                 if (respuestaV.status == 200) {
                                                     console.log(producto);
-                                                    actions.resetForm({
-                                                        values: {
-                                                            nombre: "",
-                                                            precio: "",
-                                                            talle: "",
-                                                            estilo: "",
-                                                            stock: "",
-                                                            descripcion: "",
-                                                            tipoProducto: "",
-                                                            tipo: ""
-                                                        },
-                                                    })
                                                     console.log('Vestimenta ingresada con Éxito');
                                                 }
                                                 else
@@ -516,7 +512,6 @@ export default function ABMProducto() {
                                                 if (respuestaA.status == 200) {
                                                     console.log('Accesorio ingresado con Éxito');
                                                     console.log(producto);
-
                                                 }
                                                 else
                                                     console.log('Accesorio no ingresado');
@@ -528,7 +523,21 @@ export default function ABMProducto() {
 
                                     }
                                 }
+                                actions.setSubmitting(false);
+                                actions.resetForm({
+                                    values: {
+                                        nombre: "",
+                                        precio: "",
+                                        talle: "",
+                                        estilo: "",
+                                        stock: "",
+                                        descripcion: "",
+                                        tipoProducto: "",
+                                        tipo: ""
+                                    },
+                                })
                                 limpiarCampos()
+                                loadProductos()
                             }
                         }}>
                         {({ handleChange, handleSubmit, values, isSubmitting }) => (

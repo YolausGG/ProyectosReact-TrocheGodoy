@@ -48,7 +48,7 @@ export const deleteCalzado = async (req, res) => {
             return res.status(404).json({ message: "No existe el Calzado" })
 
 
-        return res.sendStatus(204)
+        return res.sendStatus(200)
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
@@ -101,7 +101,7 @@ export const deleteVestimenta = async (req, res) => {
             return res.status(404).json({ message: "No existe la Vestimenta" })
 
 
-        return res.sendStatus(204)
+        return res.sendStatus(200)
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
@@ -154,7 +154,7 @@ export const deleteAccesorio = async (req, res) => {
             return res.status(404).json({ message: "No existe el Accesorio" })
 
 
-        return res.sendStatus(204)
+        return res.sendStatus(202)
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }

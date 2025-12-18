@@ -26,7 +26,7 @@ export const ProductoProvider = ({ children }) => {
 
     useEffect(() => {
         console.log('pasa por contexto');
-        
+
         loadProductos()
         //loadImagenes()
     }, [])
@@ -62,6 +62,8 @@ export const ProductoProvider = ({ children }) => {
                         try {
                             const responseCategorias = await getCategoriasIdProductoRequest(prod.idProducto)
                             responseCategorias.status === 200 ? producto.categorias = responseCategorias.data.result : producto.categorias = []
+                            console.log('pasa por traer Categorias');
+
 
                         } catch (error) {
                             console.error(error);
@@ -89,6 +91,7 @@ export const ProductoProvider = ({ children }) => {
             console.error(error)
         }
     }
+
 
     const isFulfilled = (item) => {
         if (item.status == 'fulfilled') {
